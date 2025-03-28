@@ -225,14 +225,20 @@ export function ComplianceAssessment() {
       });
 
       // Add steps for each question in this category (always show all questions)
-      categoryQuestions.forEach((question) => {
+      categoryQuestions.forEach((question, categoryQuestionIndex) => {
         const questionIndex = questionsData.findIndex((q) => q.id === question.id);
         const isAnswered = answers.some((a) => a.questionId === question.id);
         const isCurrentQuestion = currentQuestionIndex === questionIndex;
 
+        // Create a shortened question label with the category question number
+        const questionNumber = categoryQuestionIndex + 1;
+        const shortLabel = question.text.length > 25 
+          ? `${questionNumber}. ${question.text.substring(0, 25)}...` 
+          : `${questionNumber}. ${question.text}`;
+
         steps.push({
           id: currentStepId++,
-          label: question.text.length > 30 ? `${question.text.substring(0, 30)}...` : question.text,
+          label: shortLabel,
           completed: isAnswered,
           current: isCurrentQuestion,
           clickable: true,
