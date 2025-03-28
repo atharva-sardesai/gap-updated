@@ -58,14 +58,14 @@ const questionsByCategory = questionsData.reduce(
 // Get all unique categories
 const categories = Object.keys(questionsByCategory)
 
-type Step = {
-  id: number;
-  label: string;
-  completed: boolean;
-  current: boolean;
-  clickable: boolean;
-  questionIndex?: number;
-};
+interface Step {
+  id: string | number
+  label: string
+  completed: boolean
+  current: boolean
+  clickable: boolean
+  questionIndex?: number
+}
 
 export function ComplianceAssessment() {
   const [currentState, setCurrentState] = useState<AssessmentState>("welcome")
@@ -193,62 +193,40 @@ export function ComplianceAssessment() {
     return Math.round((compliantCount / answers.length) * 100)
   }
 
-  const generateSteps = (): Step[] => {
-    const steps: Step[] = [];
-    let currentStepId = 1;
+  const generateSteps = () => {
+    const steps: Step[] = [
+      {
+        id: "welcome",
+        label: "Welcome",
+        completed: currentQuestionIndex > -1,
+        current: currentQuestionIndex === -1,
+        clickable: false,
+      },
+    ]
 
-    // Get all unique categories
-    const categories = Object.keys(questionsByCategory);
-
-    categories.forEach((category) => {
-      const categoryQuestions = questionsByCategory[category];
-      const categoryId = currentStepId++;
-      const firstQuestionIndex = categoryQuestions[0].id;
-
-      // Check if this category is completed
-      const isCompleted = categoryQuestions.every((q) => 
-        answers.some((a) => a.questionId === q.id)
-      );
-      const isCurrent = categoryQuestions.some((q) => 
-        currentQuestionIndex === questionsData.findIndex((qd) => qd.id === q.id)
-      );
-      const isClickable = isCompleted || isCurrent;
-
-      // Add category step
+    // Add questions in sequential order
+    questionsData.forEach((question, index) => {
       steps.push({
-        id: categoryId,
-        label: category,
-        completed: isCompleted,
-        current: isCurrent,
-        clickable: isClickable,
-        questionIndex: firstQuestionIndex,
-      });
+        id: `question-${question.id}`,
+        label: `Q${index + 1}: ${question.text.length > 30 ? `${question.text.substring(0, 30)}...` : question.text}`,
+        completed: answers[index]?.compliant !== undefined,
+        current: currentQuestionIndex === index,
+        clickable: true,
+        questionIndex: index,
+      })
+    })
 
-      // Add steps for each question in this category (always show all questions)
-      categoryQuestions.forEach((question, categoryQuestionIndex) => {
-        const questionIndex = questionsData.findIndex((q) => q.id === question.id);
-        const isAnswered = answers.some((a) => a.questionId === question.id);
-        const isCurrentQuestion = currentQuestionIndex === questionIndex;
+    // Add results step
+    steps.push({
+      id: "results",
+      label: "Results",
+      completed: currentQuestionIndex === questionsData.length,
+      current: currentQuestionIndex === questionsData.length,
+      clickable: false,
+    })
 
-        // Create a shortened question label with the category question number
-        const questionNumber = categoryQuestionIndex + 1;
-        const shortLabel = question.text.length > 25 
-          ? `${questionNumber}. ${question.text.substring(0, 25)}...` 
-          : `${questionNumber}. ${question.text}`;
-
-        steps.push({
-          id: currentStepId++,
-          label: shortLabel,
-          completed: isAnswered,
-          current: isCurrentQuestion,
-          clickable: true,
-          questionIndex: question.id,
-        });
-      });
-    });
-
-    return steps;
-  };
+    return steps
+  }
 
   // Calculate the number of answered questions
   const answeredQuestionsCount = answers.filter((a) => a !== undefined).length

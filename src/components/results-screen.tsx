@@ -20,6 +20,9 @@ import type { Answer } from "@/components/compliance-assessment"
 import type { Question } from "@/lib/questions-data.new"
 import { ComplianceChart } from "@/components/compliance-chart"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import * as XLSX from 'xlsx'
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
 
 interface ResultsScreenProps {
   answers: Answer[]
@@ -218,17 +221,95 @@ export function ResultsScreen({ answers, questions, onRestart }: ResultsScreenPr
     }),
   )
 
-  const handleExportPDF = () => {
-    // This would be implemented with a PDF generation library
-    alert("Exporting PDF report...")
-    // In a real implementation, this would use a library like jsPDF or react-pdf
-  }
+  const exportToExcel = () => {
+    // Prepare data for compliant controls
+    const compliantData = questions
+      .map((question, index) => ({
+        question,
+        answer: answers[index],
+      }))
+      .filter((item) => item.answer?.compliant)
+      .map((item) => ({
+        'Control Category': item.question.category,
+        'Control': item.question.text,
+        'Status': 'Compliant'
+      }));
 
-  const handleExportExcel = () => {
-    // This would be implemented with an Excel generation library
-    alert("Exporting Excel report...")
-    // In a real implementation, this would use a library like xlsx or exceljs
-  }
+    // Prepare data for non-compliant controls
+    const nonCompliantData = nonCompliantQuestions.map((item) => {
+      const estimates = calculateEstimates(item.question, item.answer);
+      return {
+        'Control Category': item.question.category,
+        'Control': item.question.text,
+        'Status': 'Non-Compliant',
+        'Selected Solution': estimates.recommendation.name,
+        'Implementation Time': estimates.timeline,
+        'Effort (Hours)': estimates.effort,
+        'Estimated Cost': estimates.cost
+      };
+    });
+
+    // Create workbook and add worksheets
+    const wb = XLSX.utils.book_new();
+    const ws1 = XLSX.utils.json_to_sheet(compliantData);
+    const ws2 = XLSX.utils.json_to_sheet(nonCompliantData);
+    
+    XLSX.utils.book_append_sheet(wb, ws1, "Compliant Controls");
+    XLSX.utils.book_append_sheet(wb, ws2, "Non-Compliant Controls");
+    
+    // Save the file
+    XLSX.writeFile(wb, "compliance-assessment-report.xlsx");
+  };
+
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    
+    // Add title
+    doc.setFontSize(20);
+    doc.text("ISO 27001 Compliance Assessment Report", 20, 20);
+    
+    // Add summary
+    doc.setFontSize(12);
+    doc.text(`Overall Compliance: ${compliancePercentage}%`, 20, 40);
+    doc.text(`Compliant Controls: ${compliantCount}`, 20, 50);
+    doc.text(`Non-Compliant Controls: ${questions.length - compliantCount}`, 20, 60);
+    
+    // Add non-compliant details
+    let yPos = 80;
+    doc.setFontSize(14);
+    doc.text("Non-Compliant Controls and Recommendations", 20, yPos);
+    
+    // Prepare table data
+    const tableData = nonCompliantQuestions.map((item) => {
+      const estimates = calculateEstimates(item.question, item.answer);
+      return [
+        item.question.category,
+        item.question.text.substring(0, 40) + "...",
+        estimates.recommendation.name,
+        estimates.timeline,
+        estimates.cost
+      ];
+    });
+
+    // Add table
+    (doc as any).autoTable({
+      startY: yPos + 10,
+      head: [['Category', 'Control', 'Solution', 'Timeline', 'Cost']],
+      body: tableData,
+      margin: { top: 20 },
+      styles: { fontSize: 8 },
+      columnStyles: {
+        0: { cellWidth: 30 },
+        1: { cellWidth: 50 },
+        2: { cellWidth: 40 },
+        3: { cellWidth: 30 },
+        4: { cellWidth: 30 }
+      }
+    });
+    
+    // Save the PDF
+    doc.save("compliance-assessment-report.pdf");
+  };
 
   return (
     <div className="space-y-6">
@@ -286,13 +367,21 @@ export function ResultsScreen({ answers, questions, onRestart }: ResultsScreenPr
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-semibold text-slate-800">Implementation Summary</h3>
                 <div className="flex gap-2">
-                  <Button variant="outline" onClick={handleExportExcel}>
-                    <FileSpreadsheet className="mr-2 h-4 w-4" />
-                    Export Excel
+                  <Button
+                    onClick={exportToExcel}
+                    className="flex items-center gap-2"
+                    variant="outline"
+                  >
+                    <FileSpreadsheet className="h-4 w-4" />
+                    Export to Excel
                   </Button>
-                  <Button variant="outline" onClick={handleExportPDF}>
-                    <FileText className="mr-2 h-4 w-4" />
-                    Export PDF
+                  <Button
+                    onClick={exportToPDF}
+                    className="flex items-center gap-2"
+                    variant="outline"
+                  >
+                    <FileText className="h-4 w-4" />
+                    Export to PDF
                   </Button>
                 </div>
               </div>
@@ -494,13 +583,21 @@ export function ResultsScreen({ answers, questions, onRestart }: ResultsScreenPr
             Restart Assessment
           </Button>
           <div className="flex gap-2">
-            <Button variant="outline" onClick={handleExportExcel}>
-              <FileSpreadsheet className="mr-2 h-4 w-4" />
-              Export Excel
+            <Button
+              onClick={exportToExcel}
+              className="flex items-center gap-2"
+              variant="outline"
+            >
+              <FileSpreadsheet className="h-4 w-4" />
+              Export to Excel
             </Button>
-            <Button onClick={handleExportPDF}>
-              <FileText className="mr-2 h-4 w-4" />
-              Download Detailed Report
+            <Button
+              onClick={exportToPDF}
+              className="flex items-center gap-2"
+              variant="outline"
+            >
+              <FileText className="h-4 w-4" />
+              Export to PDF
             </Button>
           </div>
         </CardFooter>
