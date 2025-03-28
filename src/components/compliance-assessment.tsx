@@ -5,7 +5,7 @@ import { WelcomeScreen } from "@/components/welcome-screen"
 import { QuestionnaireScreen } from "@/components/questionnaire-screen"
 import { ResultsScreen } from "@/components/results-screen"
 import { VerticalProgress } from "@/components/vertical-progress"
-import { allQuestionsData } from "@/lib/questions-data"
+import { questionsData } from "@/lib/questions-data.new"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
@@ -19,7 +19,7 @@ export type Answer = {
 export type AssessmentState = "welcome" | "questionnaire" | "results"
 
 // Group questions by category for easier navigation
-const questionsByCategory = allQuestionsData.reduce(
+const questionsByCategory = questionsData.reduce(
   (acc, question) => {
     if (!acc[question.category]) {
       acc[question.category] = []
@@ -27,7 +27,7 @@ const questionsByCategory = allQuestionsData.reduce(
     acc[question.category].push(question)
     return acc
   },
-  {} as Record<string, typeof allQuestionsData>,
+  {} as Record<string, typeof questionsData>,
 )
 
 // Get all unique categories
@@ -57,7 +57,7 @@ export function ComplianceAssessment() {
     const existingAnswer = newAnswers[currentQuestionIndex]
 
     newAnswers[currentQuestionIndex] = {
-      questionId: allQuestionsData[currentQuestionIndex].id,
+      questionId: questionsData[currentQuestionIndex].id,
       compliant,
       subQuestionValue: existingAnswer?.subQuestionValue,
       selectedRecommendationId: existingAnswer?.selectedRecommendationId,
@@ -72,7 +72,7 @@ export function ComplianceAssessment() {
     // If we don't have an answer yet, create one
     if (!newAnswers[currentQuestionIndex]) {
       newAnswers[currentQuestionIndex] = {
-        questionId: allQuestionsData[currentQuestionIndex].id,
+        questionId: questionsData[currentQuestionIndex].id,
         compliant: false,
         subQuestionValue: value,
       }
@@ -113,7 +113,7 @@ export function ComplianceAssessment() {
 
   // Modify the handleNextQuestion function to navigate to the next question
   const handleNextQuestion = () => {
-    if (currentQuestionIndex < allQuestionsData.length - 1) {
+    if (currentQuestionIndex < questionsData.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
     } else {
       // If we're at the last question overall
@@ -137,7 +137,7 @@ export function ComplianceAssessment() {
 
   // Navigate to a specific question index
   const handleNavigateToQuestion = (questionIndex: number) => {
-    if (questionIndex >= 0 && questionIndex < allQuestionsData.length) {
+    if (questionIndex >= 0 && questionIndex < questionsData.length) {
       setCurrentQuestionIndex(questionIndex)
       if (currentState !== "questionnaire") {
         setCurrentState("questionnaire")
@@ -147,7 +147,7 @@ export function ComplianceAssessment() {
 
   // Navigate to results if all questions are answered
   const handleViewResults = () => {
-    if (answers.length === allQuestionsData.length) {
+    if (answers.length === questionsData.length) {
       setCurrentState("results")
     }
   }
@@ -176,10 +176,10 @@ export function ComplianceAssessment() {
     categories.forEach((category, index) => {
       // Find the first question index for this category
       const categoryQuestions = questionsByCategory[category]
-      const firstQuestionIndex = allQuestionsData.findIndex((q) => q.id === categoryQuestions[0].id)
+      const firstQuestionIndex = questionsData.findIndex((q) => q.id === categoryQuestions[0].id)
 
       // Check if any question in this category is the current one
-      const isCurrent = currentState === "questionnaire" && allQuestionsData[currentQuestionIndex].category === category
+      const isCurrent = currentState === "questionnaire" && questionsData[currentQuestionIndex].category === category
 
       // Check if all questions in this category have been answered
       const isCompleted =
@@ -187,7 +187,7 @@ export function ComplianceAssessment() {
 
       // Check if any question in this category has been visited
       const hasVisited = categoryQuestions.some((q) => {
-        const questionIndex = allQuestionsData.findIndex((qd) => qd.id === q.id)
+        const questionIndex = questionsData.findIndex((qd) => qd.id === q.id)
         return visitedQuestions.includes(questionIndex)
       })
 
@@ -205,7 +205,7 @@ export function ComplianceAssessment() {
 
       // Add steps for each question in this category (always show all questions)
       categoryQuestions.forEach((question, qIndex) => {
-        const questionIndex = allQuestionsData.findIndex((q) => q.id === question.id)
+        const questionIndex = questionsData.findIndex((q) => q.id === question.id)
         const isAnswered = answers.some((a) => a.questionId === question.id)
         const isCurrentQuestion = currentQuestionIndex === questionIndex
         const hasVisitedQuestion = visitedQuestions.includes(questionIndex)
@@ -256,10 +256,10 @@ export function ComplianceAssessment() {
             <div className="mb-4 bg-white p-3 rounded-lg shadow-sm border flex flex-wrap items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium text-slate-700">
-                  Question {currentQuestionIndex + 1} of {allQuestionsData.length}
+                  Question {currentQuestionIndex + 1} of {questionsData.length}
                 </span>
                 <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
-                  {answeredQuestionsCount}/{allQuestionsData.length} Answered
+                  {answeredQuestionsCount}/{questionsData.length} Answered
                 </span>
               </div>
               <div className="flex gap-2 mt-2 sm:mt-0">
@@ -268,7 +268,7 @@ export function ComplianceAssessment() {
                     <ChevronLeft className="h-4 w-4 mr-1" /> Previous
                   </Button>
                 )}
-                {currentQuestionIndex < allQuestionsData.length - 1 && answers[currentQuestionIndex] && (
+                {currentQuestionIndex < questionsData.length - 1 && answers[currentQuestionIndex] && (
                   <Button variant="outline" size="sm" onClick={handleNextQuestion}>
                     Next <ChevronRight className="h-4 w-4 ml-1" />
                   </Button>
@@ -282,9 +282,9 @@ export function ComplianceAssessment() {
             </div>
 
             <QuestionnaireScreen
-              question={allQuestionsData[currentQuestionIndex]}
+              question={questionsData[currentQuestionIndex]}
               currentIndex={currentQuestionIndex}
-              totalQuestions={allQuestionsData.length}
+              totalQuestions={questionsData.length}
               onAnswer={handleAnswerQuestion}
               onSubQuestionChange={handleSubQuestionChange}
               onSelectRecommendation={handleSelectRecommendation}
@@ -297,7 +297,7 @@ export function ComplianceAssessment() {
         )}
 
         {currentState === "results" && (
-          <ResultsScreen answers={answers} questions={allQuestionsData} onRestart={handleRestartAssessment} />
+          <ResultsScreen answers={answers} questions={questionsData} onRestart={handleRestartAssessment} />
         )}
       </div>
 

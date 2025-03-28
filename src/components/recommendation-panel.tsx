@@ -7,7 +7,7 @@ import { ChevronDown, Clock, ExternalLink, Users, Calendar, DollarSign, AlertTri
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import type { Recommendation } from "@/lib/questions-data"
+import type { Recommendation } from "@/lib/questions-data.new"
 
 interface RecommendationPanelProps {
   recommendations: Recommendation[]

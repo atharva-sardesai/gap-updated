@@ -8,7 +8,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Progress } from "@/components/ui/progress"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import type { Question } from "@/lib/questions-data"
+import type { Question } from "@/lib/questions-data.new"
 import { RecommendationPanel } from "@/components/recommendation-panel"
 import { InfoIcon as InfoCircle } from "lucide-react"
 

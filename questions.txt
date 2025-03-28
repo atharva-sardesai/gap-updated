@@ -1,0 +1,1648 @@
+Do you receive a threat intelligence feed regarding the technology stack of your application to remain up to date with the latest threats? 
+
+If No: 
+
+Follow-up Question: "Are you interested in integrating a threat intelligence service to monitor and respond to emerging threats relevant to your technology stack?" 
+
+Suggestions: 
+
+Open-Source Option: Utilize free threat intelligence platforms like Open Threat Exchange (OTX). 
+
+Cost: Free 
+
+Effort:1-2 Weeks (research, subscription, configuration) 
+
+Standard Option: Subscribe to services like Recorded Future. 
+
+Cost: Approximately $36,000 annually 
+
+Effort: 1 week (research, subscription, configuration) 
+
+Premium Option: Engage with providers like FireEye Threat Intelligence. 
+
+Cost: Starting at $100,000 annually 
+
+Effort: 1-2 weeks (integration with existing security solutions) 
+
+Is there an inventory management platform deployed to track the entire lifecycle of IT assets from procurement to destruction? 
+
+If No: 
+
+Follow-up Question: "How many IT assets does your organization manage?" 
+
+Suggestions: 
+
+Open-Source Option: Implement solutions like Snipe-IT. 
+
+Cost: Free 
+
+Effort: 1-2 weeks (installation, customization, and user training). 
+
+Standard Option: Use platforms like Asset Panda. 
+
+Cost: Approximately $1,500 annually for up to 500 assets 
+
+Effort: 1-2 weeks (installation, customization, and user training). 
+
+Premium Option: Deploy systems like ServiceNow IT Asset Management. 
+
+Cost: Starting at $10,000 annually 
+
+Effort: 2-3 weeks (comprehensive integration and training). 
+
+Is there an identity management solution in place? 
+
+If No: 
+
+Follow-up Question: "How many user identities need to be managed?" 
+
+Suggestions: 
+
+Open-Source Option: Implement OpenLDAP. 
+
+Cost: Free 
+
+Effort: 3-4 weeks (advanced configuration and testing). 
+
+Standard Option: Use Microsoft Active Directory. 
+
+Cost: Included with Windows Server licensing (approximately $500–$6,000 depending on edition) 
+
+Effort: 1-2 weeks (setup, user provisioning). 
+
+Premium Option: Deploy Okta Identity Management. 
+
+Cost: Starting at $2 per user/month 
+
+Effort: 3-4 weeks (advanced configuration and testing). 
+
+Is there an incident management platform in place? 
+
+If No: 
+
+Follow-up Question: "How many incidents does your organization handle monthly?" 
+
+Suggestions: 
+
+Open-Source Option: Utilize TheHive. 
+
+Cost: Free 
+
+Effort: 2-3 weeks (integration with SOC tools and training). 
+
+Standard Option: Implement Atlassian Jira Service Management. 
+
+Cost: Starting at $20 per agent/month 
+
+Effort: 1-2 weeks (installation and process alignment). 
+
+Premium Option: Use ServiceNow Incident Management. 
+
+Cost: Starting at $10,000 annually 
+
+Effort: 3-4 weeks (integration with SOC tools and training). 
+
+Is there a Data Loss Prevention (DLP) solution in place? 
+
+If No: 
+
+Follow-up Question: "What types of sensitive data does your organization handle?" 
+
+Suggestions: 
+
+Open-Source Option: Implement OpenDLP. 
+
+Cost: Free 
+
+Effort: 4+ weeks (advanced configuration and deployment) 
+
+Standard Option: Use Symantec DLP. 
+
+Cost: Approximately $25 per user annually 
+
+Effort: 2-3 weeks (setup for basic use) 
+
+Premium Option: Deploy Forcepoint DLP. 
+
+Cost: Starting at $50 per user annually 
+
+Effort: 4+ weeks (advanced configuration and deployment) 
+
+Is there Personally Identifiable Information (PII) redaction technology in place? 
+
+If No: 
+
+Follow-up Question: "What volume of documents containing PII does your organization process?" 
+
+Suggestions: 
+
+Open-Source Option: Use tools like PdfRedactTools. 
+
+Cost: Free 
+
+Effort: 4+ weeks (manual processing with technical setup) 
+
+Standard Option: Implement Vera Redaction. 
+
+Cost: Approximately $10 per user/month 
+
+Effort: 2-3 Weeks 
+
+Premium Option: Deploy IBM Watson Discovery with redaction capabilities. 
+
+Cost: Starting at $500 per month 
+
+Effort: 3-4 Weeks 
+
+Is there annual or quarterly security awareness training for employees? 
+
+If No: 
+
+Follow-up Question: "How many employees require security awareness training?" 
+
+Suggestions: 
+
+Open-Source Option: Utilize materials from StaySafeOnline. 
+
+Cost: Free 
+
+Effort: 2-3 Weeks 
+
+Standard Option: Use KnowBe4 Security Awareness Training. 
+
+Cost: Starting at $10 per user annually 
+
+Effort: 1-2 Weeks 
+
+Premium Option: Implement SANS Security Awareness Training. 
+
+Cost: Approximately $50 per user annually 
+
+Effort: 2-3 Weeks 
+
+Is VPN technology or Zero Trust architecture in place? 
+
+If No: 
+
+Follow-up Question: "How many remote users require secure access?" 
+
+Suggestions: 
+
+Open-Source Option: Deploy OpenVPN. 
+
+Cost: Free 
+
+Effort: 2-3 Weeks 
+
+Standard Option: Use NordLayer (formerly NordVPN Teams). 
+
+Cost: Starting at $7 per user/month 
+
+Effort: 3-4 Weeks 
+
+Premium Option: Implement Zscaler Zero Trust Exchange. 
+
+Cost: Custom pricing 
+
+Effort: 4-5 Weeks 
+
+Is there FaceID or fingerprint ID physical access control to the premises? 
+
+If No: 
+
+Follow-up Question: "How many entry points require biometric access control?" 
+
+Suggestions: 
+
+Standard Option: Install ZKTeco Biometric Access Control. 
+
+Cost: Approximately $500 per entry point 
+ - Effort: 2-3 Weeks 
+
+Premium Option: Deploy HID Global Biometric Access Control systems. 
+ - Cost: Approximately $1,000–$2,000 per entry point 
+ - Effort: 3-4 Weeks 
+
+Is there CCTV camera monitoring in place for the office premises? 
+
+If No: 
+
+Follow-up Question: "How many areas or rooms require CCTV monitoring?" 
+
+Suggestions: 
+
+Standard Option: Install systems like Hikvision DVR kits. 
+
+Cost: Approximately $300–$1,000 for a basic 4–8 camera setup 
+
+Effort: 1-2 Weeks 
+
+Premium Option: Use Arlo Pro Wireless Camera Systems. 
+
+Cost: Starting at $500 for a 3-camera system 
+
+Effort: 1-2 Weeks 
+
+Are there fire extinguishers placed at designated locations within the premises? 
+
+If No: 
+
+Follow-up Question: "How many extinguishers are required, based on the size and layout of the premises?" 
+
+Suggestions: 
+
+Standard Option: Install ABC-rated fire extinguishers. 
+
+Cost: Approximately $50–$100 per unit 
+
+Effort: 1-2 Weeks 
+
+Premium Option: Engage a fire safety company for assessment and installation. 
+
+Cost: Custom pricing, starting at $500 
+
+Effort: 1-2 Weeks 
+
+Are cables carrying power, data, or supporting information services protected from interception, interference, or damage? 
+
+If No: 
+
+Follow-up Question: "How many meters of cabling need protection or reinstallation?" 
+
+Suggestions: 
+
+Standard Option: Use protective conduits and shielding for cables. 
+
+Cost: Approximately $2–$5 per meter 
+
+Effort: 2-3 Weeks 
+
+Premium Option: Hire a professional cabling company. 
+
+Cost: Custom pricing, starting at $500 for small offices 
+
+Effort: 4-5 Weeks 
+
+Do you have endpoint protection (e.g., antivirus, device encryption) implemented? 
+
+If No: 
+
+Follow-up Question: "How many devices require endpoint protection?" 
+
+Suggestions: 
+
+Standard Option: Use solutions like Norton or McAfee Endpoint Security. 
+
+Cost: Approximately $30 per device annually 
+
+Effort: 1-2 Weeks 
+
+Premium Option: Deploy CrowdStrike Falcon. 
+
+Cost: Starting at $59.99 per device annually 
+
+Effort: 2-3 Weeks 
+
+Are privileged access rights restricted and monitored? 
+
+If No: 
+
+Follow-up Question: "How many users or accounts need to be monitored and restricted?" 
+
+Suggestions: 
+
+Standard Option: Use Privileged Access Management (PAM) tools like ManageEngine. 
+
+Cost: Starting at $1,000 annually 
+
+Effort: 3-4 Weeks 
+
+Premium Option: Implement CyberArk PAM. 
+
+Cost: Custom pricing, typically starting at $5,000 annually 
+
+Effort: 4-5 Weeks 
+
+Is access to information and assets restricted as per access control policies? 
+
+If No: 
+
+Follow-up Question: "What type of assets require access control (e.g., files, servers, applications)?" 
+
+Suggestions: 
+
+Standard Option: Use Microsoft Group Policy for access control. 
+
+Cost: Included with Windows Server 
+
+Effort: 1-2 Weeks 
+
+Premium Option: Deploy Okta Access Management. 
+
+Cost: Starting at $2 per user/month 
+
+Effort: 1-2 Weeks 
+
+Is access to source code, development tools, and software libraries managed securely? 
+
+If No: 
+
+Follow-up Question: "What tools or libraries are currently in use?" 
+
+Suggestions: 
+
+Standard Option: Use GitHub Enterprise with access control features. 
+
+Cost: Starting at $21 per user/month 
+
+Effort: 1-2 Weeks 
+
+Premium Option: Use Snyk for advanced dependency and code security. 
+
+Cost: Starting at $49 per developer/month 
+
+Effort: 3-4 Weeks 
+
+Do you use secure authentication technologies, such as MFA? 
+
+If No: 
+
+Follow-up Question: "How many users need MFA solutions?" 
+
+Suggestions: 
+
+Standard Option: Use Google Authenticator or Microsoft Authenticator. 
+
+Cost: Free 
+
+Effort: 1-2 Weeks 
+
+Premium Option: Deploy Duo Security MFA. 
+
+Cost: Starting at $3 per user/month 
+
+Effort: 1-2 Weeks 
+
+Do you have resource monitoring and malware protection in place? 
+
+If No: 
+
+Follow-up Question: "Which resources or endpoints require monitoring?" 
+
+Suggestions: 
+
+Standard Option: Implement SolarWinds Network Performance Monitor. 
+
+Cost: Starting at $1,500 annually 
+
+Effort: 1-2 Weeks 
+
+Premium Option: Use CrowdStrike Falcon for malware protection. 
+
+Cost: Starting at $59.99 per device annually 
+
+Effort: 3-4 Weeks 
+
+ 
+
+
+
+Is production data prevented from being used in non-production environments? 
+
+If No: 
+
+Follow-up Question: "What policies or tools are currently in place to restrict production data usage?" 
+
+Suggestions: 
+
+Open-Source Option: Use Faker and Mockaroo for generating synthetic test data. 
+
+Cost: Free 
+
+Effort: 2-3 Weeks (integration with testing frameworks) 
+
+Standard Option: Implement IBM InfoSphere Optim for data masking. 
+
+Cost: Custom pricing 
+
+Effort: 4-6 Weeks (deployment and configuration) 
+
+Premium Option: Use Delphix Data Masking for real-time production data protection. 
+
+Cost: Starting at $50,000 annually 
+
+Effort: 6-8 Weeks (full implementation and testing) 
+
+ 
+
+Are audit tests, penetration tests, and other security assessments planned, documented, and approved by management? 
+
+If No: 
+
+Follow-up Question: "How frequently are security assessments performed?" 
+
+Suggestions: 
+
+Open-Source Option: Use OSSTMM (Open Source Security Testing Methodology Manual). 
+
+Cost: Free 
+
+Effort: 3-4 Weeks (self-assessment and documentation) 
+
+Standard Option: Subscribe to Qualys Web Application Scanning. 
+
+Cost: Starting at $3,000 annually 
+
+Effort: 4-6 Weeks (implementation and scanning) 
+
+Premium Option: Engage a third-party security auditing firm. 
+
+Cost: Custom pricing, starting at $10,000 per audit 
+
+Effort: 6-8 Weeks (comprehensive review and recommendations) 
+
+ 
+
+ 
+
+Are anti-malware solutions installed, regularly updated, and capable of detecting and responding to threats? 
+
+If No: 
+
+Follow-up Question: "How many endpoints require anti-malware protection?" 
+
+Suggestions: 
+
+Open-Source Option: Deploy ClamAV for basic malware detection. 
+
+Cost: Free 
+
+Effort: 2-3 Weeks (configuration and testing) 
+
+Standard Option: Use Malwarebytes for Business. 
+
+Cost: Starting at $69.99 per endpoint annually 
+
+Effort: 1-2 Weeks (installation and user training) 
+
+Premium Option: Implement CrowdStrike Falcon Prevent. 
+
+Cost: Starting at $59.99 per device annually 
+
+Effort: 2-3 Weeks (integration and policy enforcement) 
+
+ 
+
+Are all system clocks synchronized with an approved time source and monitored for accuracy? 
+
+If No: 
+
+Follow-up Question: "Which systems require time synchronization?" 
+
+Suggestions: 
+
+Open-Source Option: Use NTP (Network Time Protocol) servers for synchronization. 
+
+Cost: Free 
+
+Effort: 1-2 Weeks (configuration and monitoring setup) 
+
+Standard Option: Implement Microsoft Windows Time Service (W32Time). 
+
+Cost: Included with Windows Server licensing 
+
+Effort: 1-2 Weeks (configuration and monitoring setup) 
+
+Premium Option: Use a GPS-based time synchronization appliance. 
+
+Cost: Starting at $5,000 
+
+Effort: 3-4 Weeks (hardware installation and network integration) 
+
+ 
+
+Are timestamps used in security logs consistent and reliable for forensic investigations? 
+
+If No: 
+
+Follow-up Question: "Which security logs require timestamp verification?" 
+
+Suggestions: 
+
+Open-Source Option: Implement Chronicle Logging with NTP. 
+
+Cost: Free 
+
+Effort: 2-3 Weeks (configuration and validation) 
+
+Standard Option: Use Splunk for centralized log management. 
+
+Cost: Starting at $2,000 annually 
+
+Effort: 3-4 Weeks (deployment and log configuration) 
+
+Premium Option: Deploy IBM QRadar SIEM for advanced log correlation. 
+
+Cost: Starting at $10,000 annually 
+
+Effort: 4-6 Weeks (integration and rule tuning) 
+
+ 
+
+Are third-party network services assessed for compliance with security policies? 
+
+If No: 
+
+Follow-up Question: "Which third-party services are currently used, and what compliance requirements apply?" 
+
+Suggestions: 
+
+Open-Source Option: Conduct manual audits with CIS Benchmarks and OpenSCAP. 
+
+Cost: Free 
+
+Effort: 3-4 Weeks (manual review and compliance documentation) 
+
+Standard Option: Use Nessus Professional for vulnerability and compliance scanning. 
+
+Cost: Starting at $2,990 annually 
+
+Effort: 2-3 Weeks (configuration and assessment) 
+
+Premium Option: Implement Palo Alto Cortex Xpanse for automated risk assessment. 
+
+Cost: Custom pricing 
+
+Effort: 4-6 Weeks (integration and continuous monitoring setup) 
+
+ 
+
+Are secure system architecture and engineering principles applied and reviewed periodically? 
+
+If No: 
+
+Follow-up Question: "When was the last security architecture review conducted?" 
+
+Suggestions: 
+
+Open-Source Option: Conduct internal reviews using OWASP ASVS and CIS Controls. 
+
+Cost: Free 
+
+Effort: 3-4 Weeks (manual assessment and documentation) 
+
+Standard Option: Use ThreatModeler for automated security architecture review. 
+
+Cost: Starting at $5,000 annually 
+
+Effort: 4-6 Weeks (deployment and configuration) 
+
+Premium Option: Engage a cybersecurity consulting firm (e.g., Mandiant, NCC Group) for periodic security architecture assessments. 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (comprehensive review and recommendations) 
+
+ 
+
+Are outsourced development activities monitored, with security requirements included in contracts? 
+
+If No: 
+
+Follow-up Question: "Which security requirements are currently enforced in contracts?" 
+
+Suggestions: 
+
+Open-Source Option: Use OWASP SAMM (Software Assurance Maturity Model) for assessment. 
+
+Cost: Free 
+
+Effort: 3-4 Weeks (self-assessment and documentation) 
+
+Standard Option: Use Synopsys Black Duck for open-source security monitoring. 
+
+Cost: Starting at $25,000 annually 
+
+Effort: 4-6 Weeks (integration and compliance validation) 
+
+Premium Option: Implement Veracode for automated secure development monitoring. 
+
+Cost: Starting at $50,000 annually 
+
+Effort: 6-8 Weeks (full implementation and policy enforcement) 
+
+ 
+
+Are security assessments and testing conducted on externally developed software? 
+
+If No: 
+
+Follow-up Question: "How frequently is externally developed software tested?" 
+
+Suggestions: 
+
+Open-Source Option: Conduct manual security reviews using OWASP ZAP. 
+
+Cost: Free 
+
+Effort: 3-4 Weeks (setup and testing) 
+
+Standard Option: Use Burp Suite Professional for web application security testing. 
+
+Cost: Starting at $399 annually 
+
+Effort: 2-3 Weeks (configuration and testing) 
+
+Premium Option: Engage a third-party penetration testing firm. 
+
+Cost: Custom pricing, starting at $10,000 per test 
+
+Effort: 4-6 Weeks (end-to-end security testing) 
+
+ 
+
+Are development, testing, and production environments properly segregated and access-controlled? 
+
+If No: 
+
+Follow-up Question: "How are environments currently managed and segregated?" 
+
+Suggestions: 
+
+Open-Source Option: Implement environment segregation using Docker and Kubernetes. 
+
+Cost: Free 
+
+Effort: 3-4 Weeks (configuration and policy enforcement) 
+
+Standard Option: Use HashiCorp Vault for access control in multi-environment setups. 
+
+Cost: Starting at $5,000 annually 
+
+Effort: 4-6 Weeks (implementation and training) 
+
+Premium Option: Deploy CyberArk for privileged access management across environments. 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (comprehensive access control setup) 
+
+ 
+
+ 
+
+Are changes to information systems subject to formal approval, risk evaluation, and rollback procedures? 
+
+If No: 
+
+Follow-up Question: "Is there a documented change management process in place?" 
+
+Suggestions: 
+
+Open-Source Option: Use Git for version control and maintain a structured change log. 
+
+Cost: Free 
+
+Effort: 2-3 Weeks (setup and process definition) 
+
+Standard Option: Implement ITIL-based change management with ServiceNow. 
+
+Cost: Starting at $10,000 annually 
+
+Effort: 4-6 Weeks (deployment and training) 
+
+Premium Option: Use Jira Service Management with automated workflows. 
+
+Cost: Starting at $20 per user per month 
+
+Effort: 3-4 Weeks (configuration and process alignment) 
+
+ 
+
+Is test information anonymized, protected, and securely disposed of after testing? 
+
+If No: 
+
+Follow-up Question: "What processes are in place for data masking and disposal after testing?" 
+
+Suggestions: 
+
+Open-Source Option: Use Faker and dbForge for test data generation. 
+
+Cost: Free 
+
+Effort: 2-3 Weeks (integration and validation) 
+
+Standard Option: Implement Informatica Data Masking. 
+
+Cost: Custom pricing 
+
+Effort: 4-6 Weeks (deployment and policy setup) 
+
+Premium Option: Use Delphix Dynamic Data Platform for automated test data management. 
+
+Cost: Starting at $50,000 annually 
+
+Effort: 6-8 Weeks (implementation and compliance validation) 
+
+Are security audit findings tracked and remediated to improve information security? 
+
+If No: 
+
+Follow-up Question: "How are security audit findings currently managed and addressed?" 
+
+Suggestions: 
+
+Open-Source Option: Use OSSEC for security event monitoring and tracking. 
+
+Cost: Free 
+
+Effort: 2-3 Weeks (setup and policy enforcement) 
+
+Standard Option: Implement Jira Service Management for tracking and remediation workflows. 
+
+Cost: Starting at $20 per user per month 
+
+Effort: 3-4 Weeks (integration with existing processes) 
+
+Premium Option: Deploy ServiceNow Security Operations for automated tracking and remediation. 
+
+Cost: Starting at $10,000 annually 
+
+Effort: 4-6 Weeks (setup and automation) 
+
+ 
+
+Are security measures in place for working in secure areas, including access restrictions and monitoring? 
+
+If No: 
+
+Follow-up Question: "How many secure areas need physical access control measures?" 
+
+Suggestions: 
+
+Standard Option: Install RFID-based access control systems (e.g., HID Global). 
+
+Cost: Starting at $500 per door 
+
+Effort: 2-3 Weeks (installation and configuration) 
+
+Premium Option: Implement biometric access control solutions (e.g., ZKTeco, Suprema). 
+
+Cost: $1,000+ per entry point 
+
+Effort: 3-4 Weeks (deployment and training) 
+
+ 
+
+Are employees and visitors required to follow specific security procedures when entering secure areas? 
+
+If No: 
+
+Follow-up Question: "Is there a visitor management system or security policy in place?" 
+
+Suggestions: 
+
+Standard Option: Use a visitor management system like Envoy. 
+
+Cost: Starting at $99 per month 
+
+Effort: 1-2 Weeks (setup and policy alignment) 
+
+Premium Option: Implement CCTV-based facial recognition visitor management (e.g., Verkada). 
+
+Cost: Custom pricing 
+
+Effort: 3-4 Weeks (installation and training) 
+
+ 
+
+Are clear desk and clear screen policies defined and enforced to prevent unauthorized access to information? 
+
+If No: 
+
+Follow-up Question: "Are employees aware of the importance of clear desk and screen policies?" 
+
+Suggestions: 
+
+Standard Option: Introduce security awareness training using KnowBe4. 
+
+Cost: Starting at $10 per user annually 
+
+Effort: 2-3 Weeks (training and policy implementation) 
+
+Premium Option: Deploy policy enforcement tools like Microsoft Intune for automated compliance. 
+
+Cost: $8 per user/month 
+
+Effort: 4-6 Weeks (deployment and enforcement) 
+
+ 
+
+Are employees trained and required to lock screens and store sensitive materials securely when unattended? 
+
+If No: 
+
+Follow-up Question: "Is there a security awareness training program in place?" 
+
+Suggestions: 
+
+Standard Option: Use free training resources from StaySafeOnline. 
+
+Cost: Free 
+
+Effort: 2-3 Weeks (rollout and monitoring) 
+
+Premium Option: Deploy automated policy enforcement via Microsoft Endpoint Manager. 
+
+Cost: $10 per user/month 
+
+Effort: 3-4 Weeks (setup and policy enforcement) 
+
+ 
+
+Are endpoints configured to automatically lock or blank the screen after 1 minute of inactivity to prevent unauthorized access? 
+
+If No: 
+
+Follow-up Question: "Are there any technical or policy restrictions preventing auto-lock implementation?" 
+
+Suggestions: 
+
+Standard Option: Enforce Group Policy for screen lock timers in Windows environments. 
+
+Cost: Included with Windows Server 
+
+Effort: 1-2 Weeks (policy enforcement) 
+
+Premium Option: Use MDM solutions like Jamf (Mac) or Microsoft Intune (Windows). 
+
+Cost: Starting at $8 per device/month 
+
+Effort: 3-4 Weeks (setup and enforcement) 
+
+ 
+
+Is storage media securely managed throughout its lifecycle, including acquisition, usage, transportation, and disposal? 
+
+If No: 
+
+Follow-up Question: "How is sensitive data currently stored and disposed of?" 
+
+Suggestions: 
+
+Standard Option: Implement BitLocker (Windows) or FileVault (Mac) for encryption. 
+
+Cost: Free (included with OS) 
+
+Effort: 1-2 Weeks (configuration and user training) 
+
+Premium Option: Use enterprise-grade secure storage and destruction services (e.g., Iron Mountain). 
+
+Cost: Custom pricing 
+
+Effort: 4-6 Weeks (contracting and compliance) 
+
+ 
+
+Are there clear rules and processes to ensure sensitive data is stored safely and shared securely? 
+
+If No: 
+
+Follow-up Question: "What tools are currently used for secure data storage and sharing?" 
+
+Suggestions: 
+
+Standard Option: Use Microsoft OneDrive with Data Loss Prevention (DLP). 
+
+Cost: Included in Microsoft 365 Business ($12.50 per user/month) 
+
+Effort: 2-3 Weeks (setup and user training) 
+
+Premium Option: Deploy enterprise-grade DLP solutions like Forcepoint DLP. 
+
+Cost: $50 per user annually 
+
+Effort: 4-6 Weeks (configuration and policy enforcement) 
+
+ 
+
+Are information processing facilities protected from power failures with backup solutions like UPS or generators? 
+
+If No: 
+
+Follow-up Question: "Does your company host critical infrastructure on-premises or rely on cloud services?" 
+
+Suggestions: 
+
+Standard Option: Install APC Smart-UPS for essential infrastructure. 
+
+Cost: Starting at $500 per unit 
+
+Effort: 1-2 Weeks (installation and testing) 
+
+Premium Option: Implement full-scale data center backup solutions (e.g., Generac generators). 
+
+Cost: $10,000+ 
+
+Effort: 4-6 Weeks (installation and maintenance setup) 
+
+ 
+
+Are measures in place to prevent disruptions from failures in supporting utilities such as cooling, water, or internet connectivity? 
+
+If No: 
+
+Follow-up Question: "Which supporting utilities are most critical to business operations?" 
+
+Suggestions: 
+
+Standard Option: Use cloud-based failover internet services (e.g., SD-WAN with 4G/5G backup). 
+
+Cost: Starting at $200 per month 
+
+Effort: 2-3 Weeks (setup and testing) 
+
+Premium Option: Implement redundant cooling and power solutions (e.g., Liebert precision cooling). 
+
+Cost: Custom pricing 
+
+Effort: 4-6 Weeks (installation and monitoring setup) 
+
+ 
+
+Is equipment regularly maintained to ensure availability, integrity, and confidentiality of information? 
+
+If No: 
+
+Follow-up Question: "How often is IT equipment inspected and maintained?" 
+
+Suggestions: 
+
+Standard Option: Implement asset management with ServiceNow ITSM. 
+
+Cost: Starting at $10,000 annually 
+
+Effort: 4-6 Weeks (setup and workflow automation) 
+
+Premium Option: Use AI-driven predictive maintenance tools like IBM Maximo. 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (deployment and calibration) 
+
+Are maintenance activities performed securely to prevent unauthorized access or tampering? 
+
+If No: 
+
+Follow-up Question: "How are maintenance activities currently logged and monitored for security risks?" 
+
+Suggestions: 
+
+Standard Option: Implement a change management system (e.g., Jira Service Management). 
+
+Cost: Starts at $20 per user/month 
+
+Effort: 3-4 Weeks (integration and training) 
+
+Premium Option: Use a Privileged Access Management (PAM) solution (e.g., CyberArk) to restrict access during maintenance. 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (deployment and policy enforcement) 
+
+ 
+
+Are items of equipment containing storage media securely wiped, overwritten, or destroyed before disposal or reuse? 
+
+If No: 
+
+Follow-up Question: "What method is currently used for data sanitization?" 
+
+Suggestions: 
+
+Standard Option: Use open-source wiping tools (e.g., DBAN) for secure erasure. 
+
+Cost: Free 
+
+Effort: 1-2 Weeks (policy enforcement) 
+
+Premium Option: Contract with certified disposal services (e.g., Iron Mountain for media destruction). 
+
+Cost: Based on volume and location 
+
+Effort: 2-3 Weeks (contract setup) 
+
+ 
+
+Is licensed software removed from devices before disposal to prevent unauthorized use? 
+
+If No: 
+
+Follow-up Question: "Is there an asset decommissioning process in place?" 
+
+Suggestions: 
+
+Standard Option: Use SCCM or Intune to automate software removal before disposal. 
+
+Cost: Included with Microsoft 365 E3 
+
+Effort: 2-3 Weeks (setup and enforcement) 
+
+Premium Option: Implement automated software decommissioning tools (e.g., ServiceNow IT Asset Management). 
+
+Cost: Custom pricing 
+
+Effort: 4-6 Weeks (setup and training) 
+
+ 
+
+Are background verification checks conducted before hiring and periodically afterward, considering legal, ethical, and business requirements? 
+
+If No: 
+
+Follow-up Question: "Is there a policy in place for employee background screening?" 
+
+Suggestions: 
+
+Standard Option: Use third-party background screening services (e.g., Checkr, HireRight). 
+
+Cost: $30–$100 per employee 
+
+Effort: 1-2 Weeks (integration with HR process) 
+
+Premium Option: Implement continuous employee risk monitoring solutions (e.g., Equifax Workforce Solutions). 
+
+Cost: Based on company size 
+
+Effort: 4-6 Weeks (policy alignment and training) 
+
+ 
+
+Do employment contracts clearly define both personnel and organizational responsibilities for information security? 
+
+If No: 
+
+Follow-up Question: "Do employment contracts include an information security clause?" 
+
+Suggestions: 
+
+Standard Option: Update employment contracts to include explicit security obligations. 
+
+Cost: Internal HR/legal review required 
+
+Effort: 3-4 Weeks (legal review and rollout) 
+
+Premium Option: Use HR compliance tools (e.g., Workday) to enforce security policy acknowledgments. 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (HR system updates and training) 
+
+ 
+
+Is there a formalized and communicated disciplinary process to address violations of information security policies? 
+
+If No: 
+
+Follow-up Question: "How are security policy violations currently handled?" 
+
+Suggestions: 
+
+Standard Option: Develop and communicate an official security violation policy in the employee handbook. 
+
+Cost: Internal HR effort 
+
+Effort: 3-4 Weeks (policy drafting and rollout) 
+
+Premium Option: Implement HR case management tools (e.g., PeopleSoft, BambooHR) to track incidents. 
+
+Cost: $8–$15 per user/month 
+
+Effort: 4-6 Weeks (integration and training) 
+
+ 
+
+Are information security responsibilities enforced and communicated to personnel after termination or role changes? 
+
+If No: 
+
+Follow-up Question: "Is there a formal offboarding process for employees?" 
+
+Suggestions: 
+
+Standard Option: Use automated account deactivation tools (e.g., Okta, Microsoft Entra ID). 
+
+Cost: $6–$15 per user/month 
+
+Effort: 2-3 Weeks (setup and enforcement) 
+
+Premium Option: Implement security clearance revocation tracking in ServiceNow. 
+
+Cost: Custom pricing 
+
+Effort: 4-6 Weeks (integration and training) 
+
+ 
+
+Are confidentiality or non-disclosure agreements documented, reviewed regularly, and signed by personnel and relevant parties? 
+
+If No: 
+
+Follow-up Question: "Are NDAs required for all employees and contractors?" 
+
+Suggestions: 
+
+Standard Option: Ensure NDAs are part of the onboarding process using DocuSign. 
+
+Cost: $10–$25 per user/month 
+
+Effort: 1-2 Weeks (policy enforcement) 
+
+Premium Option: Implement AI-powered contract management (e.g., Ironclad). 
+
+Cost: Custom pricing 
+
+Effort: 4-6 Weeks (deployment and automation) 
+
+ 
+
+Is there a mechanism for personnel to report observed or suspected security incidents in a timely manner? 
+
+If No: 
+
+Follow-up Question: "How are security incidents currently reported?" 
+
+Suggestions: 
+
+Standard Option: Set up an anonymous reporting tool (e.g., Google Forms, Microsoft Forms). 
+
+Cost: Free 
+
+Effort: 1-2 Weeks (setup and awareness campaign) 
+
+Premium Option: Use a security incident management platform (e.g., Splunk SOAR, ServiceNow SecOps). 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (integration and training) 
+
+ 
+
+Are information security policies defined, approved, communicated, acknowledged, and reviewed regularly? 
+
+If No: 
+
+Follow-up Question: "When was the last security policy review?" 
+
+Suggestions: 
+
+Standard Option: Conduct quarterly policy reviews using Google Drive or SharePoint. 
+
+Cost: Free 
+
+Effort: 2-3 Weeks (review and updates) 
+
+Premium Option: Implement policy management software (e.g., LogicGate, Convercent). 
+
+Cost: Custom pricing 
+
+Effort: 4-6 Weeks (setup and enforcement) 
+
+ 
+
+Are information security roles and responsibilities clearly defined and assigned based on organizational needs? 
+
+If No: 
+
+Follow-up Question: "Is there a formal security governance structure in place?" 
+
+Suggestions: 
+
+Standard Option: Define security roles in organizational policies (e.g., CISO, Data Protection Officer). 
+
+Cost: Internal effort 
+
+Effort: 3-4 Weeks (policy documentation) 
+
+Premium Option: Implement a governance risk compliance (GRC) tool (e.g., Archer, MetricStream). 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (integration and automation) 
+
+ 
+
+Are conflicting duties and responsibilities identified and segregated to prevent security risks? 
+
+If No: 
+
+Follow-up Question: 
+ "How are roles and responsibilities currently assigned to prevent conflicts of interest?" 
+
+Suggestions: 
+
+Standard Option: Implement a Role-Based Access Control (RBAC) model in identity management. 
+
+Cost: Included in Microsoft Entra ID, Okta, or AWS IAM 
+
+Effort: 3-4 Weeks (policy setup and enforcement) 
+
+Premium Option: Use a Segregation of Duties (SoD) monitoring tool (e.g., ERP Maestro, Fastpath Assure). 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (integration and automation) 
+
+ 
+
+Are all personnel required to apply and follow the organization’s information security policies and procedures? 
+
+If No: 
+
+Follow-up Question: 
+ "Are security policies formally documented and acknowledged by employees?" 
+
+Suggestions: 
+
+Standard Option: Implement an Employee Security Awareness Training Program (e.g., KnowBe4, Wombat Security). 
+
+Cost: $20–$30 per user/year 
+
+Effort: 2-3 Weeks (training and policy rollout) 
+
+Premium Option: Use an automated security policy compliance platform (e.g., LogicGate, Convercent). 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (implementation and enforcement) 
+
+ 
+
+Does the organization establish and maintain contact with relevant legal, regulatory, or law enforcement authorities? 
+
+If No: 
+
+Follow-up Question: 
+ "Does the organization have a designated compliance officer or security liaison?" 
+
+Suggestions: 
+
+Standard Option: Assign a compliance officer to establish contact with regulatory bodies (e.g., GDPR, PCI DSS, CISA). 
+
+Cost: Internal effort 
+
+Effort: 4-6 Weeks (policy and role establishment) 
+
+Premium Option: Subscribe to a Regulatory Compliance Monitoring Service (e.g., Thomson Reuters Regulatory Intelligence). 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (subscription and integration) 
+
+ 
+
+Does the organization engage with security forums, professional associations, or special interest groups? 
+
+If No: 
+
+Follow-up Question: 
+ "Is there a designated team or individual responsible for external cybersecurity collaborations?" 
+
+Suggestions: 
+
+Standard Option: Register for security forums and groups (e.g., ISACA, ISC², OWASP, FIRST). 
+
+Cost: $50–$300 per year (membership fees) 
+
+Effort: 1-2 Weeks (registration and participation) 
+
+Premium Option: Subscribe to threat intelligence and industry-sharing platforms (e.g., Anomali, Recorded Future). 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (deployment and integration) 
+
+ 
+
+Is information security integrated into project management processes? 
+
+If No: 
+
+Follow-up Question: 
+ "Are security requirements formally included in project planning and execution?" 
+
+Suggestions: 
+
+Standard Option: Establish a Security Risk Assessment Checklist for all projects. 
+
+Cost: Internal effort 
+
+Effort: 2-4 Weeks (process definition and enforcement) 
+
+Premium Option: Use Secure SDLC tools (e.g., Microsoft Threat Modeling Tool, Jira Security Add-ons). 
+
+Cost: Varies based on licensing 
+
+Effort: 6-8 Weeks (training and integration) 
+
+ 
+
+Are rules for acceptable use and procedures for handling assets documented and enforced? 
+
+If No: 
+
+Follow-up Question: 
+ "Does the organization have an Acceptable Use Policy (AUP) that employees acknowledge?" 
+
+Suggestions: 
+
+Standard Option: Implement an Acceptable Use Policy (AUP) and ensure employees sign an acknowledgment form. 
+
+Cost: Internal effort 
+
+Effort: 2-3 Weeks (policy creation and rollout) 
+
+Premium Option: Use Automated Policy Management Software (e.g., LogicGate, Convercent) to track policy acceptance and compliance. 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (integration and monitoring) 
+
+ 
+
+Are personnel required to return all organizational assets upon termination or contract change? 
+
+If No: 
+
+Follow-up Question: 
+ "Is there a formalized asset return process in place during offboarding?" 
+
+Suggestions: 
+
+Standard Option: Implement an Asset Tracking Spreadsheet and mandate HR checklists for offboarding. 
+
+Cost: Free (Google Sheets, Excel) 
+
+Effort: 2-3 Weeks (process establishment and enforcement) 
+
+Premium Option: Use an IT Asset Management (ITAM) system (e.g., ServiceNow, Lansweeper) to track issued assets and enforce returns. 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (deployment and automation) 
+
+ 
+
+Are document classification strategies defined and implemented within the organization? 
+
+If No: 
+
+Follow-up Question: 
+ "Does the organization have a data classification framework (e.g., Public, Internal, Confidential)?" 
+
+Suggestions: 
+
+Standard Option: Define a Data Classification Policy with clear levels (e.g., Public, Internal, Confidential, Restricted). 
+
+Cost: Internal effort 
+
+Effort: 3-4 Weeks (policy creation and communication) 
+
+Premium Option: Implement a Data Loss Prevention (DLP) solution (e.g., Microsoft Purview, Symantec DLP) for classification enforcement. 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (configuration and enforcement) 
+
+ 
+
+Are tagging strategies used to label and identify classified information consistently? 
+
+If No: 
+
+Follow-up Question: 
+ "Are digital and physical documents labeled according to classification levels?" 
+
+Suggestions: 
+
+Standard Option: Introduce manual document labeling guidelines for employees using predefined templates (e.g., Watermarks, Metadata Tags). 
+
+Cost: Free (Microsoft Office, Google Docs) 
+
+Effort: 2-3 Weeks (training and rollout) 
+
+Premium Option: Deploy Automated Document Labeling Tools (e.g., Microsoft Information Protection, Google Cloud DLP). 
+
+Cost: Varies based on licensing 
+
+Effort: 6-8 Weeks (deployment and automation) 
+
+ 
+
+Are bucketing strategies in place to group similar types of information for consistent security handling? 
+
+If No: 
+
+Follow-up Question: 
+ "Does the organization have a formal data classification matrix to categorize information types?" 
+
+Suggestions: 
+
+Standard Option: Develop a Data Categorization Framework (e.g., PII, financial data, proprietary data). 
+
+Cost: Internal effort 
+
+Effort: 3-4 Weeks (framework creation and implementation) 
+
+Premium Option: Implement Data Governance Tools (e.g., Collibra, Informatica) to automate categorization. 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (integration and monitoring) 
+
+ 
+
+Are procedures for labeling information implemented according to the organization’s classification scheme? 
+
+If No: 
+
+Follow-up Question: 
+ "Are digital and physical documents labeled correctly according to security levels?" 
+
+Suggestions: 
+
+Standard Option: Use manual labeling policies with document templates and color-coded stamps. 
+
+Cost: Free (MS Word, Google Docs) 
+
+Effort: 2-3 Weeks (training and rollout) 
+
+Premium Option: Deploy Automated Labeling Solutions (e.g., Microsoft Information Protection, Google DLP). 
+
+Cost: Subscription-based 
+
+Effort: 6-8 Weeks (configuration and enforcement) 
+
+ 
+
+Are secure rules, procedures, and agreements in place for transferring information internally and externally? 
+
+If No: 
+
+Follow-up Question: 
+ "Are data transfer policies documented and enforced for internal/external communication?" 
+
+Suggestions: 
+
+Standard Option: Implement Secure Data Transfer Protocols (e.g., SFTP, encrypted email policies). 
+
+Cost: Internal setup 
+
+Effort: 3-4 Weeks (policy creation and enforcement) 
+
+Premium Option: Deploy Secure File Transfer Solutions (e.g., Axway SecureTransport, Citrix ShareFile). 
+
+Cost: Varies 
+
+Effort: 6-8 Weeks (deployment and training) 
+
+ 
+
+Are access control policies established and enforced based on business and security requirements? 
+
+If No: 
+
+Follow-up Question: 
+ "Are Role-Based Access Controls (RBAC) implemented and reviewed periodically?" 
+
+Suggestions: 
+
+Standard Option: Implement RBAC and Least Privilege Policies to restrict access. 
+
+Cost: Internal effort 
+
+Effort: 2-3 Weeks (role setup and policy enforcement) 
+
+Premium Option: Use Identity and Access Management (IAM) solutions (e.g., Okta, Microsoft Entra ID). 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (deployment and user training) 
+
+ 
+
+Are access rights regularly reviewed, modified, and removed in line with security policies? 
+
+If No: 
+
+Follow-up Question: 
+ "Is there a documented process for periodic access reviews?" 
+
+Suggestions: 
+
+Standard Option: Establish a Quarterly Access Review Process (manual checks via spreadsheets). 
+
+Cost: Free 
+
+Effort: Ongoing (review and update) 
+
+Premium Option: Use Automated Access Review Tools (e.g., SailPoint, CyberArk). 
+
+Cost: Subscription-based 
+
+Effort: 6-8 Weeks (configuration and rollout) 
+
+ 
+
+Are processes in place to manage information security risks related to supplier products and services? 
+
+If No: 
+
+Follow-up Question: 
+ "Are vendors required to meet specific security compliance standards (e.g., ISO 27001, SOC 2)?" 
+
+Suggestions: 
+
+Standard Option: Establish a Vendor Security Assessment Checklist and conduct periodic audits. 
+
+Cost: Internal effort 
+
+Effort: 3-4 Weeks (framework development and execution) 
+
+Premium Option: Implement Third-Party Risk Management (TPRM) solutions (e.g., Prevalent, BitSight). 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (tool deployment and monitoring) 
+
+ 
+
+Are security requirements clearly established and agreed upon with all suppliers? 
+
+If No: 
+
+Follow-up Question: 
+ "Are security clauses included in all supplier contracts and SLAs?" 
+
+Suggestions: 
+
+Standard Option: Update Supplier Agreements to include security requirements and periodic compliance reviews. 
+
+Cost: Legal consultation fees 
+
+Effort: 3-4 Weeks (contract updates and negotiations) 
+
+Premium Option: Implement Contract Management Software (e.g., Ironclad, DocuSign CLM) for compliance tracking. 
+
+Cost: Subscription-based 
+
+Effort: 6-8 Weeks (setup and automation) 
+
+ 
+
+Are security risks in the IT supply chain assessed and managed? 
+
+If No: 
+
+Follow-up Question: 
+ "Are risk assessments conducted for IT suppliers, including software vendors?" 
+
+Suggestions: 
+
+Standard Option: Perform Annual Supply Chain Risk Assessments using risk matrices. 
+
+Cost: Internal effort 
+
+Effort: Ongoing (annual review cycle) 
+
+Premium Option: Use AI-Powered Risk Management Tools (e.g., RiskRecon, SecurityScorecard). 
+
+Cost: Custom pricing 
+
+Effort: 6-8 Weeks (tool deployment and integration) 
+
+ 
+
+Are processes for selecting, managing, and exiting cloud services aligned with security requirements? 
+
+If No: 
+
+Follow-up Question: 
+ "Are cloud service providers assessed for security compliance before onboarding?" 
+
+Suggestions: 
+
+Standard Option: Develop a Cloud Security Policy aligned with frameworks like NIST CSF or CIS Benchmarks. 
+
+Cost: Internal effort 
+
+Effort: 3-4 Weeks (policy creation and enforcement) 
+
+Premium Option: Use Cloud Security Posture Management (CSPM) solutions (e.g., Prisma Cloud, AWS Security Hub). 
+
+Cost: Subscription-based 
+
+Effort: 6-8 Weeks (deployment and continuous monitoring) 
+
+ 
