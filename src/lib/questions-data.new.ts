@@ -1,45 +1,31 @@
 import {
-  Shield,
-  Lock,
-  Database,
-  FileText,
-  Users,
   AlertTriangle,
-  Network,
-  UserCheck,
-  Eye,
-  Camera,
-  type LucideIcon,
-  Flame,
-  Cable,
-  ShieldAlert,
-  UserCog,
-  FileKey,
-  Code,
-  Key,
-  Activity,
-  DatabaseIcon,
-  ClipboardCheck,
-  Clock,
-  Building,
-  HardDrive,
-  Zap,
-  Wifi,
-  Wrench,
-  Trash2,
-  PackageX,
-  UserX,
-  CheckCircle,
-  Building2,
-  AlertCircle,
-  FileCheck,
-  GraduationCap,
   Brain,
+  Building2,
   Cloud,
+  FileCheck,
+  FileText,
+  Shield,
+  ShieldAlert,
+  ShieldCheck,
+  ShieldOff,
+  ShieldQuestion,
+  ShieldX,
   TestTube,
+  UserCog,
+  Users,
+  GraduationCap,
   BarChart,
   Bot,
-  Link
+  Link,
+  Network,
+  Camera,
+  Activity,
+  Database,
+  UserCheck,
+  FileKey,
+  LucideIcon,
+  AlertCircle
 } from "lucide-react"
 
 export interface SubQuestion {
@@ -991,7 +977,7 @@ export const questionsData: Question[] = [
     text: "Is there a physical access control system in place?",
     description: "Physical access control systems manage and monitor access to physical locations.",
     helpText: "This includes having proper physical security controls and monitoring.",
-    icon: Lock,
+    icon: Shield,
     subQuestion: {
       id: "access-points",
       text: "How many access points need to be controlled?",
@@ -1031,7 +1017,7 @@ export const questionsData: Question[] = [
         effortHours: "80-120",
         priority: "Medium",
         estimatedCostRange: "₹0",
-        icon: Lock
+        icon: Shield
       },
       {
         id: "honeywell",
@@ -1062,7 +1048,7 @@ export const questionsData: Question[] = [
         effortHours: "80-120",
         priority: "High",
         estimatedCostRange: "₹10,000/point/year",
-        icon: Lock
+        icon: Shield
       },
       {
         id: "johnson-controls",
@@ -1093,7 +1079,7 @@ export const questionsData: Question[] = [
         effortHours: "120-160",
         priority: "High",
         estimatedCostRange: "₹25,000/point/year",
-        icon: Lock
+        icon: Shield
       }
     ]
   },
@@ -1887,7 +1873,7 @@ export const questionsData: Question[] = [
     text: "Are security controls regularly assessed for compliance with regulatory requirements?",
     description: "Security compliance assessments help organizations ensure adherence to regulatory requirements.",
     helpText: "This includes having proper compliance monitoring and assessment processes.",
-    icon: ClipboardCheck,
+    icon: FileCheck,
     subQuestion: {
       id: "assessment-frequency",
       text: "How often are security controls assessed for compliance?",
@@ -1927,7 +1913,7 @@ export const questionsData: Question[] = [
         effortHours: "40-80",
         priority: "Medium",
         estimatedCostRange: "₹0",
-        icon: ClipboardCheck
+        icon: FileCheck
       },
       {
         id: "one-trust",
@@ -1958,7 +1944,7 @@ export const questionsData: Question[] = [
         effortHours: "80-120",
         priority: "High",
         estimatedCostRange: "₹150,000/year",
-        icon: ClipboardCheck
+        icon: FileCheck
       },
       {
         id: "archer",
@@ -1989,7 +1975,7 @@ export const questionsData: Question[] = [
         effortHours: "120-160",
         priority: "High",
         estimatedCostRange: "₹500,000+/year",
-        icon: ClipboardCheck
+        icon: FileCheck
       }
     ]
   },

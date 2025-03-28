@@ -49,7 +49,10 @@ export function QuestionnaireScreen({
 
     // If there's a sub-question and the answer is "No", set a default value
     if (!compliant && question.subQuestion && subQuestionValue === undefined) {
-      onSubQuestionChange(question.subQuestion.defaultValue || 1)
+      const defaultValue = typeof question.subQuestion.defaultValue === 'string' 
+        ? parseInt(question.subQuestion.defaultValue, 10) 
+        : question.subQuestion.defaultValue || 1;
+      onSubQuestionChange(defaultValue);
     }
 
     // If the answer is "No" and there are recommendations, select the first one by default
@@ -92,7 +95,14 @@ export function QuestionnaireScreen({
             </div>
             <div>
               <CardTitle className="text-xl text-slate-800">{question.text}</CardTitle>
-              {question.description && <p className="text-sm text-slate-600 mt-1">{question.description}</p>}
+              <p className="text-sm text-muted-foreground">
+                {question.description}
+                {question.helpText && (
+                  <span className="block mt-1 text-xs text-muted-foreground">
+                    {question.helpText}
+                  </span>
+                )}
+              </p>
             </div>
           </div>
         </CardHeader>
