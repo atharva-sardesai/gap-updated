@@ -22,7 +22,7 @@ import { ComplianceChart } from "@/components/compliance-chart"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import * as XLSX from 'xlsx'
 import jsPDF from 'jspdf'
-import 'jspdf-autotable'
+import autoTable from 'jspdf-autotable'
 
 interface ResultsScreenProps {
   answers: Answer[]
@@ -265,50 +265,89 @@ export function ResultsScreen({ answers, questions, onRestart }: ResultsScreenPr
     const doc = new jsPDF();
     
     // Add title
-    doc.setFontSize(20);
-    doc.text("ISO 27001 Compliance Assessment Report", 20, 20);
+    doc.setFontSize(16);
+    doc.text("ISO 27001 Compliance Assessment Report", 15, 20);
     
-    // Add summary
+    // Add summary section
     doc.setFontSize(12);
-    doc.text(`Overall Compliance: ${compliancePercentage}%`, 20, 40);
-    doc.text(`Compliant Controls: ${compliantCount}`, 20, 50);
-    doc.text(`Non-Compliant Controls: ${questions.length - compliantCount}`, 20, 60);
+    doc.text("Summary", 15, 35);
+    doc.setFontSize(10);
+    doc.text(`Overall Compliance: ${compliancePercentage}%`, 15, 45);
+    doc.text(`Compliant Controls: ${compliantCount}`, 15, 52);
+    doc.text(`Non-Compliant Controls: ${questions.length - compliantCount}`, 15, 59);
     
-    // Add non-compliant details
-    let yPos = 80;
-    doc.setFontSize(14);
-    doc.text("Non-Compliant Controls and Recommendations", 20, yPos);
+    // Add compliant controls section
+    doc.setFontSize(12);
+    doc.text("Compliant Controls", 15, 75);
     
-    // Prepare table data
-    const tableData = nonCompliantQuestions.map((item) => {
+    const compliantData = questions
+      .map((question, index) => ({
+        question,
+        answer: answers[index],
+      }))
+      .filter((item) => item.answer?.compliant)
+      .map((item) => [
+        item.question.category,
+        item.question.text
+      ]);
+
+    autoTable(doc, {
+      startY: 80,
+      head: [['Category', 'Control']],
+      body: compliantData,
+      theme: 'striped',
+      headStyles: { fillColor: [59, 130, 246] },
+      styles: { fontSize: 8, cellPadding: 2 },
+      columnStyles: {
+        0: { cellWidth: 40 },
+        1: { cellWidth: 140 }
+      }
+    });
+
+    // Add non-compliant controls section
+    const finalY = (doc as any).lastAutoTable.finalY || 80;
+    doc.setFontSize(12);
+    doc.text("Non-Compliant Controls and Recommendations", 15, finalY + 15);
+
+    const nonCompliantData = nonCompliantQuestions.map((item) => {
       const estimates = calculateEstimates(item.question, item.answer);
       return [
         item.question.category,
-        item.question.text.substring(0, 40) + "...",
+        item.question.text,
         estimates.recommendation.name,
         estimates.timeline,
         estimates.cost
       ];
     });
 
-    // Add table
-    (doc as any).autoTable({
-      startY: yPos + 10,
-      head: [['Category', 'Control', 'Solution', 'Timeline', 'Cost']],
-      body: tableData,
-      margin: { top: 20 },
-      styles: { fontSize: 8 },
+    autoTable(doc, {
+      startY: finalY + 20,
+      head: [['Category', 'Control', 'Recommended Solution', 'Timeline', 'Cost']],
+      body: nonCompliantData,
+      theme: 'striped',
+      headStyles: { fillColor: [59, 130, 246] },
+      styles: { fontSize: 8, cellPadding: 2 },
       columnStyles: {
         0: { cellWidth: 30 },
-        1: { cellWidth: 50 },
+        1: { cellWidth: 60 },
         2: { cellWidth: 40 },
         3: { cellWidth: 30 },
         4: { cellWidth: 30 }
       }
     });
-    
+
+    // Add implementation summary
+    const finalY2 = (doc as any).lastAutoTable.finalY || finalY + 20;
+    doc.setFontSize(12);
+    doc.text("Implementation Summary", 15, finalY2 + 15);
+    doc.setFontSize(10);
+    doc.text(`Total Implementation Time: ${allItemsDays} days`, 15, finalY2 + 25);
+    doc.text(`High Priority Items: ${highPriorityDays} days`, 15, finalY2 + 32);
+    doc.text(`Total Effort: ${grandTotalEffort[0]}-${grandTotalEffort[1]} hours`, 15, finalY2 + 39);
+    doc.text(`Estimated Cost Range: ${formatCurrency(grandTotalCost[0])} - ${formatCurrency(grandTotalCost[1])}/year`, 15, finalY2 + 46);
+
     // Save the PDF
-    doc.save("compliance-assessment-report.pdf");
+    doc.save("iso-27001-compliance-report.pdf");
   };
 
   return (
