@@ -87,9 +87,7 @@ export const questionsData: Question[] = [
       text: "Are you interested in integrating a threat intelligence service to monitor and respond to emerging threats relevant to your technology stack?",
       placeholder: "Yes/No",
       unit: "",
-      defaultValue: "No",
-      min: 0,
-      max: 1
+      defaultValue: "No"
     },
     recommendations: [
       {

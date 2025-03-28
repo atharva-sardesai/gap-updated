@@ -138,18 +138,37 @@ export function QuestionnaireScreen({
               <Label htmlFor={question.subQuestion.id} className="text-blue-800 font-medium block mb-2">
                 {question.subQuestion.text}
               </Label>
-              <div className="flex items-center gap-2">
-                <Input
-                  id={question.subQuestion.id}
-                  type="number"
-                  placeholder={question.subQuestion.placeholder}
-                  value={subQuestionValue || ""}
-                  min={question.subQuestion.min || 1}
-                  onChange={handleSubQuestionChange}
-                  className="max-w-xs"
-                />
-                <span className="text-blue-700">{question.subQuestion.unit}</span>
-              </div>
+              {question.subQuestion.unit === "" && question.subQuestion.placeholder === "Yes/No" ? (
+                <div className="flex gap-4">
+                  <Button
+                    variant={subQuestionValue === 1 ? "default" : "outline"}
+                    className={`flex-1 py-2 ${subQuestionValue === 1 ? "bg-green-600 hover:bg-green-700" : ""}`}
+                    onClick={() => onSubQuestionChange(1)}
+                  >
+                    Yes
+                  </Button>
+                  <Button
+                    variant={subQuestionValue === 0 ? "default" : "outline"}
+                    className={`flex-1 py-2 ${subQuestionValue === 0 ? "bg-blue-600 hover:bg-blue-700" : ""}`}
+                    onClick={() => onSubQuestionChange(0)}
+                  >
+                    No
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Input
+                    id={question.subQuestion.id}
+                    type="number"
+                    placeholder={question.subQuestion.placeholder}
+                    value={subQuestionValue || ""}
+                    min={question.subQuestion.min || 1}
+                    onChange={handleSubQuestionChange}
+                    className="max-w-xs"
+                  />
+                  <span className="text-blue-700">{question.subQuestion.unit}</span>
+                </div>
+              )}
             </div>
           )}
 
