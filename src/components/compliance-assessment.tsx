@@ -232,7 +232,7 @@ export function ComplianceAssessment() {
 
         steps.push({
           id: currentStepId++,
-          label: `Question ${question.id}`,
+          label: question.text.length > 30 ? `${question.text.substring(0, 30)}...` : question.text,
           completed: isAnswered,
           current: isCurrentQuestion,
           clickable: true,
