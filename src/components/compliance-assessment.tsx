@@ -8,6 +8,7 @@ import { VerticalProgress } from "@/components/vertical-progress"
 import { questionsData } from "@/lib/questions-data.new"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { LucideIcon } from "lucide-react"
 
 export type Answer = {
   questionId: number
@@ -17,6 +18,30 @@ export type Answer = {
 }
 
 export type AssessmentState = "welcome" | "questionnaire" | "results"
+
+type Question = {
+  id: number;
+  category: string;
+  text: string;
+  description: string;
+  helpText: string;
+  icon: LucideIcon;
+  subQuestion: {
+    text: string;
+    parameters: {
+      min: number;
+      max: number;
+      step: number;
+      unit: string;
+    };
+  };
+  recommendations: {
+    openSource: string;
+    standard: string;
+    premium: string;
+  };
+  answer?: string | null;
+};
 
 // Group questions by category for easier navigation
 const questionsByCategory = questionsData.reduce(
@@ -32,6 +57,15 @@ const questionsByCategory = questionsData.reduce(
 
 // Get all unique categories
 const categories = Object.keys(questionsByCategory)
+
+type Step = {
+  id: number;
+  label: string;
+  completed: boolean;
+  current: boolean;
+  clickable: boolean;
+  questionIndex?: number;
+};
 
 export function ComplianceAssessment() {
   const [currentState, setCurrentState] = useState<AssessmentState>("welcome")
@@ -159,79 +193,56 @@ export function ComplianceAssessment() {
     return Math.round((compliantCount / answers.length) * 100)
   }
 
-  // Modify the generateProgressSteps function to show all questions in the sidebar
-  const generateProgressSteps = () => {
-    // Create a welcome step
-    const steps = [
-      {
-        id: 0,
-        label: "Welcome",
-        completed: currentState !== "welcome",
-        current: currentState === "welcome",
-        clickable: false,
-      },
-    ]
+  const generateSteps = (): Step[] => {
+    const steps: Step[] = [];
+    let currentStepId = 1;
 
-    // Create steps for each category
-    categories.forEach((category, index) => {
-      // Find the first question index for this category
-      const categoryQuestions = questionsByCategory[category]
-      const firstQuestionIndex = questionsData.findIndex((q) => q.id === categoryQuestions[0].id)
+    // Get all unique categories
+    const categories = Object.keys(questionsByCategory);
 
-      // Check if any question in this category is the current one
-      const isCurrent = currentState === "questionnaire" && questionsData[currentQuestionIndex].category === category
+    categories.forEach((category) => {
+      const categoryQuestions = questionsByCategory[category];
+      const categoryId = currentStepId++;
+      const firstQuestionIndex = categoryQuestions[0].id;
 
-      // Check if all questions in this category have been answered
-      const isCompleted =
-        answers.length > 0 && categoryQuestions.every((q) => answers.some((a) => a.questionId === q.id))
+      // Check if this category is completed
+      const isCompleted = categoryQuestions.every((q) => 
+        answers.some((a) => a.questionId === q.id)
+      );
+      const isCurrent = categoryQuestions.some((q) => 
+        currentQuestionIndex === questionsData.findIndex((qd) => qd.id === q.id)
+      );
+      const isClickable = isCompleted || isCurrent;
 
-      // Check if any question in this category has been visited
-      const hasVisited = categoryQuestions.some((q) => {
-        const questionIndex = questionsData.findIndex((qd) => qd.id === q.id)
-        return visitedQuestions.includes(questionIndex)
-      })
-
-      // A category is clickable if it has been visited or is the current category
-      const isClickable = hasVisited || isCurrent
-
+      // Add category step
       steps.push({
-        id: index + 1,
+        id: categoryId,
         label: category,
-        completed: isCompleted || currentState === "results",
+        completed: isCompleted,
         current: isCurrent,
         clickable: isClickable,
         questionIndex: firstQuestionIndex,
-      })
+      });
 
       // Add steps for each question in this category (always show all questions)
-      categoryQuestions.forEach((question, qIndex) => {
-        const questionIndex = questionsData.findIndex((q) => q.id === question.id)
-        const isAnswered = answers.some((a) => a.questionId === question.id)
-        const isCurrentQuestion = currentQuestionIndex === questionIndex
-        const hasVisitedQuestion = visitedQuestions.includes(questionIndex)
+      categoryQuestions.forEach((question) => {
+        const questionIndex = questionsData.findIndex((q) => q.id === question.id);
+        const isAnswered = answers.some((a) => a.questionId === question.id);
+        const isCurrentQuestion = currentQuestionIndex === questionIndex;
 
         steps.push({
-          id: `${index + 1}-${qIndex + 1}`,
-          label: `Q${questionIndex + 1}: ${question.text && question.text.length > 25 ? question.text.substring(0, 25) + "..." : question.text}`,
+          id: currentStepId++,
+          label: `Question ${question.id}`,
           completed: isAnswered,
           current: isCurrentQuestion,
-          clickable: hasVisitedQuestion || isCurrentQuestion,
-          questionIndex: questionIndex,
-        })
-      })
-    })
+          clickable: true,
+          questionIndex: question.id,
+        });
+      });
+    });
 
-    // Add a results step
-    steps.push({
-      id: categories.length + 1,
-      label: "Results",
-      completed: false,
-      current: currentState === "results",
-      clickable: answers.length > 0, // Clickable if at least one question is answered
-    })
-
-    return steps
-  }
+    return steps;
+  };
 
   // Calculate the number of answered questions
   const answeredQuestionsCount = answers.filter((a) => a !== undefined).length
@@ -302,7 +313,7 @@ export function ComplianceAssessment() {
       </div>
 
       <div className="md:col-span-1 h-fit sticky top-8">
-        <VerticalProgress steps={generateProgressSteps()} onStepClick={handleNavigateToQuestion} />
+        <VerticalProgress steps={generateSteps()} onStepClick={handleNavigateToQuestion} />
       </div>
     </div>
   )
