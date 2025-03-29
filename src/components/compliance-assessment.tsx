@@ -5,7 +5,7 @@ import { WelcomeScreen } from "@/components/welcome-screen"
 import { QuestionnaireScreen } from "@/components/questionnaire-screen"
 import { ResultsScreen } from "@/components/results-screen"
 import { VerticalProgress } from "@/components/vertical-progress"
-import questionsData from "@/lib/questions-data.new"
+import questionsData, { Question } from "@/lib/questions-data"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { LucideIcon } from "lucide-react"
@@ -18,30 +18,6 @@ export type Answer = {
 }
 
 export type AssessmentState = "welcome" | "questionnaire" | "results"
-
-type Question = {
-  id: number;
-  category: string;
-  text: string;
-  description: string;
-  helpText: string;
-  icon: LucideIcon;
-  subQuestion: {
-    text: string;
-    parameters: {
-      min: number;
-      max: number;
-      step: number;
-      unit: string;
-    };
-  };
-  recommendations: {
-    openSource: string;
-    standard: string;
-    premium: string;
-  };
-  answer?: string | null;
-};
 
 // Group questions by category for easier navigation
 const questionsByCategory = questionsData.reduce(
@@ -230,6 +206,14 @@ export function ComplianceAssessment() {
 
   // Calculate the number of answered questions
   const answeredQuestionsCount = answers.filter((a) => a !== undefined).length
+
+  const totalQuestions = questionsData.length;
+  const totalCategories = Object.keys(
+    questionsData.reduce((acc: Record<string, boolean>, question: Question) => {
+      acc[question.category] = true;
+      return acc;
+    }, {} as Record<string, boolean>)
+  ).length;
 
   // Update the return JSX to show navigation buttons for previous and next questions
   return (

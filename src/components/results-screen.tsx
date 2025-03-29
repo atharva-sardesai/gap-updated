@@ -17,7 +17,7 @@ import {
   FileSpreadsheet,
 } from "lucide-react"
 import type { Answer } from "@/components/compliance-assessment"
-import type { Question } from "@/lib/questions-data.new"
+import type { Question } from "@/lib/questions-data"
 import { ComplianceChart } from "@/components/compliance-chart"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import * as XLSX from 'xlsx'
