@@ -46,6 +46,74 @@ interface CategorySummary {
   items: number
 }
 
+// Helper function to extract cost values
+function extractCostValue(costRange: string, type: "min" | "max"): number {
+  // Handle different formats like "₹500-1,000/year" or "₹2,500/year"
+  try {
+    // Remove currency symbol and any text after the numbers
+    const numericPart = costRange.split("/")[0].replace("₹", "").trim()
+
+    if (numericPart.includes("–") || numericPart.includes("-")) {
+      const separator = numericPart.includes("–") ? "–" : "-"
+      const [min, max] = numericPart.split(separator).map((part) => Number.parseInt(part.replace(/,/g, "")))
+      return type === "min" ? min : max
+    } else {
+      const value = Number.parseInt(numericPart.replace(/,/g, ""))
+      return value
+    }
+  } catch (e) {
+    return 0
+  }
+}
+
+// Format currency
+function formatCurrency(amount: number): string {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(amount)
+}
+
+// Calculate estimates based on sub-question value and selected recommendation
+function calculateEstimates(question: Question, answer: Answer) {
+  // Find the selected recommendation
+  const recommendation =
+    question.recommendations.find((r) => r.id === answer.selectedRecommendationId) || question.recommendations[0]
+
+  // Make sure subQuestionValue is a valid number
+  const validSubQuestionValue =
+    answer.subQuestionValue !== undefined && !isNaN(answer.subQuestionValue) ? answer.subQuestionValue : 0
+
+  // Calculate effort
+  const effort = recommendation.calculateEffort
+    ? recommendation.calculateEffort(validSubQuestionValue)
+    : recommendation.effortHours
+
+  // Calculate timeline
+  const timeline = recommendation.calculateTimeline
+    ? recommendation.calculateTimeline(validSubQuestionValue)
+    : recommendation.recommendedTimeline
+
+  // Calculate cost based on sub-question value and recommendation
+  let cost = recommendation.estimatedCostRange
+  if (recommendation.calculateCost && validSubQuestionValue > 0) {
+    cost = recommendation.calculateCost(validSubQuestionValue)
+  } else if (validSubQuestionValue > 0) {
+    // If no calculateCost function but we have a sub-question value, adjust the cost based on the value
+    const baseCost = extractCostValue(recommendation.estimatedCostRange, "min")
+    const adjustedCost = baseCost * validSubQuestionValue
+    cost = formatCurrency(adjustedCost) + "/year"
+  }
+
+  return {
+    effort,
+    timeline,
+    cost,
+    recommendation,
+  }
+}
+
 export function ResultsScreen({ answers, questions, onRestart }: ResultsScreenProps) {
   const compliantCount = answers.filter((answer) => answer.compliant).length
   const compliancePercentage = Math.round((compliantCount / questions.length) * 100)
@@ -70,39 +138,6 @@ export function ResultsScreen({ answers, questions, onRestart }: ResultsScreenPr
     },
     {} as Record<string, typeof nonCompliantQuestions>,
   )
-
-  // Calculate estimates based on sub-question value and selected recommendation
-  const calculateEstimates = (question: Question, answer: Answer) => {
-    // Find the selected recommendation
-    const recommendation =
-      question.recommendations.find((r) => r.id === answer.selectedRecommendationId) || question.recommendations[0]
-
-    // Make sure subQuestionValue is a valid number
-    const validSubQuestionValue =
-      answer.subQuestionValue !== undefined && !isNaN(answer.subQuestionValue) ? answer.subQuestionValue : 0
-
-    if (!validSubQuestionValue || validSubQuestionValue <= 0) {
-      return {
-        effort: recommendation.effortHours,
-        timeline: recommendation.recommendedTimeline,
-        cost: recommendation.estimatedCostRange,
-        recommendation,
-      }
-    }
-
-    return {
-      effort: recommendation.calculateEffort
-        ? recommendation.calculateEffort(validSubQuestionValue)
-        : recommendation.effortHours,
-      timeline: recommendation.calculateTimeline
-        ? recommendation.calculateTimeline(validSubQuestionValue)
-        : recommendation.recommendedTimeline,
-      cost: recommendation.calculateCost
-        ? recommendation.calculateCost(validSubQuestionValue)
-        : recommendation.estimatedCostRange,
-      recommendation,
-    }
-  }
 
   // Generate timeline items
   const timelineItems: TimelineItem[] = nonCompliantQuestions
@@ -173,35 +208,6 @@ export function ResultsScreen({ answers, questions, onRestart }: ResultsScreenPr
     (acc, summary) => [acc[0] + summary.totalCost[0], acc[1] + summary.totalCost[1]],
     [0, 0],
   )
-
-  // Helper function to extract cost values
-  function extractCostValue(costRange: string, type: "min" | "max"): number {
-    // Handle different formats like "₹500-1,000/year" or "₹2,500/year"
-    try {
-      // Remove currency symbol and any text after the numbers
-      const numericPart = costRange.split("/")[0].replace("₹", "").trim()
-
-      if (numericPart.includes("–") || numericPart.includes("-")) {
-        const separator = numericPart.includes("–") ? "–" : "-"
-        const [min, max] = numericPart.split(separator).map((part) => Number.parseInt(part.replace(/,/g, "")))
-        return type === "min" ? min : max
-      } else {
-        const value = Number.parseInt(numericPart.replace(/,/g, ""))
-        return value
-      }
-    } catch (e) {
-      return 0
-    }
-  }
-
-  // Format currency
-  function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: "INR",
-      maximumFractionDigits: 0,
-    }).format(amount)
-  }
 
   // Calculate days to complete all high priority items
   const highPriorityDays = Math.max(
@@ -674,28 +680,7 @@ function NonCompliantCategory({
       <CollapsibleContent>
         <div className="px-4 pb-4 pt-1 space-y-4">
           {items.map((item, index) => {
-            // Find the selected recommendation
-            const selectedRecommendation =
-              item.question.recommendations.find((r) => r.id === item.answer.selectedRecommendationId) ||
-              item.question.recommendations[0]
-
-            // Calculate estimates
-            const estimates =
-              selectedRecommendation.calculateEffort && item.answer.subQuestionValue
-                ? {
-                    effort: selectedRecommendation.calculateEffort(item.answer.subQuestionValue),
-                    timeline: selectedRecommendation.calculateTimeline
-                      ? selectedRecommendation.calculateTimeline(item.answer.subQuestionValue)
-                      : selectedRecommendation.recommendedTimeline,
-                    cost: selectedRecommendation.calculateCost
-                      ? selectedRecommendation.calculateCost(item.answer.subQuestionValue)
-                      : selectedRecommendation.estimatedCostRange,
-                  }
-                : {
-                    effort: selectedRecommendation.effortHours,
-                    timeline: selectedRecommendation.recommendedTimeline,
-                    cost: selectedRecommendation.estimatedCostRange,
-                  }
+            const estimates = calculateEstimates(item.question, item.answer)
 
             return (
               <div key={index} className="border-t pt-4">
@@ -716,18 +701,18 @@ function NonCompliantCategory({
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-green-500" />
-                      <h6 className="font-medium text-slate-800">Selected Solution: {selectedRecommendation.name}</h6>
+                      <h6 className="font-medium text-slate-800">Selected Solution: {estimates.recommendation.name}</h6>
                     </div>
                     <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">{estimates.cost}</span>
                   </div>
-                  <p className="text-sm text-slate-600 mt-1">{selectedRecommendation.shortDescription}</p>
+                  <p className="text-sm text-slate-600 mt-1">{estimates.recommendation.shortDescription}</p>
 
                   <div className="mt-3 flex flex-wrap gap-2">
                     <Button
                       size="sm"
                       variant="outline"
                       className="text-xs"
-                      onClick={() => window.open(selectedRecommendation.officialWebsite, "_blank")}
+                      onClick={() => window.open(estimates.recommendation.officialWebsite, "_blank")}
                     >
                       <ExternalLink className="mr-1 h-3 w-3" />
                       Visit Website
@@ -735,7 +720,7 @@ function NonCompliantCategory({
                     <Button
                       size="sm"
                       className="text-xs"
-                      onClick={() => window.open(selectedRecommendation.pricingPage, "_blank")}
+                      onClick={() => window.open(estimates.recommendation.pricingPage, "_blank")}
                     >
                       <DollarSign className="mr-1 h-3 w-3" />
                       See Pricing
@@ -753,7 +738,7 @@ function NonCompliantCategory({
                     </div>
                     <div className="flex items-center gap-1">
                       <AlertTriangle className="h-3 w-3" />
-                      Priority: {selectedRecommendation.priority}
+                      Priority: {estimates.recommendation.priority}
                     </div>
                   </div>
                 </div>
