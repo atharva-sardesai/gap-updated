@@ -8,6 +8,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import type { Recommendation } from "@/lib/questions-data.new"
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
 interface RecommendationPanelProps {
   recommendations: Recommendation[]
@@ -56,6 +57,49 @@ export function RecommendationPanel({
 
   const handleRecommendationSelect = (recommendationId: string) => {
     onSelectRecommendation(questionId, recommendationId)
+  }
+
+  const [selectedTier, setSelectedTier] = useState<"open-source" | "enterprise" | "cloud">("open-source")
+
+  // Calculate cost based on sub-question value
+  const calculateCost = (recommendation: Recommendation) => {
+    if (!subQuestionValue || subQuestionValue <= 0) {
+      return recommendation.estimatedCostRange;
+    }
+
+    if (recommendation.calculateCost) {
+      return recommendation.calculateCost(subQuestionValue);
+    }
+
+    // If no calculateCost function but we have a sub-question value, adjust the cost based on the value
+    const baseCost = extractCostValue(recommendation.estimatedCostRange, "min");
+    const adjustedCost = baseCost * subQuestionValue;
+    return formatCurrency(adjustedCost) + "/year";
+  };
+
+  // Helper function to extract cost values
+  function extractCostValue(costRange: string, type: "min" | "max"): number {
+    try {
+      const numericPart = costRange.split("/")[0].replace("₹", "").trim();
+      if (numericPart.includes("–") || numericPart.includes("-")) {
+        const separator = numericPart.includes("–") ? "–" : "-";
+        const [min, max] = numericPart.split(separator).map((part) => Number.parseInt(part.replace(/,/g, "")));
+        return type === "min" ? min : max;
+      } else {
+        return Number.parseInt(numericPart.replace(/,/g, ""));
+      }
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  // Format currency
+  function formatCurrency(amount: number): string {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0,
+    }).format(amount);
   }
 
   return (

@@ -244,10 +244,14 @@ export function ResultsScreen({ answers, questions, onRestart }: ResultsScreenPr
     // Prepare data for non-compliant controls
     const nonCompliantData = nonCompliantQuestions.map((item) => {
       const estimates = calculateEstimates(item.question, item.answer);
+      const subQuestionInfo = item.question.subQuestion && item.answer.subQuestionValue
+        ? `${item.question.subQuestion.text}: ${item.answer.subQuestionValue} ${item.question.subQuestion.unit}`
+        : '';
+      
       return {
         'Control Category': item.question.category,
         'Control': item.question.text,
-        'Status': 'Non-Compliant',
+        'Sub-Question Details': subQuestionInfo,
         'Selected Solution': estimates.recommendation.name,
         'Implementation Time': estimates.timeline,
         'Effort (Hours)': estimates.effort,
@@ -317,9 +321,14 @@ export function ResultsScreen({ answers, questions, onRestart }: ResultsScreenPr
 
     const nonCompliantData = nonCompliantQuestions.map((item) => {
       const estimates = calculateEstimates(item.question, item.answer);
+      const subQuestionInfo = item.question.subQuestion && item.answer.subQuestionValue
+        ? `${item.question.subQuestion.text}: ${item.answer.subQuestionValue} ${item.question.subQuestion.unit}`
+        : '';
+      
       return [
         item.question.category,
         item.question.text,
+        subQuestionInfo,
         estimates.recommendation.name,
         estimates.timeline,
         estimates.cost
@@ -328,17 +337,18 @@ export function ResultsScreen({ answers, questions, onRestart }: ResultsScreenPr
 
     autoTable(doc, {
       startY: finalY + 20,
-      head: [['Category', 'Control', 'Recommended Solution', 'Timeline', 'Cost']],
+      head: [['Category', 'Control', 'Sub-Question Details', 'Recommended Solution', 'Timeline', 'Cost']],
       body: nonCompliantData,
       theme: 'striped',
       headStyles: { fillColor: [59, 130, 246] },
       styles: { fontSize: 8, cellPadding: 2 },
       columnStyles: {
-        0: { cellWidth: 30 },
-        1: { cellWidth: 60 },
+        0: { cellWidth: 25 },
+        1: { cellWidth: 50 },
         2: { cellWidth: 40 },
-        3: { cellWidth: 30 },
-        4: { cellWidth: 30 }
+        3: { cellWidth: 35 },
+        4: { cellWidth: 25 },
+        5: { cellWidth: 25 }
       }
     });
 
