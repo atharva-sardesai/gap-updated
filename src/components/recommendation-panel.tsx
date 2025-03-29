@@ -45,10 +45,21 @@ export function RecommendationPanel({
         ? recommendation.calculateTimeline(validSubQuestionValue)
         : recommendation.recommendedTimeline
 
-    const cost =
-      recommendation.calculateCost && validSubQuestionValue > 0
-        ? recommendation.calculateCost(validSubQuestionValue)
-        : recommendation.estimatedCostRange
+    let cost = recommendation.estimatedCostRange
+    if (validSubQuestionValue > 0) {
+      if (recommendation.calculateCost) {
+        cost = recommendation.calculateCost(validSubQuestionValue)
+      } else if (recommendation.perUnitCost) {
+        const { amount, unit, period } = recommendation.perUnitCost
+        const totalCost = amount * validSubQuestionValue
+        cost = formatCurrency(totalCost) + `/${period}`
+      } else {
+        // If no calculateCost or perUnitCost, adjust based on base cost
+        const baseCost = extractCostValue(recommendation.estimatedCostRange, "min")
+        const adjustedCost = baseCost * validSubQuestionValue
+        cost = formatCurrency(adjustedCost) + "/year"
+      }
+    }
 
     return { effort, timeline, cost }
   }
