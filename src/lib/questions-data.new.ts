@@ -821,7 +821,7 @@ export const questionsData: Question[] = [
         organizationSize: "Medium to Large",
         effortHours: "40-80",
         priority: "High",
-        estimatedCostRange: "₹1,000/user/year",
+        estimatedCostRange: "₹2,500/user/year",
         icon: GraduationCap
       },
       {
@@ -852,7 +852,7 @@ export const questionsData: Question[] = [
         organizationSize: "Large Enterprise",
         effortHours: "80-120",
         priority: "High",
-        estimatedCostRange: "₹2,500/user/year",
+        estimatedCostRange: "₹5,000/user/year",
         icon: GraduationCap
       }
     ]
@@ -1269,7 +1269,7 @@ export const questionsData: Question[] = [
         organizationSize: "Medium to Large",
         effortHours: "80-120",
         priority: "High",
-        estimatedCostRange: "₹100/GB/day",
+        estimatedCostRange: "₹250/GB/day",
         icon: Activity
       },
       {
@@ -1717,7 +1717,7 @@ export const questionsData: Question[] = [
         organizationSize: "Medium to Large",
         effortHours: "80-120",
         priority: "High",
-        estimatedCostRange: "₹100,000/year",
+        estimatedCostRange: "₹25,000/incident/year",
         icon: AlertCircle
       },
       {
@@ -1829,7 +1829,7 @@ export const questionsData: Question[] = [
         organizationSize: "Medium to Large",
         effortHours: "80-120",
         priority: "High",
-        estimatedCostRange: "₹50,000/workload/year",
+        estimatedCostRange: "₹15,000/workload/year",
         icon: Cloud
       },
       {
@@ -1860,7 +1860,7 @@ export const questionsData: Question[] = [
         organizationSize: "Large Enterprise",
         effortHours: "120-160",
         priority: "High",
-        estimatedCostRange: "₹200,000+/year",
+        estimatedCostRange: "₹500,000+/year",
         icon: Cloud
       }
     ]
@@ -2725,7 +2725,7 @@ export const questionsData: Question[] = [
         organizationSize: "Medium to Large",
         effortHours: "80-120",
         priority: "High",
-        estimatedCostRange: "₹100/GB/day",
+        estimatedCostRange: "₹250/GB/day",
         icon: Activity
       },
       {
@@ -4181,7 +4181,7 @@ export const questionsData: Question[] = [
         organizationSize: "Medium to Large",
         effortHours: "80-120",
         priority: "High",
-        estimatedCostRange: "₹1,000/user/year",
+        estimatedCostRange: "₹2,500/user/year",
         icon: Brain
       },
       {
@@ -4212,7 +4212,7 @@ export const questionsData: Question[] = [
         organizationSize: "Large Enterprise",
         effortHours: "120-160",
         priority: "High",
-        estimatedCostRange: "₹3,000+/user/year",
+        estimatedCostRange: "₹5,000+/user/year",
         icon: Brain
       }
     ]
@@ -4293,7 +4293,7 @@ export const questionsData: Question[] = [
         organizationSize: "Medium to Large",
         effortHours: "80-120",
         priority: "High",
-        estimatedCostRange: "₹100/GB/day",
+        estimatedCostRange: "₹250/GB/day",
         icon: Activity
       },
       {
@@ -4741,7 +4741,7 @@ export const questionsData: Question[] = [
         organizationSize: "Medium to Large",
         effortHours: "80-120",
         priority: "High",
-        estimatedCostRange: "₹10,000/incident/year",
+        estimatedCostRange: "₹25,000/incident/year",
         icon: AlertTriangle
       },
       {
@@ -5749,7 +5749,7 @@ export const questionsData: Question[] = [
         organizationSize: "Medium to Large",
         effortHours: "80-120",
         priority: "High",
-        estimatedCostRange: "₹100/GB/day",
+        estimatedCostRange: "₹250/GB/day",
         icon: Activity
       },
       {

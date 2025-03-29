@@ -48,20 +48,25 @@ interface CategorySummary {
 
 // Helper function to extract cost values
 function extractCostValue(costRange: string, type: "min" | "max"): number {
-  // Handle different formats like "₹500-1,000/year" or "₹2,500/year"
+  if (!costRange) return 0;
+  
   try {
     // Remove currency symbol and any text after the numbers
     const numericPart = costRange.split("/")[0].replace("₹", "").trim()
 
     if (numericPart.includes("–") || numericPart.includes("-")) {
       const separator = numericPart.includes("–") ? "–" : "-"
-      const [min, max] = numericPart.split(separator).map((part) => Number.parseInt(part.replace(/,/g, "")))
+      const [min, max] = numericPart.split(separator).map((part) => {
+        const value = Number.parseInt(part.replace(/,/g, ""))
+        return isNaN(value) ? 0 : value
+      })
       return type === "min" ? min : max
     } else {
       const value = Number.parseInt(numericPart.replace(/,/g, ""))
-      return value
+      return isNaN(value) ? 0 : value
     }
   } catch (e) {
+    console.error("Error extracting cost value:", e)
     return 0
   }
 }
@@ -77,40 +82,76 @@ function formatCurrency(amount: number): string {
 
 // Calculate estimates based on sub-question value and selected recommendation
 function calculateEstimates(question: Question, answer: Answer) {
-  // Find the selected recommendation
-  const recommendation =
-    question.recommendations.find((r) => r.id === answer.selectedRecommendationId) || question.recommendations[0]
+  try {
+    // Find the selected recommendation
+    const recommendation =
+      question.recommendations.find((r) => r.id === answer.selectedRecommendationId) || question.recommendations[0]
 
-  // Make sure subQuestionValue is a valid number
-  const validSubQuestionValue =
-    answer.subQuestionValue !== undefined && !isNaN(answer.subQuestionValue) ? answer.subQuestionValue : 0
+    if (!recommendation) {
+      throw new Error("No recommendation found")
+    }
 
-  // Calculate effort
-  const effort = recommendation.calculateEffort
-    ? recommendation.calculateEffort(validSubQuestionValue)
-    : recommendation.effortHours
+    // Make sure subQuestionValue is a valid number
+    const validSubQuestionValue =
+      answer.subQuestionValue !== undefined && !isNaN(Number(answer.subQuestionValue)) 
+        ? Number(answer.subQuestionValue) 
+        : 0
 
-  // Calculate timeline
-  const timeline = recommendation.calculateTimeline
-    ? recommendation.calculateTimeline(validSubQuestionValue)
-    : recommendation.recommendedTimeline
+    // Calculate effort
+    const effort = recommendation.calculateEffort
+      ? recommendation.calculateEffort(validSubQuestionValue)
+      : recommendation.effortHours
 
-  // Calculate cost based on sub-question value and recommendation
-  let cost = recommendation.estimatedCostRange
-  if (recommendation.calculateCost && validSubQuestionValue > 0) {
-    cost = recommendation.calculateCost(validSubQuestionValue)
-  } else if (validSubQuestionValue > 0) {
-    // If no calculateCost function but we have a sub-question value, adjust the cost based on the value
-    const baseCost = extractCostValue(recommendation.estimatedCostRange, "min")
-    const adjustedCost = baseCost * validSubQuestionValue
-    cost = formatCurrency(adjustedCost) + "/year"
-  }
+    // Calculate timeline
+    const timeline = recommendation.calculateTimeline
+      ? recommendation.calculateTimeline(validSubQuestionValue)
+      : recommendation.recommendedTimeline
 
-  return {
-    effort,
-    timeline,
-    cost,
-    recommendation,
+    // Calculate cost based on sub-question value and recommendation
+    let cost = recommendation.estimatedCostRange
+    if (recommendation.calculateCost && validSubQuestionValue > 0) {
+      cost = recommendation.calculateCost(validSubQuestionValue)
+    } else if (validSubQuestionValue > 0) {
+      // If no calculateCost function but we have a sub-question value, adjust the cost based on the value
+      const baseCost = extractCostValue(recommendation.estimatedCostRange, "min")
+      const adjustedCost = baseCost * validSubQuestionValue
+      cost = formatCurrency(adjustedCost) + "/year"
+    }
+
+    return {
+      effort,
+      timeline,
+      cost,
+      recommendation,
+    }
+  } catch (error) {
+    console.error("Error calculating estimates:", error)
+    // Return default values in case of error
+    return {
+      effort: "0",
+      timeline: "Within 30 days",
+      cost: "₹0/year",
+      recommendation: question.recommendations[0] || {
+        id: "default",
+        tier: "standard",
+        name: "Default Solution",
+        shortDescription: "Default solution description",
+        description: "Default solution description",
+        pros: [],
+        cons: [],
+        pricing: "Free",
+        pricingModel: "Free",
+        officialWebsite: "#",
+        pricingPage: "#",
+        setupTime: "1 day",
+        recommendedTimeline: "Within 30 days",
+        requiredResources: "Basic",
+        organizationSize: "Any",
+        effortHours: "0",
+        priority: "Low",
+        estimatedCostRange: "₹0/year"
+      }
+    }
   }
 }
 
