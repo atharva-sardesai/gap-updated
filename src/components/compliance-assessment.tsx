@@ -79,17 +79,18 @@ export function ComplianceAssessment() {
   const handleSubQuestionChange = (value: number) => {
     const newAnswers = [...answers]
 
-    // If we don't have an answer yet, create one
+    // If we don't have an answer yet, create one with compliant set to false
     if (!newAnswers[currentQuestionIndex]) {
       newAnswers[currentQuestionIndex] = {
         questionId: questionsData[currentQuestionIndex].id,
-        compliant: false,
+        compliant: false, // Set compliant to false when answering subquestion
         subQuestionValue: value,
       }
     } else {
-      // Otherwise update the existing answer
+      // Otherwise update the existing answer, ensuring compliant is set
       newAnswers[currentQuestionIndex] = {
         ...newAnswers[currentQuestionIndex],
+        compliant: newAnswers[currentQuestionIndex].compliant ?? false, // Ensure compliant has a value
         subQuestionValue: value,
       }
     }
@@ -103,17 +104,18 @@ export function ComplianceAssessment() {
     // Find the question index
     const questionIndex = currentQuestionIndex
 
-    // If we don't have an answer yet, create one
+    // If we don't have an answer yet, create one with compliant set to false
     if (!newAnswers[questionIndex]) {
       newAnswers[questionIndex] = {
         questionId,
-        compliant: false,
+        compliant: false, // Set compliant to false when selecting recommendation
         selectedRecommendationId: recommendationId,
       }
     } else {
-      // Otherwise update the existing answer
+      // Otherwise update the existing answer, ensuring compliant is set
       newAnswers[questionIndex] = {
         ...newAnswers[questionIndex],
+        compliant: newAnswers[questionIndex].compliant ?? false, // Ensure compliant has a value
         selectedRecommendationId: recommendationId,
       }
     }
@@ -165,8 +167,11 @@ export function ComplianceAssessment() {
   // Calculate compliance percentage for real-time tracking
   const calculateCompliancePercentage = () => {
     if (answers.length === 0) return 0
-    const compliantCount = answers.filter((answer) => answer.compliant).length
-    return Math.round((compliantCount / answers.length) * 100)
+    // Filter out undefined answers and then count compliant ones
+    const validAnswers = answers.filter((answer): answer is Answer => answer !== undefined)
+    const compliantCount = validAnswers.filter((answer) => answer.compliant).length
+    // Calculate percentage based on total questions rather than just answered questions
+    return Math.round((compliantCount / questionsData.length) * 100)
   }
 
   const generateSteps = () => {

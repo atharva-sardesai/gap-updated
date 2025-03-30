@@ -156,14 +156,25 @@ function calculateEstimates(question: Question, answer: Answer) {
 }
 
 export function ResultsScreen({ answers, questions, onRestart }: ResultsScreenProps) {
-  const compliantCount = answers.filter((answer) => answer.compliant).length
+  // Fill in any unanswered questions with compliant=true
+  const filledAnswers = questions.map((question, index) => {
+    if (!answers[index]) {
+      return {
+        questionId: question.id,
+        compliant: true // Default unanswered questions to YES (compliant)
+      };
+    }
+    return answers[index];
+  });
+
+  const compliantCount = filledAnswers.filter((answer) => answer.compliant).length
   const compliancePercentage = Math.round((compliantCount / questions.length) * 100)
 
   // Get non-compliant questions with their answers
   const nonCompliantQuestions = questions
     .map((question, index) => ({
       question,
-      answer: answers[index],
+      answer: filledAnswers[index],
     }))
     .filter((item) => !item.answer?.compliant)
 
@@ -273,7 +284,7 @@ export function ResultsScreen({ answers, questions, onRestart }: ResultsScreenPr
     const compliantData = questions
       .map((question, index) => ({
         question,
-        answer: answers[index],
+        answer: filledAnswers[index],
       }))
       .filter((item) => item.answer?.compliant)
       .map((item) => ({
@@ -334,7 +345,7 @@ export function ResultsScreen({ answers, questions, onRestart }: ResultsScreenPr
     const compliantData = questions
       .map((question, index) => ({
         question,
-        answer: answers[index],
+        answer: filledAnswers[index],
       }))
       .filter((item) => item.answer?.compliant)
       .map((item) => [
