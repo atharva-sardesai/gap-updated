@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ChevronDown, Clock, ExternalLink, Users, Calendar, DollarSign, AlertTriangle } from "lucide-react"
+import { ChevronDown, Clock, ExternalLink, Users, Calendar, DollarSign, AlertTriangle, CheckCircle2 } from "lucide-react"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
@@ -14,10 +14,11 @@ import { Input } from "@/components/ui/input"
 interface RecommendationPanelProps {
   recommendations: Recommendation[]
   questionCategory: string
-  questionId: number
+  questionId: string
   subQuestionValue?: number
   selectedRecommendationId?: string
   onSelectRecommendation: (questionId: number, recommendationId: string) => void
+  onSubQuestionChange: (value: number) => void
 }
 
 export function RecommendationPanel({
@@ -27,13 +28,46 @@ export function RecommendationPanel({
   subQuestionValue = 0,
   selectedRecommendationId,
   onSelectRecommendation,
+  onSubQuestionChange,
 }: RecommendationPanelProps) {
+  const [inputError, setInputError] = useState<string>("")
+  const [isOpen, setIsOpen] = useState(false)
+
   // Get the first recommendation for timeline details
   const primaryRecommendation = recommendations.find((r) => r.id === selectedRecommendationId) || recommendations[0]
 
+  const handleCustomEffortChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    const numValue = Number.parseInt(value)
+    
+    // Always update the input value
+    if (value === "") {
+      setInputError("Please enter a value")
+    } else if (isNaN(numValue)) {
+      setInputError("Please enter a valid number")
+    } else if (numValue < 40) {
+      setInputError("Value must be at least 40 hours")
+    } else if (numValue > 2000) {
+      setInputError("Value cannot exceed 2000 hours")
+    } else {
+      setInputError("")
+      // Update the parent component's subQuestionValue through onSubQuestionChange
+      onSubQuestionChange(numValue)
+    }
+  }
+
   // Calculate estimates based on sub-question value
   const calculateEstimates = (recommendation: Recommendation) => {
-    // Make sure subQuestionValue is a valid number before using it
+    // For custom solutions, use the subQuestionValue directly
+    if (recommendation.id === "custom-solution") {
+      return {
+        effort: subQuestionValue || 0,
+        timeline: subQuestionValue ? `${Math.ceil(subQuestionValue / 40)} weeks` : "0 weeks",
+        cost: "Internal Cost"
+      }
+    }
+
+    // For other recommendations, use the existing logic
     const validSubQuestionValue = subQuestionValue !== undefined && !isNaN(subQuestionValue) ? subQuestionValue : 0
 
     const effort =
@@ -46,8 +80,8 @@ export function RecommendationPanel({
         ? recommendation.calculateTimeline(validSubQuestionValue)
         : recommendation.recommendedTimeline
 
-    let cost = recommendation.id === "custom-solution" ? "Internal Cost" : recommendation.estimatedCostRange
-    if (recommendation.id !== "custom-solution" && validSubQuestionValue > 0) {
+    let cost = recommendation.estimatedCostRange
+    if (validSubQuestionValue > 0) {
       if (recommendation.calculateCost) {
         cost = recommendation.calculateCost(validSubQuestionValue)
       } else if (recommendation.perUnitCost) {
@@ -68,7 +102,8 @@ export function RecommendationPanel({
   const primaryEstimates = calculateEstimates(primaryRecommendation)
 
   const handleRecommendationSelect = (recommendationId: string) => {
-    onSelectRecommendation(questionId, recommendationId)
+    console.log("Selecting recommendation:", { questionId: Number(questionId), recommendationId })
+    onSelectRecommendation(Number(questionId), recommendationId)
   }
 
   const [selectedTier, setSelectedTier] = useState<"open-source" | "enterprise" | "cloud">("open-source")
@@ -125,7 +160,11 @@ export function RecommendationPanel({
 
       <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
         <h4 className="font-medium text-blue-800 mb-3">Select Your Preferred Solution</h4>
-        <RadioGroup value={selectedRecommendationId} onValueChange={handleRecommendationSelect} className="space-y-3">
+        <RadioGroup 
+          value={selectedRecommendationId || recommendations[0]?.id} 
+          onValueChange={handleRecommendationSelect} 
+          className="space-y-3"
+        >
           {recommendations.map((rec) => {
             const estimates = calculateEstimates(rec)
             return (
@@ -171,7 +210,7 @@ export function RecommendationPanel({
             </TabsList>
 
             <TabsContent value="details" className="space-y-4">
-              <RecommendationCard recommendation={primaryRecommendation} subQuestionValue={subQuestionValue} />
+              <RecommendationCard recommendation={primaryRecommendation} subQuestionValue={subQuestionValue} onSubQuestionChange={onSubQuestionChange} />
             </TabsContent>
 
             <TabsContent value="implementation" className="space-y-4">
@@ -249,21 +288,25 @@ export function RecommendationPanel({
 function RecommendationCard({
   recommendation,
   subQuestionValue = 0,
-}: { recommendation: Recommendation; subQuestionValue?: number }) {
+  onSubQuestionChange,
+}: {
+  recommendation: Recommendation
+  subQuestionValue?: number
+  onSubQuestionChange: (value: number) => void
+}) {
   const [isOpen, setIsOpen] = useState(false)
-  const [customEffortHours, setCustomEffortHours] = useState<number>(400)
   const [inputError, setInputError] = useState<string>("")
 
-  // Calculate estimates based on sub-question value or custom effort hours
+  // Calculate estimates based on sub-question value
   const estimates = {
     effort:
-      recommendation.calculateEffort && (subQuestionValue > 0 || (recommendation.id === "custom-solution" && customEffortHours > 0))
-        ? recommendation.calculateEffort(recommendation.id === "custom-solution" ? customEffortHours : subQuestionValue)
+      recommendation.calculateEffort && subQuestionValue > 0
+        ? recommendation.calculateEffort(subQuestionValue)
         : recommendation.effortHours,
 
     timeline:
-      recommendation.calculateTimeline && (subQuestionValue > 0 || (recommendation.id === "custom-solution" && customEffortHours > 0))
-        ? recommendation.calculateTimeline(recommendation.id === "custom-solution" ? customEffortHours : subQuestionValue)
+      recommendation.calculateTimeline && subQuestionValue > 0
+        ? recommendation.calculateTimeline(subQuestionValue)
         : recommendation.recommendedTimeline,
 
     cost:
@@ -280,19 +323,17 @@ function RecommendationCard({
     
     // Always update the input value
     if (value === "") {
-      setCustomEffortHours(0)
       setInputError("Please enter a value")
     } else if (isNaN(numValue)) {
       setInputError("Please enter a valid number")
     } else if (numValue < 40) {
-      setCustomEffortHours(numValue)
       setInputError("Value must be at least 40 hours")
     } else if (numValue > 2000) {
-      setCustomEffortHours(numValue)
       setInputError("Value cannot exceed 2000 hours")
     } else {
-      setCustomEffortHours(numValue)
       setInputError("")
+      // Update the parent component's subQuestionValue through onSubQuestionChange
+      onSubQuestionChange(numValue)
     }
   }
 
@@ -329,100 +370,94 @@ function RecommendationCard({
           {recommendation.id === "custom-solution" && (
             <div className="bg-blue-50 p-4 rounded-md border border-blue-100">
               <h5 className="font-medium text-blue-800 mb-2">Customize Effort Hours</h5>
-              <div className="flex flex-col gap-1">
+              <div className="space-y-2">
+                <Label htmlFor="customEffortHours">Customize Effort Hours</Label>
                 <div className="flex items-center gap-2">
                   <Input
+                    id="customEffortHours"
                     type="number"
                     placeholder="Enter effort hours"
-                    value={customEffortHours || ""}
-                    onChange={handleCustomEffortChange}
-                    className={`max-w-xs ${inputError ? "border-red-500 focus:ring-red-500" : ""}`}
+                    value={subQuestionValue || ""}
+                    onChange={(e) => {
+                      const value = e.target.value
+                      const numValue = Number.parseInt(value)
+                      if (value === "" || !isNaN(numValue)) {
+                        onSubQuestionChange(numValue)
+                      }
+                    }}
+                    className="max-w-xs"
                   />
-                  <span className="text-blue-700">hours</span>
+                  <span>hours</span>
                 </div>
-                {inputError && (
-                  <p className="text-sm text-red-600">{inputError}</p>
-                )}
-                <p className="text-sm text-blue-700">Enter between 40 and 2000 hours</p>
+                <p className="text-sm text-muted-foreground">Enter the estimated effort hours</p>
               </div>
             </div>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <h5 className="font-medium text-slate-700 mb-1">Key Benefits</h5>
-              <ul className="list-disc pl-5 space-y-1 text-slate-600">
+              <h5 className="font-medium text-slate-800 mb-2">Pros</h5>
+              <ul className="space-y-1">
                 {recommendation.pros.map((pro, index) => (
-                  <li key={index}>{pro}</li>
+                  <li key={index} className="flex items-start gap-2 text-sm text-slate-600">
+                    <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span>{pro}</span>
+                  </li>
                 ))}
               </ul>
             </div>
 
-            {recommendation.cons.length > 0 && (
-              <div>
-                <h5 className="font-medium text-slate-700 mb-1">Considerations</h5>
-                <ul className="list-disc pl-5 space-y-1 text-slate-600">
-                  {recommendation.cons.map((con, index) => (
-                    <li key={index}>{con}</li>
-                  ))}
-                </ul>
-              </div>
+            <div>
+              <h5 className="font-medium text-slate-800 mb-2">Cons</h5>
+              <ul className="space-y-1">
+                {recommendation.cons.map((con, index) => (
+                  <li key={index} className="flex items-start gap-2 text-sm text-slate-600">
+                    <AlertTriangle className="h-4 w-4 text-amber-500 mt-0.5 flex-shrink-0" />
+                    <span>{con}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <h5 className="font-medium text-slate-800 mb-2">Setup Time</h5>
+              <p className="text-sm text-slate-600">{recommendation.setupTime}</p>
+            </div>
+            <div>
+              <h5 className="font-medium text-slate-800 mb-2">Required Resources</h5>
+              <p className="text-sm text-slate-600">{recommendation.requiredResources}</p>
+            </div>
+            <div>
+              <h5 className="font-medium text-slate-800 mb-2">Organization Size</h5>
+              <p className="text-sm text-slate-600">{recommendation.organizationSize}</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-2">
+            {recommendation.officialWebsite && (
+              <Button variant="outline" asChild>
+                <a href={recommendation.officialWebsite} target="_blank" rel="noopener noreferrer">
+                  <ExternalLink className="h-4 w-4 mr-2" />
+                  Visit Website
+                </a>
+              </Button>
             )}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm bg-slate-50 p-3 rounded-md border">
-            <div>
-              <h5 className="font-medium text-slate-700 mb-1">Effort Required</h5>
-              <div className="flex items-center gap-1 text-slate-600">
-                <Clock className="h-4 w-4" />
-                <span>{estimates.effort} hours</span>
-              </div>
-            </div>
-
-            <div>
-              <h5 className="font-medium text-slate-700 mb-1">Timeline</h5>
-              <div className="flex items-center gap-1 text-slate-600">
-                <Calendar className="h-4 w-4" />
-                <span>{estimates.timeline}</span>
-              </div>
-            </div>
-
-            <div>
-              <h5 className="font-medium text-slate-700 mb-1">Estimated Cost</h5>
-              <div className="flex items-center gap-1 text-slate-600">
-                <DollarSign className="h-4 w-4" />
-                <span>{estimates.cost}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="md:hidden">
-            <h5 className="font-medium text-slate-700 mb-1">Pricing</h5>
-            <div className="flex items-center gap-1 text-slate-600">
-              <DollarSign className="h-4 w-4" />
-              <span>
-                {estimates.cost} ({recommendation.pricingModel})
-              </span>
-            </div>
-          </div>
-
-          <div className="flex gap-2">
-            <Button
-              className="flex-1"
-              variant="outline"
-              onClick={() => window.open(recommendation.officialWebsite, "_blank")}
-            >
-              <ExternalLink className="mr-2 h-4 w-4" />
-              Visit Website
-            </Button>
-            <Button className="flex-1" onClick={() => window.open(recommendation.pricingPage, "_blank")}>
-              <DollarSign className="mr-2 h-4 w-4" />
-              See Pricing
-            </Button>
+            {recommendation.pricingPage && (
+              <Button variant="outline" asChild>
+                <a href={recommendation.pricingPage} target="_blank" rel="noopener noreferrer">
+                  <DollarSign className="h-4 w-4 mr-2" />
+                  View Pricing
+                </a>
+              </Button>
+            )}
           </div>
         </div>
       </CollapsibleContent>
     </Collapsible>
   )
 }
+
+export default RecommendationPanel
 

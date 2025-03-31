@@ -7031,31 +7031,35 @@ const questions: Question[] = baseQuestions.filter(question =>
       pricingModel: "Project-based",
       officialWebsite: "Internal development",
       pricingPage: "Internal development",
-      setupTime: "8-12 weeks",
-      recommendedTimeline: "8-12 weeks",
+      setupTime: "Based on effort hours specified below",
+      recommendedTimeline: "Based on effort hours specified below",
       requiredResources: "Development team",
       organizationSize: "Any",
-      effortHours: "320-480",
+      effortHours: "",
       priority: "High",
-      estimatedCostRange: "Custom development",
+      estimatedCostRange: "Based on effort hours specified below",
       perUnitCost: {
         amount: 0,
         unit: "project",
         period: "one-time"
       },
       icon: Code,
+      subQuestion: {
+        id: "custom-solution-effort",
+        text: "Please specify the estimated effort hours required for building this custom solution",
+        placeholder: "Enter effort hours",
+        unit: "hours",
+        min: 40,
+        max: 2000
+      },
       calculateEffort: (subQuestionValue: number) => {
-        const weeks = Math.ceil(subQuestionValue / (40 * 5)); // Assuming 40 hours per week, 5 days
-        return `${subQuestionValue} hours (${weeks} weeks)`;
+        if (!subQuestionValue) return "";
+        return `${subQuestionValue}`;
       },
       calculateTimeline: (subQuestionValue: number) => {
-        const weeks = Math.ceil(subQuestionValue / (40 * 5)); // Assuming 40 hours per week, 5 days
+        if (!subQuestionValue) return "";
+        const weeks = Math.ceil(subQuestionValue / 40); // 40 hours per week
         return `${weeks} weeks`;
-      },
-      calculateCost: (subQuestionValue: number) => {
-        // Assuming average hourly rate of ₹2000
-        const totalCost = subQuestionValue * 2000;
-        return `₹${totalCost.toLocaleString()}`;
       }
     },
     ...question.recommendations
