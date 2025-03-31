@@ -167,9 +167,9 @@ export function ComplianceAssessment() {
   // Calculate compliance percentage for real-time tracking
   const calculateCompliancePercentage = () => {
     if (answers.length === 0) return 0
-    // Filter out undefined answers and then count compliant ones
+    // Filter out undefined answers and count compliant ones (including "Does not apply")
     const validAnswers = answers.filter((answer): answer is Answer => answer !== undefined)
-    const compliantCount = validAnswers.filter((answer) => answer.compliant === true).length
+    const compliantCount = validAnswers.filter((answer) => answer.compliant === true || answer.compliant === null).length
     // Calculate percentage based on total questions rather than just answered questions
     return Math.round((compliantCount / questionsData.length) * 100)
   }

@@ -77,7 +77,6 @@ export interface Recommendation {
   calculateEffort?: (subQuestionValue: number) => string;
   calculateTimeline?: (subQuestionValue: number) => string;
   calculateCost?: (subQuestionValue: number) => string;
-  subQuestion?: SubQuestion;
 }
 
 export interface Question {
@@ -101,11 +100,11 @@ const baseQuestions: Question[] = [
     helpText: "This includes having proper threat intelligence feeds and monitoring systems in place.",
     icon: ShieldCheck,
     subQuestion: {
-      id: "domain-count",
+      id: "threat-feed",
       text: "How many domains need to be monitored for threats?",
       placeholder: "Enter number of domains",
       unit: "domains",
-      defaultValue: 1,
+      defaultValue: 5,
       min: 1,
       max: 100
     },
@@ -235,42 +234,6 @@ const baseQuestions: Question[] = [
     },
     recommendations: [
       {
-        id: "excel-asset-tracking",
-        tier: "open-source",
-        name: "Excel Asset Tracking Template",
-        shortDescription: "Free Excel-based asset tracking",
-        description: "Use Microsoft Excel to track IT assets with a customized template including asset details, procurement dates, maintenance schedules, and disposal information.",
-        pros: [
-          "Free with Microsoft Office",
-          "Easy to use",
-          "Highly customizable",
-          "No technical setup required"
-        ],
-        cons: [
-          "Manual data entry",
-          "Limited automation",
-          "No real-time tracking",
-          "Risk of data inconsistency"
-        ],
-        pricing: "Free with Microsoft Office",
-        pricingModel: "Free",
-        officialWebsite: "https://microsoft.com/office",
-        pricingPage: "https://microsoft.com/office",
-        setupTime: "1-2 days",
-        recommendedTimeline: "1-2 days",
-        requiredResources: "Admin staff",
-        organizationSize: "Small",
-        effortHours: "8-16",
-        priority: "Medium",
-        estimatedCostRange: "Free with Microsoft Office",
-        perUnitCost: {
-          amount: 0,
-          unit: "component",
-          period: "one-time"
-        },
-        icon: FileText
-      },
-      {
         id: "snipe-it",
         tier: "open-source",
         name: "Snipe-IT",
@@ -372,6 +335,42 @@ const baseQuestions: Question[] = [
           amount: 830000,
           unit: "year",
           period: "yearly"
+        },
+        icon: Archive
+      },
+      {
+        id: "excel-asset",
+        tier: "open-source",
+        name: "Excel-based Asset Tracking",
+        shortDescription: "Manual asset tracking in Excel",
+        description: "Use Microsoft Excel to manually track IT assets with custom templates and formulas.",
+        pros: [
+          "Free to use",
+          "Familiar interface",
+          "Highly customizable",
+          "No technical expertise needed"
+        ],
+        cons: [
+          "Manual updates required",
+          "Limited automation",
+          "No real-time tracking",
+          "Prone to human error"
+        ],
+        pricing: "Free (Excel license required)",
+        pricingModel: "Free",
+        officialWebsite: "Internal process",
+        pricingPage: "Internal process",
+        setupTime: "1-2 days",
+        recommendedTimeline: "1-2 days",
+        requiredResources: "Office staff",
+        organizationSize: "Small organizations",
+        effortHours: "8-16",
+        priority: "Low",
+        estimatedCostRange: "₹0",
+        perUnitCost: {
+          amount: 0,
+          unit: "component",
+          period: "monthly"
         },
         icon: Archive
       }
@@ -519,42 +518,6 @@ const baseQuestions: Question[] = [
     },
     recommendations: [
       {
-        id: "excel-incident-tracking",
-        tier: "open-source",
-        name: "Excel Incident Tracking Template",
-        shortDescription: "Free Excel-based incident tracking",
-        description: "Use Microsoft Excel to track security incidents with a structured template including incident details, severity, status, response actions, and resolution timelines.",
-        pros: [
-          "Free with Microsoft Office",
-          "Easy to implement",
-          "Customizable fields",
-          "Familiar interface"
-        ],
-        cons: [
-          "Manual updates required",
-          "No automation features",
-          "Limited collaboration",
-          "Basic reporting only"
-        ],
-        pricing: "Free with Microsoft Office",
-        pricingModel: "Free",
-        officialWebsite: "https://microsoft.com/office",
-        pricingPage: "https://microsoft.com/office",
-        setupTime: "1-2 days",
-        recommendedTimeline: "1-2 days",
-        requiredResources: "Security team",
-        organizationSize: "Small",
-        effortHours: "8-16",
-        priority: "High",
-        estimatedCostRange: "Free with Microsoft Office",
-        perUnitCost: {
-          amount: 0,
-          unit: "component",
-          period: "one-time"
-        },
-        icon: FileText
-      },
-      {
         id: "thehive",
         tier: "open-source",
         name: "TheHive",
@@ -656,6 +619,42 @@ const baseQuestions: Question[] = [
           amount: 830000,
           unit: "year",
           period: "yearly"
+        },
+        icon: AlertTriangle
+      },
+      {
+        id: "excel-incident",
+        tier: "open-source",
+        name: "Excel-based Incident Tracking",
+        shortDescription: "Manual incident tracking in Excel",
+        description: "Use Microsoft Excel to manually track security incidents with custom templates and formulas.",
+        pros: [
+          "Free to use",
+          "Familiar interface",
+          "Highly customizable",
+          "No technical expertise needed"
+        ],
+        cons: [
+          "Manual updates required",
+          "Limited automation",
+          "No real-time tracking",
+          "Prone to human error"
+        ],
+        pricing: "Free (Excel license required)",
+        pricingModel: "Free",
+        officialWebsite: "Internal process",
+        pricingPage: "Internal process",
+        setupTime: "1-2 days",
+        recommendedTimeline: "1-2 days",
+        requiredResources: "Office staff",
+        organizationSize: "Small organizations",
+        effortHours: "8-16",
+        priority: "Low",
+        estimatedCostRange: "₹0",
+        perUnitCost: {
+          amount: 0,
+          unit: "component",
+          period: "monthly"
         },
         icon: AlertTriangle
       }
@@ -911,38 +910,36 @@ const baseQuestions: Question[] = [
         id: "aws-macie",
         tier: "premium",
         name: "AWS Macie",
-        shortDescription: "AI-powered PII detection and protection",
-        description: "AWS Macie is a fully managed data security and privacy service that uses machine learning and pattern matching to discover and protect sensitive data in AWS S3. It automatically discovers sensitive data such as personally identifiable information (PII) and provides you with dashboards and alerts that give visibility into how this data is being accessed or moved.",
+        shortDescription: "AI-powered PII detection",
+        description: "AWS Macie uses machine learning to automatically discover, classify, and protect sensitive data.",
         pros: [
-          "Automated PII detection",
-          "Machine learning powered",
-          "Real-time monitoring",
-          "Integration with AWS services",
-          "Detailed findings and reports"
+          "AI-powered detection",
+          "Automated classification",
+          "Cloud-native",
+          "24/7 support"
         ],
         cons: [
-          "Requires AWS infrastructure",
-          "Usage-based pricing can be expensive for large datasets",
-          "Limited to S3 storage"
+          "AWS only",
+          "Complex setup",
+          "Requires training"
         ],
-        pricing: "Pay per use: ₹83/GB for data scanning + ₹8.3/bucket/month",
-        pricingModel: "Usage-based",
-        officialWebsite: "https://aws.amazon.com/macie/",
-        pricingPage: "https://aws.amazon.com/macie/pricing/",
-        setupTime: "1-2 weeks",
+        pricing: "₹0.50/GB/month for data discovery",
+        pricingModel: "Per GB monthly",
+        officialWebsite: "https://aws.amazon.com/macie",
+        pricingPage: "https://aws.amazon.com/macie/pricing",
+        setupTime: "2-3 weeks",
         recommendedTimeline: "2-3 weeks",
-        requiredResources: "AWS admin, Security team",
+        requiredResources: "AWS team",
         organizationSize: "Medium to large",
-        effortHours: "40-80",
+        effortHours: "80-120",
         priority: "High",
-        estimatedCostRange: "₹8,300-83,000/month depending on data volume",
+        estimatedCostRange: "₹0.50/GB/month",
         perUnitCost: {
-          amount: 83,
+          amount: 0.5,
           unit: "GB",
           period: "monthly"
         },
-        icon: Cloud,
-        calculateCost: (dataVolume: number) => `₹${(dataVolume * 83).toLocaleString()}/month for scanning + bucket fees`
+        icon: FileCheck
       }
     ]
   },
@@ -1073,124 +1070,115 @@ const baseQuestions: Question[] = [
   {
     id: 8,
     category: "Access Control",
-    text: "Is VPN technology or Zero Trust architecture in place?",
-    description: "VPN and Zero Trust architecture help secure remote access to organizational resources.",
-    helpText: "This includes having proper tools for secure remote access and network security.",
-    icon: Network,
-    subQuestion: {
-      id: "remote-users",
-      text: "How many remote users require secure access?",
-      placeholder: "Enter number of users",
-      unit: "users",
-      defaultValue: 20,
-      min: 1,
-      max: 1000
-    },
+    text: "Do you have a privileged access management solution in place?",
+    description: "Privileged access management (PAM) solutions help control and monitor access to critical systems and data.",
+    helpText: "A PAM solution helps manage and secure privileged accounts, which have elevated access rights.",
+    icon: Key,
     recommendations: [
       {
-        id: "openvpn",
-        tier: "open-source",
-        name: "OpenVPN",
-        shortDescription: "Free VPN solution",
-        description: "OpenVPN is a free and open-source VPN solution.",
+        id: "aws-iam",
+        tier: "standard",
+        name: "AWS IAM",
+        shortDescription: "AWS identity and access management",
+        description: "AWS IAM provides comprehensive identity and access management for AWS resources.",
         pros: [
-          "Free to use",
-          "Self-hosted",
-          "Highly secure",
-          "Community support"
+          "Cloud-native",
+          "Granular permissions",
+          "Regular updates",
+          "Good integration"
         ],
         cons: [
+          "AWS only",
           "Complex setup",
-          "Requires expertise",
-          "Manual maintenance"
+          "Requires expertise"
         ],
-        pricing: "Free",
-        pricingModel: "Free",
-        officialWebsite: "https://openvpn.net",
-        pricingPage: "https://openvpn.net",
+        pricing: "Included with AWS",
+        pricingModel: "Included",
+        officialWebsite: "https://aws.amazon.com/iam",
+        pricingPage: "https://aws.amazon.com/iam/pricing",
         setupTime: "2-3 weeks",
         recommendedTimeline: "2-3 weeks",
-        requiredResources: "IT team",
-        organizationSize: "Any",
+        requiredResources: "AWS team",
+        organizationSize: "Small to medium",
         effortHours: "80-120",
         priority: "High",
-        estimatedCostRange: "₹0",
+        estimatedCostRange: "Included with AWS",
         perUnitCost: {
           amount: 0,
           unit: "component",
           period: "monthly"
         },
-        icon: Network
+        icon: Key
       },
       {
-        id: "nordlayer",
+        id: "gcp-iam",
         tier: "standard",
-        name: "NordLayer",
-        shortDescription: "Cloud-based VPN solution",
-        description: "NordLayer provides secure remote access capabilities.",
+        name: "Google Cloud IAM",
+        shortDescription: "GCP identity and access management",
+        description: "Google Cloud IAM provides comprehensive identity and access management for GCP resources.",
         pros: [
-          "Easy setup",
-          "Good support",
+          "Cloud-native",
+          "Granular permissions",
           "Regular updates",
-          "Cloud-based"
+          "Good integration"
         ],
         cons: [
-          "Monthly subscription",
-          "Internet dependent",
-          "Limited customization"
+          "GCP only",
+          "Complex setup",
+          "Requires expertise"
         ],
-        pricing: "₹580/user/month",
-        pricingModel: "Per user monthly",
-        officialWebsite: "https://nordlayer.com",
-        pricingPage: "https://nordlayer.com/pricing",
-        setupTime: "3-4 weeks",
-        recommendedTimeline: "3-4 weeks",
-        requiredResources: "IT team",
+        pricing: "Included with GCP",
+        pricingModel: "Included",
+        officialWebsite: "https://cloud.google.com/iam",
+        pricingPage: "https://cloud.google.com/iam/pricing",
+        setupTime: "2-3 weeks",
+        recommendedTimeline: "2-3 weeks",
+        requiredResources: "GCP team",
         organizationSize: "Small to medium",
-        effortHours: "120-160",
+        effortHours: "80-120",
         priority: "High",
-        estimatedCostRange: "₹580/user/month",
+        estimatedCostRange: "Included with GCP",
         perUnitCost: {
-          amount: 580,
-          unit: "user",
+          amount: 0,
+          unit: "component",
           period: "monthly"
         },
-        icon: Network
+        icon: Key
       },
       {
-        id: "zscaler",
+        id: "azure-iam",
         tier: "premium",
-        name: "Zscaler Zero Trust Exchange",
-        shortDescription: "Enterprise Zero Trust platform",
-        description: "Zscaler provides comprehensive Zero Trust security platform.",
+        name: "Azure AD Privileged Identity Management",
+        shortDescription: "Azure privileged access management",
+        description: "Azure AD PIM provides comprehensive privileged access management for Azure and hybrid environments.",
         pros: [
-          "Enterprise-grade",
-          "Advanced security",
+          "Cloud-native",
+          "Just-in-time access",
           "24/7 support",
-          "Highly scalable"
+          "Enterprise-grade"
         ],
         cons: [
-          "High cost",
+          "Azure only",
           "Complex setup",
           "Requires training"
         ],
-        pricing: "Custom pricing",
-        pricingModel: "Custom",
-        officialWebsite: "https://www.zscaler.com",
-        pricingPage: "https://www.zscaler.com/pricing",
-        setupTime: "4-5 weeks",
-        recommendedTimeline: "4-5 weeks",
-        requiredResources: "Dedicated IT team",
-        organizationSize: "Large enterprises",
-        effortHours: "160-200",
+        pricing: "₹166/user/month",
+        pricingModel: "Per user monthly",
+        officialWebsite: "https://azure.microsoft.com/pim",
+        pricingPage: "https://azure.microsoft.com/pricing",
+        setupTime: "3-4 weeks",
+        recommendedTimeline: "3-4 weeks",
+        requiredResources: "Azure team",
+        organizationSize: "Medium to large",
+        effortHours: "120-160",
         priority: "High",
-        estimatedCostRange: "Custom pricing",
+        estimatedCostRange: "₹166/user/month",
         perUnitCost: {
-          amount: 0,
-          unit: "custom",
+          amount: 166,
+          unit: "user",
           period: "monthly"
         },
-        icon: Network
+        icon: Key
       }
     ]
   },
@@ -1657,110 +1645,74 @@ const baseQuestions: Question[] = [
     },
     recommendations: [
       {
-        id: "aws-iam",
+        id: "manageengine",
         tier: "standard",
-        name: "AWS IAM Identity Center",
-        shortDescription: "Cloud-based identity management",
-        description: "AWS IAM Identity Center (formerly AWS SSO) provides centralized access management for AWS accounts and business applications. It enables you to create and manage user identities and their access across AWS accounts and applications in one place.",
+        name: "ManageEngine PAM",
+        shortDescription: "Standard privileged access management",
+        description: "ManageEngine provides PAM capabilities for managing privileged access.",
         pros: [
-          "Free with AWS accounts",
-          "Centralized management",
-          "Integration with AWS services",
-          "Multi-factor authentication",
-          "Detailed access logs"
+          "Cost-effective",
+          "Easy to use",
+          "Good features",
+          "Regular updates"
         ],
         cons: [
-          "Requires AWS infrastructure",
-          "Limited to AWS ecosystem",
-          "Complex initial setup"
+          "Basic monitoring",
+          "Limited automation",
+          "Resource intensive"
         ],
-        pricing: "Free with AWS accounts",
-        pricingModel: "Free",
-        officialWebsite: "https://aws.amazon.com/iam/identity-center/",
-        pricingPage: "https://aws.amazon.com/iam/identity-center/pricing/",
-        setupTime: "1-2 weeks",
-        recommendedTimeline: "2-3 weeks",
-        requiredResources: "AWS admin, Security team",
-        organizationSize: "Any",
-        effortHours: "40-80",
-        priority: "High",
-        estimatedCostRange: "₹0",
-        perUnitCost: {
-          amount: 0,
-          unit: "user",
-          period: "monthly"
-        },
-        icon: Cloud
-      },
-      {
-        id: "azure-ad",
-        tier: "standard",
-        name: "Microsoft Entra ID (Azure AD)",
-        shortDescription: "Enterprise identity management",
-        description: "Microsoft Entra ID (formerly Azure AD) provides comprehensive identity and access management with features like conditional access, privileged identity management, and detailed monitoring.",
-        pros: [
-          "Extensive features",
-          "Integration with Microsoft services",
-          "Strong security controls",
-          "Global availability"
-        ],
-        cons: [
-          "Premium features require paid plans",
-          "Complex pricing structure",
-          "Requires Azure expertise"
-        ],
-        pricing: "Free tier available, Premium P2 at ₹1245/user/month",
-        pricingModel: "Per user monthly",
-        officialWebsite: "https://www.microsoft.com/en-us/security/business/identity-access/microsoft-entra-id",
-        pricingPage: "https://www.microsoft.com/en-us/security/business/identity-access/microsoft-entra-id-pricing",
-        setupTime: "2-3 weeks",
+        pricing: "₹83,000/year",
+        pricingModel: "Annual subscription",
+        officialWebsite: "https://www.manageengine.com",
+        pricingPage: "https://www.manageengine.com/pricing",
+        setupTime: "3-4 weeks",
         recommendedTimeline: "3-4 weeks",
-        requiredResources: "Azure admin, Security team",
-        organizationSize: "Medium to large",
-        effortHours: "80-120",
+        requiredResources: "IT team",
+        organizationSize: "Small to medium",
+        effortHours: "120-160",
         priority: "High",
-        estimatedCostRange: "₹1245/user/month for Premium P2",
+        estimatedCostRange: "₹83,000/year",
         perUnitCost: {
-          amount: 1245,
-          unit: "user",
-          period: "monthly"
+          amount: 83000,
+          unit: "year",
+          period: "yearly"
         },
-        icon: Cloud
+        icon: Key
       },
       {
-        id: "gcp-iam",
-        tier: "standard",
-        name: "Google Cloud IAM",
-        shortDescription: "Cloud identity and access control",
-        description: "Google Cloud IAM provides unified access control across Google Cloud resources with fine-grained permissions and automated policy management.",
+        id: "cyberark",
+        tier: "premium",
+        name: "CyberArk PAM",
+        shortDescription: "Enterprise privileged access management",
+        description: "CyberArk provides comprehensive privileged access management.",
         pros: [
-          "Fine-grained controls",
-          "Integration with Google Workspace",
-          "Policy automation",
-          "Detailed audit logs"
+          "Advanced features",
+          "Enterprise-grade",
+          "24/7 support",
+          "Highly secure"
         ],
         cons: [
-          "Requires GCP infrastructure",
-          "Limited to Google ecosystem",
-          "Learning curve for policies"
+          "High cost",
+          "Complex setup",
+          "Requires training"
         ],
-        pricing: "Free with GCP, Identity Platform at ₹0.0124/MAU",
-        pricingModel: "Monthly active users",
-        officialWebsite: "https://cloud.google.com/iam",
-        pricingPage: "https://cloud.google.com/identity-platform/pricing",
-        setupTime: "1-2 weeks",
-        recommendedTimeline: "2-3 weeks",
-        requiredResources: "GCP admin, Security team",
-        organizationSize: "Any",
-        effortHours: "40-80",
+        pricing: "Starting at ₹415,000/year",
+        pricingModel: "Annual subscription",
+        officialWebsite: "https://www.cyberark.com",
+        pricingPage: "https://www.cyberark.com/pricing",
+        setupTime: "4-5 weeks",
+        recommendedTimeline: "4-5 weeks",
+        requiredResources: "Dedicated IT team",
+        organizationSize: "Large enterprises",
+        effortHours: "160-200",
         priority: "High",
-        estimatedCostRange: "Free core IAM, additional costs for Identity Platform",
+        estimatedCostRange: "₹415,000/year",
         perUnitCost: {
-          amount: 0.0124,
-          unit: "MAU",
-          period: "monthly"
+          amount: 415000,
+          unit: "year",
+          period: "yearly"
         },
-        icon: Cloud
+        icon: Key
       }
     ]
   },
@@ -2252,10 +2204,10 @@ const baseQuestions: Question[] = [
     helpText: "This includes having proper tools and processes for security testing.",
     icon: ShieldQuestion,
     subQuestion: {
-      id: "endpoint-count",
-      text: "How many endpoints need to be audited?",
-      placeholder: "Enter number of endpoints",
-      unit: "endpoints",
+      id: "assessment-ips",
+      text: "How many IPs need to be assessed?",
+      placeholder: "Enter number of IPs",
+      unit: "IPs",
       defaultValue: 10,
       min: 1,
       max: 1000
@@ -2294,88 +2246,77 @@ const baseQuestions: Question[] = [
           unit: "component",
           period: "monthly"
         },
-        icon: ShieldQuestion,
-        calculateEffort: (endpoints: number) => `${Math.round(endpoints * 2)} hours`,
-        calculateTimeline: (endpoints: number) => `${Math.ceil(endpoints * 2 / 40)} weeks`
+        icon: ShieldQuestion
       },
       {
         id: "qualys",
         tier: "standard",
-        name: "Qualys Vulnerability Management",
-        shortDescription: "Cloud-based vulnerability scanning",
-        description: "Qualys provides automated vulnerability scanning and security assessment for endpoints and web applications.",
+        name: "Qualys Web Application Scanning",
+        shortDescription: "Cloud-based security scanning",
+        description: "Qualys provides automated web application security scanning.",
         pros: [
           "Automated scanning",
           "Regular updates",
           "Good support",
-          "Cloud-based",
-          "Comprehensive reporting"
+          "Cloud-based"
         ],
         cons: [
           "Annual subscription",
           "Limited customization",
           "Internet dependent"
         ],
-        pricing: "₹2,075/endpoint/year",
-        pricingModel: "Per endpoint annual",
+        pricing: "₹249,000/year",
+        pricingModel: "Annual subscription",
         officialWebsite: "https://www.qualys.com",
         pricingPage: "https://www.qualys.com/pricing",
-        setupTime: "2-3 weeks",
-        recommendedTimeline: "2-3 weeks",
+        setupTime: "4-6 weeks",
+        recommendedTimeline: "4-6 weeks",
         requiredResources: "Security team",
         organizationSize: "Small to medium",
-        effortHours: "80-120",
+        effortHours: "160-240",
         priority: "High",
-        estimatedCostRange: "₹2,075/endpoint/year",
+        estimatedCostRange: "₹249,000/year",
         perUnitCost: {
-          amount: 2075,
-          unit: "endpoint",
+          amount: 249000,
+          unit: "year",
           period: "yearly"
         },
-        icon: ShieldQuestion,
-        calculateCost: (endpoints: number) => `₹${(endpoints * 2075).toLocaleString()}/year`,
-        calculateEffort: (endpoints: number) => `${Math.round(endpoints * 1.5)} hours`,
-        calculateTimeline: (endpoints: number) => `${Math.ceil(endpoints * 1.5 / 40)} weeks`
+        icon: ShieldQuestion
       },
       {
-        id: "rapid7-nexpose",
+        id: "third-party-audit",
         tier: "premium",
-        name: "Rapid7 Nexpose",
-        shortDescription: "Enterprise vulnerability management",
-        description: "Rapid7 Nexpose provides enterprise-grade vulnerability management and security assessment capabilities.",
+        name: "Third-Party Security Audit",
+        shortDescription: "Comprehensive security assessment",
+        description: "Professional security auditing firm provides comprehensive assessment services.",
         pros: [
-          "Advanced features",
-          "Real-time monitoring",
+          "Expert assessment",
+          "Comprehensive review",
           "24/7 support",
-          "Integration capabilities",
-          "Automated remediation"
+          "Detailed reporting"
         ],
         cons: [
           "High cost",
-          "Complex setup",
-          "Requires training",
-          "Resource intensive"
+          "Scheduling required",
+          "Dependent on external vendor"
         ],
-        pricing: "₹4,150/endpoint/year",
-        pricingModel: "Per endpoint annual",
-        officialWebsite: "https://www.rapid7.com/products/nexpose/",
-        pricingPage: "https://www.rapid7.com/products/nexpose/pricing/",
-        setupTime: "4-6 weeks",
-        recommendedTimeline: "4-6 weeks",
-        requiredResources: "Dedicated security team",
+        pricing: "Starting at ₹830,000 per audit",
+        pricingModel: "Per audit",
+        officialWebsite: "https://www.securityaudit.com",
+        pricingPage: "https://www.securityaudit.com/services",
+        setupTime: "6-8 weeks",
+        recommendedTimeline: "6-8 weeks",
+        requiredResources: "Security team",
         organizationSize: "Large enterprises",
-        effortHours: "160-240",
+        effortHours: "240-320",
         priority: "High",
-        estimatedCostRange: "₹4,150/endpoint/year",
+        estimatedCostRange: "₹830,000 per audit",
         perUnitCost: {
-          amount: 4150,
-          unit: "endpoint",
-          period: "yearly"
+          amount: 830000,
+          unit: "audit",
+          period: "one-time"
         },
-        icon: ShieldQuestion,
-        calculateCost: (endpoints: number) => `₹${(endpoints * 4150).toLocaleString()}/year`,
-        calculateEffort: (endpoints: number) => `${Math.round(endpoints * 2)} hours`,
-        calculateTimeline: (endpoints: number) => `${Math.ceil(endpoints * 2 / 40)} weeks`
+        icon: ShieldQuestion
       }
     ]
   },
@@ -2427,6 +2368,41 @@ const baseQuestions: Question[] = [
         perUnitCost: {
           amount: 0,
           unit: "component",
+          period: "monthly"
+        },
+        icon: Shield
+      },
+      {
+        id: "windows-defender",
+        tier: "standard",
+        name: "Windows Defender for Endpoint",
+        shortDescription: "Microsoft's endpoint protection",
+        description: "Windows Defender provides comprehensive endpoint protection with advanced threat detection.",
+        pros: [
+          "Built into Windows",
+          "Cloud-based protection",
+          "Regular updates",
+          "Good integration"
+        ],
+        cons: [
+          "Windows only",
+          "Requires license",
+          "Limited customization"
+        ],
+        pricing: "₹166/user/month",
+        pricingModel: "Per user monthly",
+        officialWebsite: "https://www.microsoft.com/defender",
+        pricingPage: "https://www.microsoft.com/defender/pricing",
+        setupTime: "1-2 weeks",
+        recommendedTimeline: "1-2 weeks",
+        requiredResources: "IT team",
+        organizationSize: "Small to medium",
+        effortHours: "40-80",
+        priority: "High",
+        estimatedCostRange: "₹166/user/month",
+        perUnitCost: {
+          amount: 166,
+          unit: "user",
           period: "monthly"
         },
         icon: Shield
@@ -7031,36 +7007,20 @@ const questions: Question[] = baseQuestions.filter(question =>
       pricingModel: "Project-based",
       officialWebsite: "Internal development",
       pricingPage: "Internal development",
-      setupTime: "Based on effort hours specified below",
-      recommendedTimeline: "Based on effort hours specified below",
+      setupTime: "8-12 weeks",
+      recommendedTimeline: "8-12 weeks",
       requiredResources: "Development team",
       organizationSize: "Any",
-      effortHours: "",
+      effortHours: "Custom",
       priority: "High",
-      estimatedCostRange: "Based on effort hours specified below",
+      estimatedCostRange: "Custom development",
       perUnitCost: {
         amount: 0,
         unit: "project",
         period: "one-time"
       },
       icon: Code,
-      subQuestion: {
-        id: "custom-solution-effort",
-        text: "Please specify the estimated effort hours required for building this custom solution",
-        placeholder: "Enter effort hours",
-        unit: "hours",
-        min: 40,
-        max: 2000
-      },
-      calculateEffort: (subQuestionValue: number) => {
-        if (!subQuestionValue) return "";
-        return `${subQuestionValue}`;
-      },
-      calculateTimeline: (subQuestionValue: number) => {
-        if (!subQuestionValue) return "";
-        const weeks = Math.ceil(subQuestionValue / 40); // 40 hours per week
-        return `${weeks} weeks`;
-      }
+      calculateEffort: () => "0"
     },
     ...question.recommendations
   ]

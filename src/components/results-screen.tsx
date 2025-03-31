@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "./ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import {
   ChevronDown,
   FileText,
@@ -16,10 +16,10 @@ import {
   CheckCircle2,
   FileSpreadsheet,
 } from "lucide-react"
-import type { Answer } from "../types/assessment"
-import type { Question } from "../lib/questions-data"
-import { ComplianceChart } from "./compliance-chart"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
+import type { Answer } from "@/components/compliance-assessment"
+import type { Question } from "@/lib/questions-data"
+import { ComplianceChart } from "@/components/compliance-chart"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import * as XLSX from 'xlsx'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
@@ -91,41 +91,30 @@ function calculateEstimates(question: Question, answer: Answer) {
       throw new Error("No recommendation found")
     }
 
-    // For custom solutions, use the input value directly for effort
-    if (recommendation.id === "custom-solution") {
-      // Only use the actual user input, no defaults
-      const userInput = answer.subQuestionValue ? Number(answer.subQuestionValue) : 0
-      console.log('Calculate Estimates - Custom solution input:', userInput) // Debug log
-      const effort = userInput ? `${userInput}` : "0"
-      const timeline = userInput ? `${Math.ceil(userInput / 40)} weeks` : "0 weeks"
-      const cost = "Internal Cost"
+    // Make sure subQuestionValue is a valid number
+    const validSubQuestionValue =
+      answer.subQuestionValue !== undefined && !isNaN(Number(answer.subQuestionValue)) 
+        ? Number(answer.subQuestionValue) 
+        : 0
 
-      return {
-        effort,
-        timeline,
-        cost,
-        recommendation,
-      }
-    }
-
-    // For other solutions, calculate as before
-    // Make sure we have a valid number for calculations
-    const subQuestionValue = answer.subQuestionValue ? Number(answer.subQuestionValue) : 0
-
+    // Calculate effort
     const effort = recommendation.calculateEffort
-      ? recommendation.calculateEffort(subQuestionValue)
+      ? recommendation.calculateEffort(validSubQuestionValue)
       : recommendation.effortHours
 
+    // Calculate timeline
     const timeline = recommendation.calculateTimeline
-      ? recommendation.calculateTimeline(subQuestionValue)
+      ? recommendation.calculateTimeline(validSubQuestionValue)
       : recommendation.recommendedTimeline
 
+    // Calculate cost based on sub-question value and recommendation
     let cost = recommendation.estimatedCostRange
-    if (recommendation.calculateCost && subQuestionValue > 0) {
-      cost = recommendation.calculateCost(subQuestionValue)
-    } else if (subQuestionValue > 0) {
+    if (recommendation.calculateCost && validSubQuestionValue > 0) {
+      cost = recommendation.calculateCost(validSubQuestionValue)
+    } else if (validSubQuestionValue > 0) {
+      // If no calculateCost function but we have a sub-question value, adjust the cost based on the value
       const baseCost = extractCostValue(recommendation.estimatedCostRange, "min")
-      const adjustedCost = baseCost * subQuestionValue
+      const adjustedCost = baseCost * validSubQuestionValue
       cost = formatCurrency(adjustedCost) + "/year"
     }
 
@@ -137,9 +126,10 @@ function calculateEstimates(question: Question, answer: Answer) {
     }
   } catch (error) {
     console.error("Error calculating estimates:", error)
+    // Return default values in case of error
     return {
       effort: "0",
-      timeline: "0 weeks",
+      timeline: "Within 30 days",
       cost: "₹0/year",
       recommendation: question.recommendations[0] || {
         id: "default",
@@ -177,8 +167,8 @@ export function ResultsScreen({ answers, questions, onRestart }: ResultsScreenPr
     return answers[index];
   });
 
-  // Count only explicitly compliant answers (not "Does not apply")
-  const compliantCount = filledAnswers.filter((answer) => answer.compliant === true).length
+  // Count compliant answers (including "Does not apply")
+  const compliantCount = filledAnswers.filter((answer) => answer.compliant === true || answer.compliant === null).length
   const compliancePercentage = Math.round((compliantCount / questions.length) * 100)
 
   // Get non-compliant questions with their answers (excluding "Does not apply")
@@ -230,45 +220,25 @@ export function ResultsScreen({ answers, questions, onRestart }: ResultsScreenPr
     // Calculate total effort hours
     const totalEffortMin = items.reduce((sum, item) => {
       const estimates = calculateEstimates(item.question, item.answer)
-      // For custom solutions, only use the actual input value
-      if (estimates.recommendation.id === "custom-solution") {
-        const userInput = item.answer.subQuestionValue ? Number(item.answer.subQuestionValue) : 0
-        console.log('Category Summaries - Custom solution input:', userInput) // Debug log
-        return sum + userInput
-      }
       const hours = estimates.effort.split("–")[0]
-      return sum + (Number.parseInt(hours) || 0)
+      return sum + Number.parseInt(hours)
     }, 0)
 
     const totalEffortMax = items.reduce((sum, item) => {
       const estimates = calculateEstimates(item.question, item.answer)
-      // For custom solutions, only use the actual input value
-      if (estimates.recommendation.id === "custom-solution") {
-        const userInput = item.answer.subQuestionValue ? Number(item.answer.subQuestionValue) : 0
-        console.log('Category Summaries - Custom solution input:', userInput) // Debug log
-        return sum + userInput
-      }
       const hours = estimates.effort.split("–")[1] || estimates.effort.split("–")[0]
-      return sum + (Number.parseInt(hours) || 0)
+      return sum + Number.parseInt(hours)
     }, 0)
 
     // Calculate total cost
     const totalCostMin = items.reduce((sum, item) => {
       const estimates = calculateEstimates(item.question, item.answer)
-      // For custom solutions, cost is internal and not included in the total
-      if (estimates.recommendation.id === "custom-solution") {
-        return sum
-      }
       const cost = extractCostValue(estimates.cost, "min")
       return sum + cost
     }, 0)
 
     const totalCostMax = items.reduce((sum, item) => {
       const estimates = calculateEstimates(item.question, item.answer)
-      // For custom solutions, cost is internal and not included in the total
-      if (estimates.recommendation.id === "custom-solution") {
-        return sum
-      }
       const cost = extractCostValue(estimates.cost, "max")
       return sum + cost
     }, 0)
