@@ -16,10 +16,10 @@ interface QuestionnaireScreenProps {
   question: Question
   currentIndex: number
   totalQuestions: number
-  selectedAnswer?: boolean
+  selectedAnswer?: boolean | null
   subQuestionValue?: number
   selectedRecommendationId?: string
-  onAnswer: (compliant: boolean) => void
+  onAnswer: (compliant: boolean | null) => void
   onSubQuestionChange: (value: number) => void
   onSelectRecommendation: (questionId: number, recommendationId: string) => void
   onNext: () => void
@@ -43,12 +43,12 @@ export function QuestionnaireScreen({
 
   const progressPercentage = Math.round((currentIndex / totalQuestions) * 100)
 
-  const handleAnswerSelection = (compliant: boolean) => {
+  const handleAnswerSelection = (compliant: boolean | null) => {
     onAnswer(compliant)
-    setShowRecommendations(!compliant)
+    setShowRecommendations(compliant === false)
 
     // If there's a sub-question and the answer is "No", set a default value
-    if (!compliant && question.subQuestion && subQuestionValue === undefined) {
+    if (compliant === false && question.subQuestion && subQuestionValue === undefined) {
       const defaultValue = typeof question.subQuestion.defaultValue === 'string' 
         ? parseInt(question.subQuestion.defaultValue, 10) 
         : question.subQuestion.defaultValue || 1;
@@ -56,7 +56,7 @@ export function QuestionnaireScreen({
     }
 
     // If the answer is "No" and there are recommendations, select the first one by default
-    if (!compliant && question.recommendations.length > 0 && !selectedRecommendationId) {
+    if (compliant === false && question.recommendations.length > 0 && !selectedRecommendationId) {
       onSelectRecommendation(question.id, question.recommendations[0].id)
     }
   }
@@ -122,6 +122,13 @@ export function QuestionnaireScreen({
               onClick={() => handleAnswerSelection(false)}
             >
               No, We Need Solutions
+            </Button>
+            <Button
+              variant={selectedAnswer === null ? "default" : "outline"}
+              className={`flex-1 py-6 ${selectedAnswer === null ? "bg-gray-600 hover:bg-gray-700" : ""}`}
+              onClick={() => handleAnswerSelection(null)}
+            >
+              Does Not Apply
             </Button>
           </div>
 

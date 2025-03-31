@@ -167,16 +167,17 @@ export function ResultsScreen({ answers, questions, onRestart }: ResultsScreenPr
     return answers[index];
   });
 
-  const compliantCount = filledAnswers.filter((answer) => answer.compliant).length
+  // Count only explicitly compliant answers (not "Does not apply")
+  const compliantCount = filledAnswers.filter((answer) => answer.compliant === true).length
   const compliancePercentage = Math.round((compliantCount / questions.length) * 100)
 
-  // Get non-compliant questions with their answers
+  // Get non-compliant questions with their answers (excluding "Does not apply")
   const nonCompliantQuestions = questions
     .map((question, index) => ({
       question,
       answer: filledAnswers[index],
     }))
-    .filter((item) => !item.answer?.compliant)
+    .filter((item) => item.answer?.compliant === false)
 
   // Group non-compliant areas by category
   const nonCompliantByCategory = nonCompliantQuestions.reduce(

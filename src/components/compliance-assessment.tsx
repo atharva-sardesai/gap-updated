@@ -12,7 +12,7 @@ import { LucideIcon } from "lucide-react"
 
 export type Answer = {
   questionId: number
-  compliant: boolean
+  compliant: boolean | null // null means "Does not apply"
   subQuestionValue?: number
   selectedRecommendationId?: string
 }
@@ -60,7 +60,7 @@ export function ComplianceAssessment() {
     setCurrentState("questionnaire")
   }
 
-  const handleAnswerQuestion = (compliant: boolean) => {
+  const handleAnswerQuestion = (compliant: boolean | null) => {
     const newAnswers = [...answers]
 
     // If we already have an answer for this question, preserve the subQuestionValue and selectedRecommendationId
@@ -169,7 +169,7 @@ export function ComplianceAssessment() {
     if (answers.length === 0) return 0
     // Filter out undefined answers and then count compliant ones
     const validAnswers = answers.filter((answer): answer is Answer => answer !== undefined)
-    const compliantCount = validAnswers.filter((answer) => answer.compliant).length
+    const compliantCount = validAnswers.filter((answer) => answer.compliant === true).length
     // Calculate percentage based on total questions rather than just answered questions
     return Math.round((compliantCount / questionsData.length) * 100)
   }

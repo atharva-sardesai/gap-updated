@@ -9,6 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import type { Recommendation } from "@/lib/questions-data"
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
 
 interface RecommendationPanelProps {
   recommendations: Recommendation[]
@@ -45,8 +46,8 @@ export function RecommendationPanel({
         ? recommendation.calculateTimeline(validSubQuestionValue)
         : recommendation.recommendedTimeline
 
-    let cost = recommendation.estimatedCostRange
-    if (validSubQuestionValue > 0) {
+    let cost = recommendation.id === "custom-solution" ? "Internal Cost" : recommendation.estimatedCostRange
+    if (recommendation.id !== "custom-solution" && validSubQuestionValue > 0) {
       if (recommendation.calculateCost) {
         cost = recommendation.calculateCost(validSubQuestionValue)
       } else if (recommendation.perUnitCost) {
@@ -250,23 +251,49 @@ function RecommendationCard({
   subQuestionValue = 0,
 }: { recommendation: Recommendation; subQuestionValue?: number }) {
   const [isOpen, setIsOpen] = useState(false)
+  const [customEffortHours, setCustomEffortHours] = useState<number>(400)
+  const [inputError, setInputError] = useState<string>("")
 
-  // Calculate estimates based on sub-question value
+  // Calculate estimates based on sub-question value or custom effort hours
   const estimates = {
     effort:
-      recommendation.calculateEffort && subQuestionValue > 0
-        ? recommendation.calculateEffort(subQuestionValue)
+      recommendation.calculateEffort && (subQuestionValue > 0 || (recommendation.id === "custom-solution" && customEffortHours > 0))
+        ? recommendation.calculateEffort(recommendation.id === "custom-solution" ? customEffortHours : subQuestionValue)
         : recommendation.effortHours,
 
     timeline:
-      recommendation.calculateTimeline && subQuestionValue > 0
-        ? recommendation.calculateTimeline(subQuestionValue)
+      recommendation.calculateTimeline && (subQuestionValue > 0 || (recommendation.id === "custom-solution" && customEffortHours > 0))
+        ? recommendation.calculateTimeline(recommendation.id === "custom-solution" ? customEffortHours : subQuestionValue)
         : recommendation.recommendedTimeline,
 
     cost:
-      recommendation.calculateCost && subQuestionValue > 0
+      recommendation.id === "custom-solution"
+        ? "Internal Cost"
+        : recommendation.calculateCost && subQuestionValue > 0
         ? recommendation.calculateCost(subQuestionValue)
         : recommendation.estimatedCostRange,
+  }
+
+  const handleCustomEffortChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    const numValue = Number.parseInt(value)
+    
+    // Always update the input value
+    if (value === "") {
+      setCustomEffortHours(0)
+      setInputError("Please enter a value")
+    } else if (isNaN(numValue)) {
+      setInputError("Please enter a valid number")
+    } else if (numValue < 40) {
+      setCustomEffortHours(numValue)
+      setInputError("Value must be at least 40 hours")
+    } else if (numValue > 2000) {
+      setCustomEffortHours(numValue)
+      setInputError("Value cannot exceed 2000 hours")
+    } else {
+      setCustomEffortHours(numValue)
+      setInputError("")
+    }
   }
 
   return (
@@ -298,6 +325,28 @@ function RecommendationCard({
       <CollapsibleContent>
         <div className="px-4 pb-4 space-y-4 border-t pt-4">
           <p className="text-slate-600">{recommendation.description}</p>
+
+          {recommendation.id === "custom-solution" && (
+            <div className="bg-blue-50 p-4 rounded-md border border-blue-100">
+              <h5 className="font-medium text-blue-800 mb-2">Customize Effort Hours</h5>
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-2">
+                  <Input
+                    type="number"
+                    placeholder="Enter effort hours"
+                    value={customEffortHours || ""}
+                    onChange={handleCustomEffortChange}
+                    className={`max-w-xs ${inputError ? "border-red-500 focus:ring-red-500" : ""}`}
+                  />
+                  <span className="text-blue-700">hours</span>
+                </div>
+                {inputError && (
+                  <p className="text-sm text-red-600">{inputError}</p>
+                )}
+                <p className="text-sm text-blue-700">Enter between 40 and 2000 hours</p>
+              </div>
+            </div>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>

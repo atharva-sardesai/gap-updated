@@ -77,6 +77,7 @@ export interface Recommendation {
   calculateEffort?: (subQuestionValue: number) => string;
   calculateTimeline?: (subQuestionValue: number) => string;
   calculateCost?: (subQuestionValue: number) => string;
+  subQuestion?: SubQuestion;
 }
 
 export interface Question {
@@ -90,7 +91,8 @@ export interface Question {
   subQuestion?: SubQuestion;
 }
 
-export const questions: Question[] = [
+// Define the base questions array
+const baseQuestions: Question[] = [
   {
     id: 1,
     category: "Threat Intelligence",
@@ -99,11 +101,11 @@ export const questions: Question[] = [
     helpText: "This includes having proper threat intelligence feeds and monitoring systems in place.",
     icon: ShieldCheck,
     subQuestion: {
-      id: "threat-feed",
-      text: "Are you interested in integrating a threat intelligence service to monitor and respond to emerging threats relevant to your technology stack?",
-      placeholder: "Enter number of threats",
-      unit: "threats",
-      defaultValue: 10,
+      id: "domain-count",
+      text: "How many domains need to be monitored for threats?",
+      placeholder: "Enter number of domains",
+      unit: "domains",
+      defaultValue: 1,
       min: 1,
       max: 100
     },
@@ -232,6 +234,42 @@ export const questions: Question[] = [
       max: 10000
     },
     recommendations: [
+      {
+        id: "excel-asset-tracking",
+        tier: "open-source",
+        name: "Excel Asset Tracking Template",
+        shortDescription: "Free Excel-based asset tracking",
+        description: "Use Microsoft Excel to track IT assets with a customized template including asset details, procurement dates, maintenance schedules, and disposal information.",
+        pros: [
+          "Free with Microsoft Office",
+          "Easy to use",
+          "Highly customizable",
+          "No technical setup required"
+        ],
+        cons: [
+          "Manual data entry",
+          "Limited automation",
+          "No real-time tracking",
+          "Risk of data inconsistency"
+        ],
+        pricing: "Free with Microsoft Office",
+        pricingModel: "Free",
+        officialWebsite: "https://microsoft.com/office",
+        pricingPage: "https://microsoft.com/office",
+        setupTime: "1-2 days",
+        recommendedTimeline: "1-2 days",
+        requiredResources: "Admin staff",
+        organizationSize: "Small",
+        effortHours: "8-16",
+        priority: "Medium",
+        estimatedCostRange: "Free with Microsoft Office",
+        perUnitCost: {
+          amount: 0,
+          unit: "component",
+          period: "one-time"
+        },
+        icon: FileText
+      },
       {
         id: "snipe-it",
         tier: "open-source",
@@ -480,6 +518,42 @@ export const questions: Question[] = [
       max: 1000
     },
     recommendations: [
+      {
+        id: "excel-incident-tracking",
+        tier: "open-source",
+        name: "Excel Incident Tracking Template",
+        shortDescription: "Free Excel-based incident tracking",
+        description: "Use Microsoft Excel to track security incidents with a structured template including incident details, severity, status, response actions, and resolution timelines.",
+        pros: [
+          "Free with Microsoft Office",
+          "Easy to implement",
+          "Customizable fields",
+          "Familiar interface"
+        ],
+        cons: [
+          "Manual updates required",
+          "No automation features",
+          "Limited collaboration",
+          "Basic reporting only"
+        ],
+        pricing: "Free with Microsoft Office",
+        pricingModel: "Free",
+        officialWebsite: "https://microsoft.com/office",
+        pricingPage: "https://microsoft.com/office",
+        setupTime: "1-2 days",
+        recommendedTimeline: "1-2 days",
+        requiredResources: "Security team",
+        organizationSize: "Small",
+        effortHours: "8-16",
+        priority: "High",
+        estimatedCostRange: "Free with Microsoft Office",
+        perUnitCost: {
+          amount: 0,
+          unit: "component",
+          period: "one-time"
+        },
+        icon: FileText
+      },
       {
         id: "thehive",
         tier: "open-source",
@@ -832,6 +906,43 @@ export const questions: Question[] = [
           period: "monthly"
         },
         icon: FileCheck
+      },
+      {
+        id: "aws-macie",
+        tier: "premium",
+        name: "AWS Macie",
+        shortDescription: "AI-powered PII detection and protection",
+        description: "AWS Macie is a fully managed data security and privacy service that uses machine learning and pattern matching to discover and protect sensitive data in AWS S3. It automatically discovers sensitive data such as personally identifiable information (PII) and provides you with dashboards and alerts that give visibility into how this data is being accessed or moved.",
+        pros: [
+          "Automated PII detection",
+          "Machine learning powered",
+          "Real-time monitoring",
+          "Integration with AWS services",
+          "Detailed findings and reports"
+        ],
+        cons: [
+          "Requires AWS infrastructure",
+          "Usage-based pricing can be expensive for large datasets",
+          "Limited to S3 storage"
+        ],
+        pricing: "Pay per use: ₹83/GB for data scanning + ₹8.3/bucket/month",
+        pricingModel: "Usage-based",
+        officialWebsite: "https://aws.amazon.com/macie/",
+        pricingPage: "https://aws.amazon.com/macie/pricing/",
+        setupTime: "1-2 weeks",
+        recommendedTimeline: "2-3 weeks",
+        requiredResources: "AWS admin, Security team",
+        organizationSize: "Medium to large",
+        effortHours: "40-80",
+        priority: "High",
+        estimatedCostRange: "₹8,300-83,000/month depending on data volume",
+        perUnitCost: {
+          amount: 83,
+          unit: "GB",
+          period: "monthly"
+        },
+        icon: Cloud,
+        calculateCost: (dataVolume: number) => `₹${(dataVolume * 83).toLocaleString()}/month for scanning + bucket fees`
       }
     ]
   },
@@ -1546,74 +1657,110 @@ export const questions: Question[] = [
     },
     recommendations: [
       {
-        id: "manageengine",
+        id: "aws-iam",
         tier: "standard",
-        name: "ManageEngine PAM",
-        shortDescription: "Standard privileged access management",
-        description: "ManageEngine provides PAM capabilities for managing privileged access.",
+        name: "AWS IAM Identity Center",
+        shortDescription: "Cloud-based identity management",
+        description: "AWS IAM Identity Center (formerly AWS SSO) provides centralized access management for AWS accounts and business applications. It enables you to create and manage user identities and their access across AWS accounts and applications in one place.",
         pros: [
-          "Cost-effective",
-          "Easy to use",
-          "Good features",
-          "Regular updates"
+          "Free with AWS accounts",
+          "Centralized management",
+          "Integration with AWS services",
+          "Multi-factor authentication",
+          "Detailed access logs"
         ],
         cons: [
-          "Basic monitoring",
-          "Limited automation",
-          "Resource intensive"
+          "Requires AWS infrastructure",
+          "Limited to AWS ecosystem",
+          "Complex initial setup"
         ],
-        pricing: "₹83,000/year",
-        pricingModel: "Annual subscription",
-        officialWebsite: "https://www.manageengine.com",
-        pricingPage: "https://www.manageengine.com/pricing",
-        setupTime: "3-4 weeks",
-        recommendedTimeline: "3-4 weeks",
-        requiredResources: "IT team",
-        organizationSize: "Small to medium",
-        effortHours: "120-160",
+        pricing: "Free with AWS accounts",
+        pricingModel: "Free",
+        officialWebsite: "https://aws.amazon.com/iam/identity-center/",
+        pricingPage: "https://aws.amazon.com/iam/identity-center/pricing/",
+        setupTime: "1-2 weeks",
+        recommendedTimeline: "2-3 weeks",
+        requiredResources: "AWS admin, Security team",
+        organizationSize: "Any",
+        effortHours: "40-80",
         priority: "High",
-        estimatedCostRange: "₹83,000/year",
+        estimatedCostRange: "₹0",
         perUnitCost: {
-          amount: 83000,
-          unit: "year",
-          period: "yearly"
+          amount: 0,
+          unit: "user",
+          period: "monthly"
         },
-        icon: Key
+        icon: Cloud
       },
       {
-        id: "cyberark",
-        tier: "premium",
-        name: "CyberArk PAM",
-        shortDescription: "Enterprise privileged access management",
-        description: "CyberArk provides comprehensive privileged access management.",
+        id: "azure-ad",
+        tier: "standard",
+        name: "Microsoft Entra ID (Azure AD)",
+        shortDescription: "Enterprise identity management",
+        description: "Microsoft Entra ID (formerly Azure AD) provides comprehensive identity and access management with features like conditional access, privileged identity management, and detailed monitoring.",
         pros: [
-          "Advanced features",
-          "Enterprise-grade",
-          "24/7 support",
-          "Highly secure"
+          "Extensive features",
+          "Integration with Microsoft services",
+          "Strong security controls",
+          "Global availability"
         ],
         cons: [
-          "High cost",
-          "Complex setup",
-          "Requires training"
+          "Premium features require paid plans",
+          "Complex pricing structure",
+          "Requires Azure expertise"
         ],
-        pricing: "Starting at ₹415,000/year",
-        pricingModel: "Annual subscription",
-        officialWebsite: "https://www.cyberark.com",
-        pricingPage: "https://www.cyberark.com/pricing",
-        setupTime: "4-5 weeks",
-        recommendedTimeline: "4-5 weeks",
-        requiredResources: "Dedicated IT team",
-        organizationSize: "Large enterprises",
-        effortHours: "160-200",
+        pricing: "Free tier available, Premium P2 at ₹1245/user/month",
+        pricingModel: "Per user monthly",
+        officialWebsite: "https://www.microsoft.com/en-us/security/business/identity-access/microsoft-entra-id",
+        pricingPage: "https://www.microsoft.com/en-us/security/business/identity-access/microsoft-entra-id-pricing",
+        setupTime: "2-3 weeks",
+        recommendedTimeline: "3-4 weeks",
+        requiredResources: "Azure admin, Security team",
+        organizationSize: "Medium to large",
+        effortHours: "80-120",
         priority: "High",
-        estimatedCostRange: "₹415,000/year",
+        estimatedCostRange: "₹1245/user/month for Premium P2",
         perUnitCost: {
-          amount: 415000,
-          unit: "year",
-          period: "yearly"
+          amount: 1245,
+          unit: "user",
+          period: "monthly"
         },
-        icon: Key
+        icon: Cloud
+      },
+      {
+        id: "gcp-iam",
+        tier: "standard",
+        name: "Google Cloud IAM",
+        shortDescription: "Cloud identity and access control",
+        description: "Google Cloud IAM provides unified access control across Google Cloud resources with fine-grained permissions and automated policy management.",
+        pros: [
+          "Fine-grained controls",
+          "Integration with Google Workspace",
+          "Policy automation",
+          "Detailed audit logs"
+        ],
+        cons: [
+          "Requires GCP infrastructure",
+          "Limited to Google ecosystem",
+          "Learning curve for policies"
+        ],
+        pricing: "Free with GCP, Identity Platform at ₹0.0124/MAU",
+        pricingModel: "Monthly active users",
+        officialWebsite: "https://cloud.google.com/iam",
+        pricingPage: "https://cloud.google.com/identity-platform/pricing",
+        setupTime: "1-2 weeks",
+        recommendedTimeline: "2-3 weeks",
+        requiredResources: "GCP admin, Security team",
+        organizationSize: "Any",
+        effortHours: "40-80",
+        priority: "High",
+        estimatedCostRange: "Free core IAM, additional costs for Identity Platform",
+        perUnitCost: {
+          amount: 0.0124,
+          unit: "MAU",
+          period: "monthly"
+        },
+        icon: Cloud
       }
     ]
   },
@@ -2105,13 +2252,13 @@ export const questions: Question[] = [
     helpText: "This includes having proper tools and processes for security testing.",
     icon: ShieldQuestion,
     subQuestion: {
-      id: "assessment-frequency",
-      text: "How frequently are security assessments performed?",
-      placeholder: "Enter frequency in months",
-      unit: "months",
-      defaultValue: 6,
+      id: "endpoint-count",
+      text: "How many endpoints need to be audited?",
+      placeholder: "Enter number of endpoints",
+      unit: "endpoints",
+      defaultValue: 10,
       min: 1,
-      max: 24
+      max: 1000
     },
     recommendations: [
       {
@@ -2147,77 +2294,88 @@ export const questions: Question[] = [
           unit: "component",
           period: "monthly"
         },
-        icon: ShieldQuestion
+        icon: ShieldQuestion,
+        calculateEffort: (endpoints: number) => `${Math.round(endpoints * 2)} hours`,
+        calculateTimeline: (endpoints: number) => `${Math.ceil(endpoints * 2 / 40)} weeks`
       },
       {
         id: "qualys",
         tier: "standard",
-        name: "Qualys Web Application Scanning",
-        shortDescription: "Cloud-based security scanning",
-        description: "Qualys provides automated web application security scanning.",
+        name: "Qualys Vulnerability Management",
+        shortDescription: "Cloud-based vulnerability scanning",
+        description: "Qualys provides automated vulnerability scanning and security assessment for endpoints and web applications.",
         pros: [
           "Automated scanning",
           "Regular updates",
           "Good support",
-          "Cloud-based"
+          "Cloud-based",
+          "Comprehensive reporting"
         ],
         cons: [
           "Annual subscription",
           "Limited customization",
           "Internet dependent"
         ],
-        pricing: "₹249,000/year",
-        pricingModel: "Annual subscription",
+        pricing: "₹2,075/endpoint/year",
+        pricingModel: "Per endpoint annual",
         officialWebsite: "https://www.qualys.com",
         pricingPage: "https://www.qualys.com/pricing",
-        setupTime: "4-6 weeks",
-        recommendedTimeline: "4-6 weeks",
+        setupTime: "2-3 weeks",
+        recommendedTimeline: "2-3 weeks",
         requiredResources: "Security team",
         organizationSize: "Small to medium",
-        effortHours: "160-240",
+        effortHours: "80-120",
         priority: "High",
-        estimatedCostRange: "₹249,000/year",
+        estimatedCostRange: "₹2,075/endpoint/year",
         perUnitCost: {
-          amount: 249000,
-          unit: "year",
+          amount: 2075,
+          unit: "endpoint",
           period: "yearly"
         },
-        icon: ShieldQuestion
+        icon: ShieldQuestion,
+        calculateCost: (endpoints: number) => `₹${(endpoints * 2075).toLocaleString()}/year`,
+        calculateEffort: (endpoints: number) => `${Math.round(endpoints * 1.5)} hours`,
+        calculateTimeline: (endpoints: number) => `${Math.ceil(endpoints * 1.5 / 40)} weeks`
       },
       {
-        id: "third-party-audit",
+        id: "rapid7-nexpose",
         tier: "premium",
-        name: "Third-Party Security Audit",
-        shortDescription: "Comprehensive security assessment",
-        description: "Professional security auditing firm provides comprehensive assessment services.",
+        name: "Rapid7 Nexpose",
+        shortDescription: "Enterprise vulnerability management",
+        description: "Rapid7 Nexpose provides enterprise-grade vulnerability management and security assessment capabilities.",
         pros: [
-          "Expert assessment",
-          "Comprehensive review",
+          "Advanced features",
+          "Real-time monitoring",
           "24/7 support",
-          "Detailed reporting"
+          "Integration capabilities",
+          "Automated remediation"
         ],
         cons: [
           "High cost",
-          "Scheduling required",
-          "Dependent on external vendor"
+          "Complex setup",
+          "Requires training",
+          "Resource intensive"
         ],
-        pricing: "Starting at ₹830,000 per audit",
-        pricingModel: "Per audit",
-        officialWebsite: "https://www.securityaudit.com",
-        pricingPage: "https://www.securityaudit.com/services",
-        setupTime: "6-8 weeks",
-        recommendedTimeline: "6-8 weeks",
-        requiredResources: "Security team",
+        pricing: "₹4,150/endpoint/year",
+        pricingModel: "Per endpoint annual",
+        officialWebsite: "https://www.rapid7.com/products/nexpose/",
+        pricingPage: "https://www.rapid7.com/products/nexpose/pricing/",
+        setupTime: "4-6 weeks",
+        recommendedTimeline: "4-6 weeks",
+        requiredResources: "Dedicated security team",
         organizationSize: "Large enterprises",
-        effortHours: "240-320",
+        effortHours: "160-240",
         priority: "High",
-        estimatedCostRange: "₹830,000 per audit",
+        estimatedCostRange: "₹4,150/endpoint/year",
         perUnitCost: {
-          amount: 830000,
-          unit: "audit",
-          period: "one-time"
+          amount: 4150,
+          unit: "endpoint",
+          period: "yearly"
         },
-        icon: ShieldQuestion
+        icon: ShieldQuestion,
+        calculateCost: (endpoints: number) => `₹${(endpoints * 4150).toLocaleString()}/year`,
+        calculateEffort: (endpoints: number) => `${Math.round(endpoints * 2)} hours`,
+        calculateTimeline: (endpoints: number) => `${Math.ceil(endpoints * 2 / 40)} weeks`
       }
     ]
   },
@@ -2838,254 +2996,6 @@ export const questions: Question[] = [
           period: "monthly"
         },
         icon: Building2
-      }
-    ]
-  },
-  {
-    id: 26,
-    category: "Development Security",
-    text: "Are outsourced development activities monitored, with security requirements included in contracts?",
-    description: "Monitoring outsourced development helps ensure security compliance.",
-    helpText: "This includes having proper tools and processes to monitor external development.",
-    icon: Code,
-    subQuestion: {
-      id: "security-requirements",
-      text: "Which security requirements are currently enforced in contracts?",
-      placeholder: "Enter number of requirements",
-      unit: "requirements",
-      defaultValue: 5,
-      min: 1,
-      max: 50
-    },
-    recommendations: [
-      {
-        id: "owasp-samm",
-        tier: "open-source",
-        name: "OWASP SAMM",
-        shortDescription: "Free maturity assessment",
-        description: "OWASP SAMM provides a framework for assessing software security maturity.",
-        pros: [
-          "Free to use",
-          "Comprehensive",
-          "Regular updates",
-          "Community support"
-        ],
-        cons: [
-          "Manual process",
-          "Requires expertise",
-          "Limited automation"
-        ],
-        pricing: "Free",
-        pricingModel: "Free",
-        officialWebsite: "https://owasp.org",
-        pricingPage: "https://owasp.org",
-        setupTime: "3-4 weeks",
-        recommendedTimeline: "3-4 weeks",
-        requiredResources: "Security team",
-        organizationSize: "Any",
-        effortHours: "120-160",
-        priority: "Medium",
-        estimatedCostRange: "₹0",
-        perUnitCost: {
-          amount: 0,
-          unit: "component",
-          period: "monthly"
-        },
-        icon: Code
-      },
-      {
-        id: "black-duck",
-        tier: "standard",
-        name: "Synopsys Black Duck",
-        shortDescription: "Open-source security monitoring",
-        description: "Black Duck provides automated open-source security monitoring.",
-        pros: [
-          "Automated scanning",
-          "Regular updates",
-          "Good support",
-          "Comprehensive reports"
-        ],
-        cons: [
-          "Annual subscription",
-          "Limited customization",
-          "Resource intensive"
-        ],
-        pricing: "₹2,075,000/year",
-        pricingModel: "Annual subscription",
-        officialWebsite: "https://www.synopsys.com",
-        pricingPage: "https://www.synopsys.com/pricing",
-        setupTime: "4-6 weeks",
-        recommendedTimeline: "4-6 weeks",
-        requiredResources: "Security team",
-        organizationSize: "Small to medium",
-        effortHours: "160-240",
-        priority: "High",
-        estimatedCostRange: "₹2,075,000/year",
-        perUnitCost: {
-          amount: 2075000,
-          unit: "year",
-          period: "yearly"
-        },
-        icon: Code
-      },
-      {
-        id: "veracode",
-        tier: "premium",
-        name: "Veracode",
-        shortDescription: "Enterprise security monitoring",
-        description: "Veracode provides comprehensive secure development monitoring.",
-        pros: [
-          "Advanced features",
-          "Real-time monitoring",
-          "24/7 support",
-          "Highly scalable"
-        ],
-        cons: [
-          "High cost",
-          "Complex setup",
-          "Requires training"
-        ],
-        pricing: "₹4,150,000/year",
-        pricingModel: "Annual subscription",
-        officialWebsite: "https://www.veracode.com",
-        pricingPage: "https://www.veracode.com/pricing",
-        setupTime: "6-8 weeks",
-        recommendedTimeline: "6-8 weeks",
-        requiredResources: "Dedicated security team",
-        organizationSize: "Large enterprises",
-        effortHours: "240-320",
-        priority: "High",
-        estimatedCostRange: "₹4,150,000/year",
-        perUnitCost: {
-          amount: 4150000,
-          unit: "year",
-          period: "yearly"
-        },
-        icon: Code
-      }
-    ]
-  },
-  {
-    id: 27,
-    category: "Software Security",
-    text: "Are security assessments and testing conducted on externally developed software?",
-    description: "Regular security testing of external software helps identify vulnerabilities.",
-    helpText: "This includes having proper tools and processes for security testing.",
-    icon: Shield,
-    subQuestion: {
-      id: "testing-frequency",
-      text: "How frequently is externally developed software tested?",
-      placeholder: "Enter frequency in months",
-      unit: "months",
-      defaultValue: 3,
-      min: 1,
-      max: 12
-    },
-    recommendations: [
-      {
-        id: "owasp-zap",
-        tier: "open-source",
-        name: "OWASP ZAP",
-        shortDescription: "Free security testing",
-        description: "OWASP ZAP provides free security testing capabilities.",
-        pros: [
-          "Free to use",
-          "Comprehensive",
-          "Regular updates",
-          "Community support"
-        ],
-        cons: [
-          "Manual process",
-          "Requires expertise",
-          "Limited automation"
-        ],
-        pricing: "Free",
-        pricingModel: "Free",
-        officialWebsite: "https://owasp.org",
-        pricingPage: "https://owasp.org",
-        setupTime: "3-4 weeks",
-        recommendedTimeline: "3-4 weeks",
-        requiredResources: "Security team",
-        organizationSize: "Any",
-        effortHours: "120-160",
-        priority: "Medium",
-        estimatedCostRange: "₹0",
-        perUnitCost: {
-          amount: 0,
-          unit: "component",
-          period: "monthly"
-        },
-        icon: Shield
-      },
-      {
-        id: "burp-suite",
-        tier: "standard",
-        name: "Burp Suite Professional",
-        shortDescription: "Web security testing",
-        description: "Burp Suite provides comprehensive web application security testing.",
-        pros: [
-          "Automated testing",
-          "Regular updates",
-          "Good support",
-          "Comprehensive reports"
-        ],
-        cons: [
-          "Annual subscription",
-          "Limited customization",
-          "Resource intensive"
-        ],
-        pricing: "₹33,200/year",
-        pricingModel: "Annual subscription",
-        officialWebsite: "https://portswigger.net",
-        pricingPage: "https://portswigger.net/pricing",
-        setupTime: "2-3 weeks",
-        recommendedTimeline: "2-3 weeks",
-        requiredResources: "Security team",
-        organizationSize: "Small to medium",
-        effortHours: "80-120",
-        priority: "High",
-        estimatedCostRange: "₹33,200/year",
-        perUnitCost: {
-          amount: 33200,
-          unit: "year",
-          period: "yearly"
-        },
-        icon: Shield
-      },
-      {
-        id: "pen-testing",
-        tier: "premium",
-        name: "Third-Party Penetration Testing",
-        shortDescription: "Enterprise security testing",
-        description: "Professional penetration testing firm provides comprehensive security testing.",
-        pros: [
-          "Expert assessment",
-          "Comprehensive review",
-          "24/7 support",
-          "Detailed reporting"
-        ],
-        cons: [
-          "High cost",
-          "Scheduling required",
-          "Dependent on external vendor"
-        ],
-        pricing: "Starting at ₹830,000 per test",
-        pricingModel: "Per test",
-        officialWebsite: "https://www.pentest.com",
-        pricingPage: "https://www.pentest.com/services",
-        setupTime: "4-6 weeks",
-        recommendedTimeline: "4-6 weeks",
-        requiredResources: "Security team",
-        organizationSize: "Large enterprises",
-        effortHours: "160-240",
-        priority: "High",
-        estimatedCostRange: "₹830,000 per test",
-        perUnitCost: {
-          amount: 830000,
-          unit: "test",
-          period: "one-time"
-        },
-        icon: Shield
       }
     ]
   },
@@ -7056,6 +6966,100 @@ export const questions: Question[] = [
       }
     ]
   }
-];
+].filter(question => ![26, 27, 30, 31, 32, 33, 34, 37, 38, 49, 50, 53, 58, 61, 62, 63, 64, 67, 69].includes(question.id)) as Question[];
+
+// Export the questions with default recommendations added
+const questions: Question[] = baseQuestions.filter(question => 
+  ![26, 27, 30, 31, 32, 33, 34, 37, 38, 49, 50, 53, 58, 61, 62, 63, 64, 67, 69].includes(question.id)
+).map(question => ({
+  ...question,
+  recommendations: [
+    {
+      id: "policy-solution",
+      tier: "standard",
+      name: "Create Internal Policy",
+      shortDescription: "Develop and implement internal policy",
+      description: "Create and implement an internal policy to address this requirement. This involves documenting procedures, guidelines, and controls specific to your organization's needs.",
+      pros: [
+        "Cost-effective",
+        "Tailored to organization",
+        "Internal control",
+        "Flexible implementation"
+      ],
+      cons: [
+        "Time-consuming",
+        "Requires stakeholder buy-in",
+        "Manual enforcement"
+      ],
+      pricing: "Internal effort",
+      pricingModel: "Internal effort",
+      officialWebsite: "Internal process",
+      pricingPage: "Internal process",
+      setupTime: "2-4 weeks",
+      recommendedTimeline: "2-4 weeks",
+      requiredResources: "Internal teams",
+      organizationSize: "Any",
+      effortHours: "40-80",
+      priority: "High",
+      estimatedCostRange: "Internal effort",
+      perUnitCost: {
+        amount: 0,
+        unit: "component",
+        period: "one-time"
+      },
+      icon: FileText
+    },
+    {
+      id: "custom-solution",
+      tier: "standard",
+      name: "Build Custom Solution",
+      shortDescription: "Develop custom technical solution",
+      description: "Design and implement a custom technical solution to address this requirement. This involves developing software or systems tailored to your organization's specific needs.",
+      pros: [
+        "Fully customized",
+        "Perfect fit for needs",
+        "Complete control",
+        "Scalable"
+      ],
+      cons: [
+        "Higher initial cost",
+        "Longer development time",
+        "Requires technical expertise",
+        "Maintenance overhead"
+      ],
+      pricing: "Custom development",
+      pricingModel: "Project-based",
+      officialWebsite: "Internal development",
+      pricingPage: "Internal development",
+      setupTime: "8-12 weeks",
+      recommendedTimeline: "8-12 weeks",
+      requiredResources: "Development team",
+      organizationSize: "Any",
+      effortHours: "320-480",
+      priority: "High",
+      estimatedCostRange: "Custom development",
+      perUnitCost: {
+        amount: 0,
+        unit: "project",
+        period: "one-time"
+      },
+      icon: Code,
+      calculateEffort: (subQuestionValue: number) => {
+        const weeks = Math.ceil(subQuestionValue / (40 * 5)); // Assuming 40 hours per week, 5 days
+        return `${subQuestionValue} hours (${weeks} weeks)`;
+      },
+      calculateTimeline: (subQuestionValue: number) => {
+        const weeks = Math.ceil(subQuestionValue / (40 * 5)); // Assuming 40 hours per week, 5 days
+        return `${weeks} weeks`;
+      },
+      calculateCost: (subQuestionValue: number) => {
+        // Assuming average hourly rate of ₹2000
+        const totalCost = subQuestionValue * 2000;
+        return `₹${totalCost.toLocaleString()}`;
+      }
+    },
+    ...question.recommendations
+  ]
+}));
 
 export default questions; 
