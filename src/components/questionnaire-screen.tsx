@@ -62,9 +62,14 @@ export function QuestionnaireScreen({
   }
 
   const handleSubQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number.parseInt(e.target.value)
-    if (!isNaN(value) && value >= (question.subQuestion?.min || 1)) {
-      onSubQuestionChange(value)
+    const inputValue = e.target.value
+    if (inputValue === "") {
+      onSubQuestionChange(1)
+    } else {
+      const value = Number.parseInt(inputValue)
+      if (!isNaN(value) && value >= (question.subQuestion?.min || 1)) {
+        onSubQuestionChange(value)
+      }
     }
   }
 
@@ -141,41 +146,24 @@ export function QuestionnaireScreen({
 
           {/* Sub-question that appears when the answer is "No" */}
           {selectedAnswer === false && question.subQuestion && (
-            <div className="bg-blue-50 p-4 rounded-md border border-blue-100">
-              <Label htmlFor={question.subQuestion.id} className="text-blue-800 font-medium block mb-2">
+            <div className="mt-4">
+              <p className="mb-2 text-sm font-medium text-gray-700">
                 {question.subQuestion.text}
-              </Label>
-              {question.subQuestion.unit === "" && question.subQuestion.placeholder === "Yes/No" ? (
-                <div className="flex gap-4">
-                  <Button
-                    variant={subQuestionValue === 1 ? "default" : "outline"}
-                    className={`flex-1 py-2 ${subQuestionValue === 1 ? "bg-green-600 hover:bg-green-700" : ""}`}
-                    onClick={() => onSubQuestionChange(1)}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    variant={subQuestionValue === 0 ? "default" : "outline"}
-                    className={`flex-1 py-2 ${subQuestionValue === 0 ? "bg-blue-600 hover:bg-blue-700" : ""}`}
-                    onClick={() => onSubQuestionChange(0)}
-                  >
-                    No
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Input
-                    id={question.subQuestion.id}
-                    type="number"
-                    placeholder={question.subQuestion.placeholder}
-                    value={subQuestionValue || ""}
-                    min={question.subQuestion.min || 1}
-                    onChange={handleSubQuestionChange}
-                    className="max-w-xs"
-                  />
-                  <span className="text-blue-700">{question.subQuestion.unit}</span>
-                </div>
-              )}
+              </p>
+              <div className="flex items-center gap-2">
+                <Input
+                  type="number"
+                  min={question.subQuestion.min || 1}
+                  max={question.subQuestion.max || 100}
+                  value={subQuestionValue?.toString() || ""}
+                  onChange={handleSubQuestionChange}
+                  placeholder={question.subQuestion.placeholder || ""}
+                  className="w-24"
+                />
+                <span className="text-sm text-gray-500">
+                  {question.subQuestion.unit}
+                </span>
+              </div>
             </div>
           )}
 
