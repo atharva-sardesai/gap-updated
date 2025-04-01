@@ -19,8 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} font-sans antialiased relative min-h-screen`}>
         {children}
+        <div className="fixed bottom-4 left-4 z-50">
+          <img src="/logo.jpg" alt="Company Logo" className="h-12 w-auto" />
+        </div>
       </body>
     </html>
   );
