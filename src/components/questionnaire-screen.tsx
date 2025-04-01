@@ -155,7 +155,7 @@ export function QuestionnaireScreen({
                   type="number"
                   min={question.subQuestion.min || 1}
                   max={question.subQuestion.max || 100}
-                  value={subQuestionValue?.toString() || ""}
+                  value={subQuestionValue?.toString() || "1"}
                   onChange={handleSubQuestionChange}
                   placeholder={question.subQuestion.placeholder || ""}
                   className="w-24"
