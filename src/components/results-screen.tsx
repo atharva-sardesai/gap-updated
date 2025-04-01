@@ -107,15 +107,26 @@ function calculateEstimates(question: Question, answer: Answer) {
       ? recommendation.calculateTimeline(validSubQuestionValue)
       : recommendation.recommendedTimeline
 
-    // Calculate cost based on sub-question value and recommendation
+    // Calculate cost based on whether it's fixed or variable
     let cost = recommendation.estimatedCostRange
-    if (recommendation.calculateCost && validSubQuestionValue > 0) {
-      cost = recommendation.calculateCost(validSubQuestionValue)
-    } else if (validSubQuestionValue > 0) {
-      // If no calculateCost function but we have a sub-question value, adjust the cost based on the value
-      const baseCost = extractCostValue(recommendation.estimatedCostRange, "min")
-      const adjustedCost = baseCost * validSubQuestionValue
-      cost = formatCurrency(adjustedCost) + "/year"
+    if (validSubQuestionValue > 0) {
+      if (recommendation.isFixedPrice) {
+        // For fixed price solutions, use the estimatedCostRange as is
+        cost = recommendation.estimatedCostRange
+      } else if (recommendation.calculateCost) {
+        // Use custom calculation if available
+        cost = recommendation.calculateCost(validSubQuestionValue)
+      } else if (recommendation.perUnitCost) {
+        // Calculate based on per unit cost
+        const { amount, period } = recommendation.perUnitCost
+        const totalCost = amount * validSubQuestionValue
+        cost = formatCurrency(totalCost) + `/${period}`
+      } else {
+        // Default to scaling the base cost
+        const baseCost = extractCostValue(recommendation.estimatedCostRange, "min")
+        const adjustedCost = baseCost * validSubQuestionValue
+        cost = formatCurrency(adjustedCost) + "/year"
+      }
     }
 
     return {

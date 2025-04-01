@@ -45,16 +45,22 @@ export function RecommendationPanel({
         ? recommendation.calculateTimeline(validSubQuestionValue)
         : recommendation.recommendedTimeline
 
+    // Calculate cost based on whether it's fixed or variable
     let cost = recommendation.estimatedCostRange
     if (validSubQuestionValue > 0) {
-      if (recommendation.calculateCost) {
+      if (recommendation.isFixedPrice) {
+        // For fixed price solutions, use the estimatedCostRange as is
+        cost = recommendation.estimatedCostRange
+      } else if (recommendation.calculateCost) {
+        // Use custom calculation if available
         cost = recommendation.calculateCost(validSubQuestionValue)
       } else if (recommendation.perUnitCost) {
-        const { amount, unit, period } = recommendation.perUnitCost
+        // Calculate based on per unit cost
+        const { amount, period } = recommendation.perUnitCost
         const totalCost = amount * validSubQuestionValue
         cost = formatCurrency(totalCost) + `/${period}`
       } else {
-        // If no calculateCost or perUnitCost, adjust based on base cost
+        // Default to scaling the base cost
         const baseCost = extractCostValue(recommendation.estimatedCostRange, "min")
         const adjustedCost = baseCost * validSubQuestionValue
         cost = formatCurrency(adjustedCost) + "/year"
@@ -263,10 +269,11 @@ function RecommendationCard({
         ? recommendation.calculateTimeline(subQuestionValue)
         : recommendation.recommendedTimeline,
 
-    cost:
-      recommendation.calculateCost && subQuestionValue > 0
-        ? recommendation.calculateCost(subQuestionValue)
-        : recommendation.estimatedCostRange,
+    cost: recommendation.isFixedPrice
+      ? recommendation.estimatedCostRange
+      : recommendation.calculateCost && subQuestionValue > 0
+      ? recommendation.calculateCost(subQuestionValue)
+      : recommendation.estimatedCostRange,
   }
 
   return (

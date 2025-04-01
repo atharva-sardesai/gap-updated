@@ -68,6 +68,7 @@ export interface Recommendation {
   effortHours: string;
   priority: "High" | "Medium" | "Low";
   estimatedCostRange: string;
+  isFixedPrice?: boolean;
   perUnitCost?: {
     amount: number;
     unit: string;
@@ -145,11 +146,11 @@ const baseQuestions: Question[] = [
         icon: ShieldCheck
       },
       {
-        id: "recorded-future",
+        id: "cloudsek",
         tier: "standard",
-        name: "Recorded Future",
+        name: "CloudSEK",
         shortDescription: "Enterprise threat intelligence platform",
-        description: "Recorded Future provides real-time threat intelligence and risk management solutions for enterprises.",
+        description: "CloudSEK provides real-time threat intelligence and risk management solutions for enterprises.",
         pros: [
           "Comprehensive threat data",
           "Real-time monitoring",
@@ -163,8 +164,8 @@ const baseQuestions: Question[] = [
         ],
         pricing: "₹36,000/year",
         pricingModel: "Annual subscription",
-        officialWebsite: "https://www.recordedfuture.com",
-        pricingPage: "https://www.recordedfuture.com/pricing",
+        officialWebsite: "https://www.cloudsek.com/",
+        pricingPage: "https://www.cloudsek.com/threat-intelligence",
         setupTime: "1 week",
         recommendedTimeline: "1 week",
         requiredResources: "Security team",
@@ -172,6 +173,7 @@ const baseQuestions: Question[] = [
         effortHours: "20-40",
         priority: "High",
         estimatedCostRange: "₹3,000,000/year",
+        isFixedPrice: true,
         perUnitCost: {
           amount: 3000000,
           unit: "year",
@@ -207,6 +209,7 @@ const baseQuestions: Question[] = [
         effortHours: "40-80",
         priority: "High",
         estimatedCostRange: "₹8,300,000/year",
+        isFixedPrice: true,
         perUnitCost: {
           amount: 8300000,
           unit: "year",
@@ -296,6 +299,7 @@ const baseQuestions: Question[] = [
         effortHours: "20-40",
         priority: "Medium",
         estimatedCostRange: "₹830,000/year",
+        isFixedPrice: true,
         perUnitCost: {
           amount: 830000,
           unit: "year",
@@ -331,6 +335,7 @@ const baseQuestions: Question[] = [
         effortHours: "60-120",
         priority: "High",
         estimatedCostRange: "₹830,000/year",
+        isFixedPrice: true,
         perUnitCost: {
           amount: 830000,
           unit: "year",
@@ -580,6 +585,7 @@ const baseQuestions: Question[] = [
         effortHours: "20-40",
         priority: "High",
         estimatedCostRange: "₹830,000/year",
+        isFixedPrice: true,
         perUnitCost: {
           amount: 830000,
           unit: "year",
@@ -615,6 +621,7 @@ const baseQuestions: Question[] = [
         effortHours: "120-160",
         priority: "High",
         estimatedCostRange: "₹830,000/year",
+        isFixedPrice: true,
         perUnitCost: {
           amount: 830000,
           unit: "year",
@@ -740,6 +747,7 @@ const baseQuestions: Question[] = [
         effortHours: "60-90",
         priority: "High",
         estimatedCostRange: "₹4,150/user/year",
+        isFixedPrice: true,
         perUnitCost: {
           amount: 4150,
           unit: "user",
@@ -796,7 +804,7 @@ const baseQuestions: Question[] = [
       text: "What volume of documents containing PII does your organization process?",
       placeholder: "Enter number of documents",
       unit: "documents",
-      defaultValue: 100,
+      defaultValue: 1,
       min: 1,
       max: 10000
     },
@@ -955,7 +963,7 @@ const baseQuestions: Question[] = [
       text: "How many employees require security awareness training?",
       placeholder: "Enter number of employees",
       unit: "employees",
-      defaultValue: 50,
+      defaultValue: 1,
       min: 1,
       max: 10000
     },
@@ -1550,7 +1558,7 @@ const baseQuestions: Question[] = [
       text: "How many devices require endpoint protection?",
       placeholder: "Enter number of devices",
       unit: "devices",
-      defaultValue: 50,
+      defaultValue: 1,
       min: 1,
       max: 1000
     },
@@ -1639,7 +1647,7 @@ const baseQuestions: Question[] = [
       text: "How many users or accounts need to be monitored and restricted?",
       placeholder: "Enter number of users",
       unit: "users",
-      defaultValue: 10,
+      defaultValue: 1,
       min: 1,
       max: 100
     },
@@ -1817,7 +1825,7 @@ const baseQuestions: Question[] = [
       text: "What tools or libraries are currently in use?",
       placeholder: "Enter number of tools",
       unit: "tools",
-      defaultValue: 5,
+      defaultValue: 1,
       min: 1,
       max: 50
     },
@@ -1995,7 +2003,7 @@ const baseQuestions: Question[] = [
       text: "Which resources or endpoints require monitoring?",
       placeholder: "Enter number of resources",
       unit: "resources",
-      defaultValue: 10,
+      defaultValue: 1,
       min: 1,
       max: 100
     },
@@ -2028,6 +2036,7 @@ const baseQuestions: Question[] = [
         effortHours: "40-80",
         priority: "Medium",
         estimatedCostRange: "₹124,500/year",
+        isFixedPrice: true,
         perUnitCost: {
           amount: 124500,
           unit: "year",
@@ -2187,6 +2196,7 @@ const baseQuestions: Question[] = [
         effortHours: "240-320",
         priority: "High",
         estimatedCostRange: "₹4,150,000/year",
+        isFixedPrice: true,
         perUnitCost: {
           amount: 4150000,
           unit: "year",
@@ -2276,6 +2286,7 @@ const baseQuestions: Question[] = [
         effortHours: "160-240",
         priority: "High",
         estimatedCostRange: "₹249,000/year",
+        isFixedPrice: true,
         perUnitCost: {
           amount: 249000,
           unit: "year",
@@ -2683,6 +2694,7 @@ const baseQuestions: Question[] = [
         effortHours: "120-160",
         priority: "High",
         estimatedCostRange: "₹166,000/year",
+        isFixedPrice: true,
         perUnitCost: {
           amount: 166000,
           unit: "year",
@@ -2807,6 +2819,7 @@ const baseQuestions: Question[] = [
         effortHours: "80-120",
         priority: "High",
         estimatedCostRange: "₹249,000/year",
+        isFixedPrice: true,
         perUnitCost: {
           amount: 249000,
           unit: "year",
@@ -2863,7 +2876,7 @@ const baseQuestions: Question[] = [
       text: "When was the last security architecture review conducted?",
       placeholder: "Enter months since last review",
       unit: "months",
-      defaultValue: 6,
+      defaultValue: 1,
       min: 1,
       max: 24
     },
@@ -3179,6 +3192,7 @@ const baseQuestions: Question[] = [
         effortHours: "160-240",
         priority: "High",
         estimatedCostRange: "₹830,000/year",
+        isFixedPrice: true,
         perUnitCost: {
           amount: 830000,
           unit: "year",
@@ -3338,6 +3352,7 @@ const baseQuestions: Question[] = [
         effortHours: "240-320",
         priority: "High",
         estimatedCostRange: "₹4,150,000/year",
+        isFixedPrice: true,
         perUnitCost: {
           amount: 4150000,
           unit: "year",
@@ -3462,6 +3477,7 @@ const baseQuestions: Question[] = [
         effortHours: "160-240",
         priority: "High",
         estimatedCostRange: "₹830,000/year",
+        isFixedPrice: true,
         perUnitCost: {
           amount: 830000,
           unit: "year",
@@ -4284,7 +4300,7 @@ const baseQuestions: Question[] = [
       text: "How often is IT equipment inspected and maintained?",
       placeholder: "Enter frequency in months",
       unit: "months",
-      defaultValue: 3,
+      defaultValue: 1,
       min: 1,
       max: 12
     },
@@ -4551,7 +4567,7 @@ const baseQuestions: Question[] = [
       text: "Is there an asset decommissioning process in place?",
       placeholder: "Enter process maturity (1-5)",
       unit: "level",
-      defaultValue: 3,
+      defaultValue: 1,
       min: 1,
       max: 5
     },
@@ -5085,7 +5101,7 @@ const baseQuestions: Question[] = [
       text: "How are security incidents currently reported?",
       placeholder: "Enter process maturity (1-5)",
       unit: "level",
-      defaultValue: 3,
+      defaultValue: 1,
       min: 1,
       max: 5
     },
@@ -5441,7 +5457,7 @@ const baseQuestions: Question[] = [
       text: "Are security policies formally documented and acknowledged by employees?",
       placeholder: "Enter acknowledgment level (1-5)",
       unit: "level",
-      defaultValue: 3,
+      defaultValue: 1,
       min: 1,
       max: 5
     },
@@ -5619,7 +5635,7 @@ const baseQuestions: Question[] = [
       text: "Is there a designated team or individual responsible for external cybersecurity collaborations?",
       placeholder: "Enter collaboration maturity (1-5)",
       unit: "level",
-      defaultValue: 3,
+      defaultValue: 1,
       min: 1,
       max: 5
     },
@@ -5797,7 +5813,7 @@ const baseQuestions: Question[] = [
       text: "Does the organization have an Acceptable Use Policy (AUP) that employees acknowledge?",
       placeholder: "Enter policy maturity (1-5)",
       unit: "level",
-      defaultValue: 3,
+      defaultValue: 1,
       min: 1,
       max: 5
     },
@@ -6978,6 +6994,7 @@ const questions: Question[] = baseQuestions.filter(question =>
       effortHours: "40-80",
       priority: "High",
       estimatedCostRange: "Internal effort",
+      isFixedPrice: true,
       perUnitCost: {
         amount: 0,
         unit: "component",
@@ -7014,6 +7031,7 @@ const questions: Question[] = baseQuestions.filter(question =>
       effortHours: "Custom",
       priority: "High",
       estimatedCostRange: "Custom development",
+      isFixedPrice: true,
       perUnitCost: {
         amount: 0,
         unit: "project",
@@ -7022,7 +7040,10 @@ const questions: Question[] = baseQuestions.filter(question =>
       icon: Code,
       calculateEffort: () => "0"
     },
-    ...question.recommendations
+    ...question.recommendations.map(rec => ({
+      ...rec,
+      isFixedPrice: true
+    }))
   ]
 }));
 
