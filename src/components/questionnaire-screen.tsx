@@ -184,7 +184,6 @@ export function QuestionnaireScreen({
             onClick={onNext}
             disabled={
               selectedAnswer === undefined ||
-              (selectedAnswer === false && question.subQuestion && subQuestionValue === undefined) ||
               (selectedAnswer === false && !selectedRecommendationId)
             }
             className="px-6"
